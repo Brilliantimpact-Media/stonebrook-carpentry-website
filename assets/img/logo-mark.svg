@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="miter">
+  <!-- StoneBrook mark: gable roofline over laid courses, resolving into a brook line -->
+  <path d="M8 30 L32 8 L56 30" stroke-width="3"/>
+  <path d="M17 36 H47" stroke-width="3"/>
+  <path d="M17 44 H32 M37 44 H47" stroke-width="3"/>
+  <path d="M10 53 C18 49, 24 49, 32 53 S46 57, 54 53" stroke-width="3" stroke-linecap="round"/>
+</svg>
