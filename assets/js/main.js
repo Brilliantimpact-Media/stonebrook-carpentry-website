@@ -18,17 +18,21 @@
   toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
   mobileNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
 
-  // Scroll reveal
+  // Scroll reveal, plus "draw-on" for the hand-drawn marker marks (.ink).
   const items = document.querySelectorAll('[data-reveal]');
+  const inks = [...document.querySelectorAll('svg.ink')].map((svg) => svg.parentElement);
+  const reveal = (el) => el.classList.add('in', 'drawn');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        if (e.isIntersecting) { reveal(e.target); io.unobserve(e.target); }
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
     items.forEach((el) => io.observe(el));
+    inks.forEach((el) => io.observe(el));
   } else {
-    items.forEach((el) => el.classList.add('in'));
+    items.forEach(reveal);
+    inks.forEach(reveal);
   }
 
   // Lightbox

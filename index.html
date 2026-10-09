@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StoneBrook Carpentry — Carpentry &amp; Remodeling in Western Wisconsin</title>
-<meta name="description" content="StoneBrook Carpentry is a small, owner-operated carpentry and remodeling crew serving western Wisconsin for over 10 years. Kitchens, baths, decks, porches, basements and additions, built to last, not just built fast.">
+<title>StoneBrook Carpentry — Carpentry &amp; Remodeling | Wilson &amp; Hudson, WI</title>
+<meta name="description" content="StoneBrook Carpentry is a small, owner-operated carpentry and remodeling crew in Wilson, WI, serving Hudson and western Wisconsin for over 10 years. Decks, porches, custom tile, basements, kitchens and baths, built to last, not just built fast.">
 <meta property="og:title" content="StoneBrook Carpentry — Your Vision, Beautifully Built">
 <meta property="og:description" content="Carpentry and remodeling built to last, not just built fast. Owner-operated, serving western Wisconsin for 10+ years.">
 <meta property="og:type" content="website">
@@ -12,7 +12,7 @@
 <link rel="icon" href="assets/img/logo-mark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@600;700&family=Cinzel:wght@500&family=Montserrat:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/main.css">
 <script>
   // Only hide [data-reveal] elements when JS is running and motion is wanted.
@@ -24,10 +24,15 @@
 {
   "@context": "https://schema.org",
   "@type": "HomeAndConstructionBusiness",
-  "name": "StoneBrook Carpentry",
+  "name": "StoneBrook Carpentry, LLC",
   "slogan": "Your Vision, Beautifully Built",
   "description": "Carpentry and remodeling built to last, not just built fast. A small, owner-operated crew serving homeowners across western Wisconsin.",
-  "areaServed": "Western Wisconsin",
+  "telephone": "+1-715-308-2180",
+  "address": { "@type": "PostalAddress", "addressLocality": "Wilson", "addressRegion": "WI", "postalCode": "54027", "addressCountry": "US" },
+  "areaServed": ["Hudson, WI", "North Hudson, WI", "River Falls, WI", "Somerset, WI", "Roberts, WI", "Hammond, WI", "Baldwin, WI", "Richmond, WI", "Menomonie, WI", "Lakeland, MN", "Afton, MN", "Woodbury, MN"],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "07:30", "closes": "17:30" }
+  ],
   "image": "assets/img/porch-stairs.jpg"
 }
 </script>
@@ -36,8 +41,38 @@
 
 <a class="skip" href="#main">Skip to content</a>
 
+<!-- Reusable hand-drawn marks. Each path uses pathLength="1" so the "draw-on" animation works at any size. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ink-circle" viewBox="0 0 200 80" preserveAspectRatio="none">
+      <path pathLength="1" d="M34 13 C 88 -1, 176 5, 193 32 C 207 59, 141 77, 88 74 C 31 71, 2 57, 8 36 C 13 20, 48 8, 118 9"/>
+    </symbol>
+    <symbol id="ink-underline" viewBox="0 0 200 20" preserveAspectRatio="none">
+      <path pathLength="1" d="M3 13 C 52 5, 128 3, 197 9"/>
+      <path pathLength="1" d="M22 18 C 74 11, 140 10, 184 14"/>
+    </symbol>
+    <symbol id="ink-arrow" viewBox="0 0 130 100">
+      <path pathLength="1" d="M8 10 C 58 0, 108 22, 114 82"/>
+      <path pathLength="1" d="M96 66 L115 86 L126 60"/>
+    </symbol>
+    <symbol id="ink-arrow-down" viewBox="0 0 70 120">
+      <path pathLength="1" d="M48 6 C 10 30, 6 72, 34 108"/>
+      <path pathLength="1" d="M14 96 L35 111 L44 88"/>
+    </symbol>
+    <symbol id="ink-check" viewBox="0 0 40 34">
+      <path pathLength="1" d="M4 18 C 9 21, 13 26, 15 30 C 21 18, 29 9, 37 3"/>
+    </symbol>
+  </defs>
+</svg>
+
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="top">
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <span>Wilson, WI · Serving Hudson &amp; western Wisconsin</span>
+      <span>Mon–Fri 7:30–5:30 · Licensed &amp; insured</span>
+    </div>
+  </div>
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="StoneBrook Carpentry home">
       <svg class="brand-mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="square" aria-hidden="true">
@@ -57,13 +92,14 @@
         <li><a href="#services">Services</a></li>
         <li><a href="#work">Our Work</a></li>
         <li><a href="#process">What to Expect</a></li>
+        <li><a href="#reviews">Reviews</a></li>
         <li><a href="#about">About</a></li>
       </ul>
     </nav>
 
     <div class="header-cta">
-      <a class="header-phone" href="tel:+10000000000">(000) 000-0000</a>
-      <a class="btn btn-solid btn-sm" href="#estimate">Free Estimate</a>
+      <a class="header-phone" href="tel:+17153082180">(715) 308-2180</a>
+      <a class="btn btn-lumber btn-sm" href="#estimate">Free Estimate</a>
       <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
         <span></span><span></span>
       </button>
@@ -74,9 +110,10 @@
     <a href="#services">Services</a>
     <a href="#work">Our Work</a>
     <a href="#process">What to Expect</a>
+    <a href="#reviews">Reviews</a>
     <a href="#about">About</a>
     <a href="#estimate">Get Your Free Estimate</a>
-    <a href="tel:+10000000000">Call (000) 000-0000</a>
+    <a href="tel:+17153082180">Call (715) 308-2180</a>
   </nav>
 </header>
 
@@ -84,102 +121,104 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="hero-copy">
-    <p class="eyebrow">Western Wisconsin Carpentry</p>
-    <h1>Your Vision,<br>Beautifully Built</h1>
+  <img class="hero-bg" src="assets/img/porch-stairs.jpg" alt="" fetchpriority="high">
+  <div class="wrap hero-inner">
+    <p class="kicker">Carpentry &amp; Remodeling · Western Wisconsin</p>
+    <h1>Your Vision, Beautifully <span class="ink-wrap">Built<svg class="ink ink-circle-svg"><use href="#ink-circle"/></svg></span></h1>
     <p class="lede">Construction quality and reliability shouldn't be rare. They should be the standard.</p>
     <div class="hero-actions">
-      <a class="btn btn-solid" href="#estimate">Get Your Free Estimate</a>
-      <a class="link-arrow" href="#work">See our latest work</a>
+      <a class="btn btn-lumber" href="#estimate">Get Your Free Estimate <span aria-hidden="true">→</span></a>
+      <a class="btn btn-outline-light" href="#work">See Our Latest Work</a>
+      <p class="hand-note hero-note">No pressure. We'll walk through<br>your quote together.
+        <svg class="ink ink-arrow-svg"><use href="#ink-arrow"/></svg>
+      </p>
     </div>
   </div>
-  <figure class="hero-media">
-    <img src="assets/img/porch-stairs.jpg" alt="Cedar front stairs and wraparound porch railing built by StoneBrook Carpentry" fetchpriority="high">
-  </figure>
 </section>
 
 <!-- ============ TRUST STRIP ============ -->
 <section class="trust" aria-label="Why homeowners choose StoneBrook">
   <ul class="wrap trust-list">
-    <li><strong>10+ Years</strong><span>Serving western Wisconsin</span></li>
-    <li><strong>Owner-Operated</strong><span>You'll know who's in your home</span></li>
-    <li><strong>Clear Communication</strong><span>Updates before you have to ask</span></li>
-    <li><strong>Start to Finish</strong><span>We stand behind our work</span></li>
+    <li><strong>10+</strong><span>Years serving<br>western Wisconsin</span></li>
+    <li><strong>Owner</strong><span>Operated. You'll know<br>who's in your home</span></li>
+    <li><strong>Licensed</strong><span>&amp; fully insured<br>in Wisconsin</span></li>
+    <li><strong>Start→Finish</strong><span>We stand behind<br>our work</span></li>
   </ul>
 </section>
 
 <!-- ============ EMPATHY / STORY ============ -->
-<section class="story band-dark">
+<section class="story grid-paper">
   <div class="wrap story-grid">
-    <figure class="story-media" data-reveal>
+    <figure class="story-media photo-frame" data-reveal>
       <img src="assets/img/crew-door.jpg" alt="StoneBrook crew member installing a new entry door" loading="lazy">
+      <figcaption class="hand-note">On site, on time.</figcaption>
     </figure>
     <div class="story-copy" data-reveal>
-      <p class="eyebrow eyebrow-light">Our Promise</p>
-      <h2>Hiring a contractor shouldn't feel like a gamble.</h2>
+      <p class="kicker kicker-dark">Our Promise</p>
+      <h2>Hiring a contractor shouldn't feel like a <span class="ink-wrap">gamble.<svg class="ink ink-circle-svg"><use href="#ink-circle"/></svg></span></h2>
       <p>We understand how stressful it is to invite a contractor into your home and not know if the work will hold up, if the price will change, or if the crew will still be there when things get complicated.</p>
       <p>Your home is one of your most significant investments. You deserve a contractor who treats it that way.</p>
       <p>StoneBrook Carpentry is a small, owner-operated crew. Every subcontractor we bring in is someone we'd trust in our own home. We communicate throughout the process and stand behind our work, start to finish.</p>
-      <a class="btn btn-ghost-light" href="#process">Here's what to expect</a>
+      <a class="btn btn-ink" href="#process">Here's What to Expect <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
 <!-- ============ SERVICES ============ -->
-<section class="services" id="services">
+<section class="services band-dark" id="services">
   <div class="wrap">
     <header class="section-head" data-reveal>
-      <p class="eyebrow">What We Build</p>
-      <h2>Carpentry &amp; remodeling built to last, not just built fast.</h2>
+      <p class="kicker">What We Build</p>
+      <h2>Built to last, not just <span class="ink-wrap">built fast.<svg class="ink ink-underline-svg"><use href="#ink-underline"/></svg></span></h2>
     </header>
 
     <div class="tiles">
       <article class="tile" data-reveal>
-        <img src="assets/img/shower-blue-tile.jpg" alt="Custom tiled walk-in shower with matte black fixtures" loading="lazy">
+        <img src="assets/img/porch-front.jpg" alt="Covered front porch with wide cedar stairs" loading="lazy">
         <div class="tile-body">
-          <p class="tile-eyebrow">Interiors</p>
-          <h3>Kitchens &amp; Baths</h3>
-          <p>Tile showers, vanities, flooring and kitchen updates, finished cleanly and waterproofed right.</p>
+          <span class="tile-num">01</span>
+          <h3>Decks &amp; Porches</h3>
+          <p>Railings, stairs and covered porches framed for Wisconsin winters.</p>
         </div>
       </article>
       <article class="tile" data-reveal>
-        <img src="assets/img/porch-front.jpg" alt="Covered front porch with wide cedar stairs" loading="lazy">
+        <img src="assets/img/shower-blue-tile.jpg" alt="Custom tiled walk-in shower with matte black fixtures" loading="lazy">
         <div class="tile-body">
-          <p class="tile-eyebrow">Outdoor Living</p>
-          <h3>Decks, Porches &amp; Stairs</h3>
-          <p>Railings, stairs and covered porches framed for Wisconsin winters and built to welcome company.</p>
+          <span class="tile-num">02</span>
+          <h3>Custom Tile</h3>
+          <p>Showers, floors and backsplashes, waterproofed right before a single tile goes up.</p>
+        </div>
+      </article>
+      <article class="tile" data-reveal>
+        <img src="assets/img/vanity-wide.jpg" alt="Double vanity bathroom remodel" loading="lazy">
+        <div class="tile-body">
+          <span class="tile-num">03</span>
+          <h3>Kitchens &amp; Baths</h3>
+          <p>Vanities, cabinets, flooring and full remodels, finished cleanly.</p>
         </div>
       </article>
       <article class="tile" data-reveal>
         <img src="assets/img/basement.jpg" alt="Finished basement room with new walls, carpet and lighting" loading="lazy">
         <div class="tile-body">
-          <p class="tile-eyebrow">Living Space</p>
-          <h3>Basements &amp; Remodels</h3>
+          <span class="tile-num">04</span>
+          <h3>Basement Finishing</h3>
           <p>Unused square footage turned into rooms your family actually uses.</p>
         </div>
       </article>
       <article class="tile" data-reveal>
         <img src="assets/img/addition-siding.jpg" alt="New home addition with fresh lap siding" loading="lazy">
         <div class="tile-body">
-          <p class="tile-eyebrow">Exteriors</p>
-          <h3>Additions, Siding &amp; Roofing</h3>
-          <p>Additions tied in seamlessly with the house, plus siding, trim and roofing done to last.</p>
-        </div>
-      </article>
-      <article class="tile" data-reveal>
-        <img src="assets/img/garage.jpg" alt="Garage with new siding and windows" loading="lazy">
-        <div class="tile-body">
-          <p class="tile-eyebrow">Outbuildings</p>
-          <h3>Garages &amp; Workshops</h3>
-          <p>From slab to shingles: garages, sheds and shops framed square and built strong.</p>
+          <span class="tile-num">05</span>
+          <h3>Additions &amp; Exteriors</h3>
+          <p>Additions, siding, trim and roofing tied in seamlessly with the house.</p>
         </div>
       </article>
       <article class="tile" data-reveal>
         <img src="assets/img/deck-structure.jpg" alt="Heavy timber deck framing and support posts" loading="lazy">
         <div class="tile-body">
-          <p class="tile-eyebrow">Structure</p>
+          <span class="tile-num">06</span>
           <h3>Repairs Done Right</h3>
-          <p>Rotted framing, sagging floors and failing decks repaired properly, not just covered up.</p>
+          <p>Rotted framing, sagging floors and failing decks fixed properly, not covered up.</p>
         </div>
       </article>
     </div>
@@ -187,26 +226,31 @@
 </section>
 
 <!-- ============ BEHIND THE WALLS ============ -->
-<section class="behind band-stone">
-  <div class="wrap behind-grid">
-    <div class="behind-copy" data-reveal>
-      <p class="eyebrow">Behind the Walls</p>
-      <h2>Quality means doing it right where no one can see.</h2>
-      <p>Too many homeowners have paid for finishes that look good on the surface but hide problems underneath. We'd rather show you.</p>
-      <p>When we open up a floor or a wall, we walk you through what we find, explain your options, and put any changes in writing before work continues. No surprises. No shortcuts behind the tile.</p>
-    </div>
-    <div class="behind-photos" data-reveal>
-      <figure>
+<section class="behind grid-paper">
+  <div class="wrap">
+    <header class="section-head behind-head" data-reveal>
+      <p class="kicker kicker-dark">Behind the Walls</p>
+      <h2>Quality means doing it right where <span class="ink-wrap">no one can see.<svg class="ink ink-underline-svg"><use href="#ink-underline"/></svg></span></h2>
+      <p>Too many homeowners have paid for finishes that look good on the surface but hide problems underneath. We'd rather show you. When we open up a floor or a wall, we walk you through what we find and put any changes in writing before work continues.</p>
+    </header>
+
+    <div class="behind-steps" data-reveal>
+      <figure class="photo-frame tilt-l">
+        <span class="step-tag">Before</span>
         <img src="assets/img/behind-floor.jpg" alt="Floor opened up to the joists during a structural repair" loading="lazy">
-        <figcaption>Before: floor opened to the joists</figcaption>
+        <figcaption class="hand-note">Floor opened to the joists.<br>Fix the structure first.</figcaption>
       </figure>
-      <figure>
+      <svg class="ink ink-between"><use href="#ink-arrow"/></svg>
+      <figure class="photo-frame tilt-r">
+        <span class="step-tag">During</span>
         <img src="assets/img/behind-waterproofing.jpg" alt="Shower walls covered in waterproofing membrane before tile" loading="lazy">
-        <figcaption>During: full waterproofing before tile</figcaption>
+        <figcaption class="hand-note">Every seam sealed<br>before tile goes up.</figcaption>
       </figure>
-      <figure>
+      <svg class="ink ink-between"><use href="#ink-arrow"/></svg>
+      <figure class="photo-frame tilt-l">
+        <span class="step-tag">After</span>
         <img src="assets/img/shower-river-stone.jpg" alt="Finished river stone tile shower with niche and corner seat" loading="lazy">
-        <figcaption>After: a shower built to last</figcaption>
+        <figcaption class="hand-note">A shower built to last.</figcaption>
       </figure>
     </div>
   </div>
@@ -215,17 +259,20 @@
 <!-- ============ OUR WORK ============ -->
 <section class="work" id="work">
   <div class="wrap">
-    <header class="section-head" data-reveal>
-      <p class="eyebrow">Our Latest Work</p>
-      <h2>Finished spaces homeowners are proud of, and actually use.</h2>
+    <header class="section-head work-head" data-reveal>
+      <div>
+        <p class="kicker kicker-dark">Our Latest Work</p>
+        <h2>Finished spaces homeowners are <span class="ink-wrap">proud of.<svg class="ink ink-circle-svg"><use href="#ink-circle"/></svg></span></h2>
+      </div>
+      <a class="btn btn-ink" href="#estimate">Let's Talk Through Your Project <span aria-hidden="true">→</span></a>
     </header>
 
     <div class="gallery">
       <button class="g-item g-tall" data-full="assets/img/porch-front.jpg" data-caption="Front porch &amp; stairs">
         <img src="assets/img/porch-front.jpg" alt="Front porch and stairs" loading="lazy"><span>Front Porch &amp; Stairs</span>
       </button>
-      <button class="g-item" data-full="assets/img/vanity-wide.jpg" data-caption="Double vanity bathroom remodel">
-        <img src="assets/img/vanity-wide.jpg" alt="Double vanity bathroom remodel" loading="lazy"><span>Bathroom Remodel</span>
+      <button class="g-item" data-full="assets/img/vanity.jpg" data-caption="Double vanity bathroom remodel">
+        <img src="assets/img/vanity.jpg" alt="Double vanity bathroom remodel" loading="lazy"><span>Bathroom Remodel</span>
       </button>
       <button class="g-item" data-full="assets/img/patio-exterior.jpg" data-caption="Exterior, railings &amp; patio">
         <img src="assets/img/patio-exterior.jpg" alt="Exterior with cable railing balcony and stone patio" loading="lazy"><span>Exterior &amp; Railings</span>
@@ -236,69 +283,73 @@
       <button class="g-item" data-full="assets/img/front-porch.jpg" data-caption="Covered front porch">
         <img src="assets/img/front-porch.jpg" alt="Covered front porch with white columns" loading="lazy"><span>Covered Porch</span>
       </button>
-      <button class="g-item" data-full="assets/img/porch-side.jpg" data-caption="Porch railings &amp; landscape stairs">
-        <img src="assets/img/porch-side.jpg" alt="Porch railings and landscape stairs" loading="lazy"><span>Railings &amp; Stairs</span>
+      <button class="g-item" data-full="assets/img/garage.jpg" data-caption="Garage siding &amp; windows">
+        <img src="assets/img/garage.jpg" alt="Garage with new siding and windows" loading="lazy"><span>Garage &amp; Siding</span>
       </button>
     </div>
-
-    <p class="work-more" data-reveal><a class="btn btn-ghost" href="#estimate">Let's talk through your project</a></p>
-  </div>
-</section>
-
-<!-- ============ PULL QUOTE ============ -->
-<section class="pull" data-reveal>
-  <div class="wrap-narrow">
-    <span class="rule" aria-hidden="true"></span>
-    <blockquote>
-      <p>A homeowner who invests in their home deserves honesty, transparency, and work that holds up. Quality and reliability shouldn't be rare. They should be the standard.</p>
-    </blockquote>
-    <p class="pull-sign">— StoneBrook Carpentry</p>
   </div>
 </section>
 
 <!-- ============ PROCESS ============ -->
 <section class="process band-dark" id="process">
   <div class="wrap">
-    <header class="section-head section-head-light" data-reveal>
-      <p class="eyebrow eyebrow-light">What to Expect</p>
-      <h2>Here's what to expect when you work with us.</h2>
+    <header class="section-head" data-reveal>
+      <p class="kicker">What to Expect</p>
+      <h2>Here's what to expect when you <span class="ink-wrap">work with us.<svg class="ink ink-underline-svg"><use href="#ink-underline"/></svg></span></h2>
     </header>
 
     <ol class="steps">
       <li data-reveal>
-        <span class="step-num">I</span>
+        <span class="step-num">01</span>
         <h3>Request a Free Estimate</h3>
         <p>Tell us about your project. We'll come out, listen, and look closely at the space, including what might be behind the walls.</p>
+        <svg class="ink step-arrow"><use href="#ink-arrow"/></svg>
       </li>
       <li data-reveal>
-        <span class="step-num">II</span>
+        <span class="step-num">02</span>
         <h3>Review Your Quote Together</h3>
-        <p>We walk through every line, in person or by phone, at your pace. No pressure, no rush, and no vague allowances.</p>
+        <p>We walk through every line, in person or by phone, at your pace. No pressure, no rush, no vague allowances.</p>
+        <svg class="ink step-arrow"><use href="#ink-arrow"/></svg>
       </li>
       <li data-reveal>
-        <span class="step-num">III</span>
+        <span class="step-num">03</span>
         <h3>Work With a Crew That Shows Up</h3>
         <p>We do good work, keep you updated, and don't disappear when things get hard. We stay until the job is right.</p>
       </li>
     </ol>
 
-    <div class="commitments" data-reveal>
-      <div>
-        <h4>You'll always know who's in your home</h4>
-        <p>A small, owner-operated crew, and only subcontractors we'd trust in our own house.</p>
-      </div>
-      <div>
-        <h4>Everything in writing</h4>
-        <p>Clear scope, price and timeline up front. If something changes, you'll see it and approve it first.</p>
-      </div>
-      <div>
-        <h4>A clean jobsite, every day</h4>
-        <p>We respect your home and your routine, and we leave it clean throughout the project.</p>
-      </div>
-      <div>
-        <h4>We communicate first</h4>
-        <p>Regular updates, so you never have to chase us down to find out what's happening.</p>
-      </div>
+    <ul class="commitments" data-reveal>
+      <li><svg class="ink check"><use href="#ink-check"/></svg><div><h4>You'll know who's in your home</h4><p>A small, owner-operated crew, and only subcontractors we'd trust in our own house.</p></div></li>
+      <li><svg class="ink check"><use href="#ink-check"/></svg><div><h4>Everything in writing</h4><p>Clear scope, price and timeline up front. Changes are shown to you and approved first.</p></div></li>
+      <li><svg class="ink check"><use href="#ink-check"/></svg><div><h4>A clean jobsite, every day</h4><p>We respect your home and your routine, and leave it clean throughout the project.</p></div></li>
+      <li><svg class="ink check"><use href="#ink-check"/></svg><div><h4>We call you first</h4><p>Regular updates, so you never have to chase us down to find out what's happening.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="reviews grid-paper" id="reviews" aria-labelledby="reviews-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="kicker kicker-dark">In Their Words</p>
+      <h2 id="reviews-title">Homeowners who've been <span class="ink-wrap">through it.<svg class="ink ink-circle-svg"><use href="#ink-circle"/></svg></span></h2>
+    </header>
+    <div class="review-grid">
+      <figure class="review" data-reveal>
+        <p class="review-project">Covered front porch</p>
+        <blockquote>“StoneBrook installed new covered front porch with cedar ceilings, recessed lights and ceiling fan! We couldn't be happier. I would definitely hire them again.”</blockquote>
+        <figcaption>Dave M. · Somerset, WI</figcaption>
+      </figure>
+      <figure class="review" data-reveal>
+        <p class="review-project">Low-voltage wiring in a finished home</p>
+        <blockquote>“There were twists and turns, but StoneBrook adapted to fit the needs of the project. Customer service was absolutely amazing. The installation looks amazing, and the job looks as if it had always been there.”</blockquote>
+        <figcaption>Wells L. · Hudson, WI</figcaption>
+      </figure>
+      <figure class="review" data-reveal>
+        <p class="review-project">Deck &amp; porch repair</p>
+        <blockquote>“Gave me multiple quotes with my different options. Very impressed with professionalism and knowledge. Not the cheapest, but you get what you pay for. Very pleased.”</blockquote>
+        <figcaption>Todd R. · Menomonie, WI</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -307,60 +358,37 @@
 <section class="about" id="about">
   <div class="wrap about-grid">
     <div class="about-copy" data-reveal>
-      <p class="eyebrow">About StoneBrook</p>
+      <p class="kicker kicker-dark">About StoneBrook</p>
       <h2>A local crew that treats your home like it matters.</h2>
-      <p>For over 10 years, StoneBrook Carpentry has served homeowners across western Wisconsin. We're not the biggest outfit around, and that's the point. When you call, you reach the people doing the work.</p>
+      <p>For over 10 years, StoneBrook Carpentry has served homeowners across western Wisconsin from our home base in Wilson. We're not the biggest outfit around, and that's the point. When you call, you reach the people doing the work.</p>
       <p>Whether you're making room for a growing family or finally building the spaces you've earned, we'll help you see what's possible, give you an honest price, and build it right the first time.</p>
       <ul class="checks">
-        <li>A finished space you're proud of and actually use</li>
-        <li>Projects that come in on scope and within budget</li>
-        <li>A home that's respected and left clean</li>
-        <li>A contractor worth calling again</li>
+        <li><svg class="ink check"><use href="#ink-check"/></svg>A finished space you're proud of and actually use</li>
+        <li><svg class="ink check"><use href="#ink-check"/></svg>Projects that come in on scope and within budget</li>
+        <li><svg class="ink check"><use href="#ink-check"/></svg>A home that's respected and left clean</li>
+        <li><svg class="ink check"><use href="#ink-check"/></svg>A contractor worth calling again</li>
       </ul>
     </div>
-    <figure class="about-media" data-reveal>
-      <img src="assets/img/vanity.jpg" alt="Finished bathroom vanity with hand-painted sinks and framed mirrors" loading="lazy">
+    <figure class="about-media photo-frame tilt-r" data-reveal>
+      <img src="assets/img/porch-side.jpg" alt="Porch railings and landscape stairs built by StoneBrook Carpentry" loading="lazy">
+      <figcaption class="hand-note">Proudly built in western Wisconsin.</figcaption>
     </figure>
   </div>
 </section>
 
-<!-- ============ TESTIMONIALS ============ -->
-<section class="reviews band-stone" aria-labelledby="reviews-title">
-  <div class="wrap">
-    <header class="section-head" data-reveal>
-      <p class="eyebrow">In Their Words</p>
-      <h2 id="reviews-title">Homeowners who've been through the process.</h2>
-    </header>
-    <!-- PLACEHOLDERS: replace with real Google/Yelp review quotes before launch. -->
-    <div class="review-grid">
-      <figure class="review" data-reveal>
-        <blockquote>“[Client review about showing up, communication and follow-through. Pull from Google reviews.]”</blockquote>
-        <figcaption>[Client Name] · [Town], WI</figcaption>
-      </figure>
-      <figure class="review" data-reveal>
-        <blockquote>“[Client review about quality of the finished space and a clean jobsite.]”</blockquote>
-        <figcaption>[Client Name] · [Town], WI</figcaption>
-      </figure>
-      <figure class="review" data-reveal>
-        <blockquote>“[Client review about honest pricing, no surprises, and handling a hidden issue well.]”</blockquote>
-        <figcaption>[Client Name] · [Town], WI</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
 <!-- ============ ESTIMATE ============ -->
-<section class="estimate" id="estimate">
+<section class="estimate band-dark" id="estimate">
   <div class="wrap estimate-grid">
     <div class="estimate-copy" data-reveal>
-      <p class="eyebrow">Get Started</p>
-      <h2>Get your free estimate.</h2>
-      <p>Tell us a little about your project. We'll get back to you to set up a time to see the space and talk it through, with no pressure and no obligation.</p>
+      <p class="kicker">Get Started</p>
+      <h2>Get your free <span class="ink-wrap">estimate.<svg class="ink ink-circle-svg"><use href="#ink-circle"/></svg></span></h2>
+      <p>Tell us a little about your project. We'll call you back to set up a time to see the space and talk it through. No pressure, no obligation.</p>
       <div class="contact-lines">
-        <p><span class="label">Call</span><a href="tel:+10000000000">(000) 000-0000</a></p>
-        <p><span class="label">Email</span><a href="mailto:hello@example.com">hello@example.com</a></p>
-        <p><span class="label">Serving</span>Homeowners across western Wisconsin</p>
+        <p><span class="label">Call</span><a href="tel:+17153082180">(715) 308-2180</a></p>
+        <p><span class="label">Hours</span>Mon–Fri, 7:30am–5:30pm</p>
+        <p><span class="label">Based in</span>Wilson, WI 54027</p>
       </div>
+      <p class="hand-note estimate-note">Prefer to talk? Just call.<br>We pick up.</p>
     </div>
 
     <form class="estimate-form" data-reveal novalidate>
@@ -375,17 +403,17 @@
       <label>Project type
         <select name="type">
           <option value="">Choose one</option>
-          <option>Kitchen or bath</option>
-          <option>Deck, porch or stairs</option>
-          <option>Basement or interior remodel</option>
-          <option>Addition, siding or roofing</option>
-          <option>Garage or outbuilding</option>
+          <option>Deck or porch</option>
+          <option>Custom tile</option>
+          <option>Kitchen or bathroom</option>
+          <option>Basement finishing</option>
+          <option>Addition or exterior</option>
           <option>Repair</option>
           <option>Something else</option>
         </select>
       </label>
       <label>Tell us about your project<textarea name="message" rows="4"></textarea></label>
-      <button class="btn btn-solid" type="submit">Request My Free Estimate</button>
+      <button class="btn btn-lumber" type="submit">Request My Free Estimate <span aria-hidden="true">→</span></button>
       <p class="form-note" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -394,7 +422,7 @@
 </main>
 
 <!-- ============ FOOTER ============ -->
-<footer class="site-footer band-dark">
+<footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
       <a class="brand brand-light" href="#top" aria-label="StoneBrook Carpentry home">
@@ -411,21 +439,30 @@
       </a>
       <p>Carpentry and remodeling built to last, not just built fast.</p>
     </div>
-    <nav class="footer-nav" aria-label="Footer">
-      <a href="#services">Services</a>
-      <a href="#work">Our Work</a>
-      <a href="#process">What to Expect</a>
-      <a href="#about">About</a>
-      <a href="#estimate">Free Estimate</a>
-    </nav>
-    <div class="footer-contact">
-      <a href="tel:+10000000000">(000) 000-0000</a>
-      <a href="mailto:hello@example.com">hello@example.com</a>
-      <span>Western Wisconsin</span>
+    <div class="footer-col">
+      <h4>Visit</h4>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#services">Services</a>
+        <a href="#work">Our Work</a>
+        <a href="#process">What to Expect</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#estimate">Free Estimate</a>
+      </nav>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="tel:+17153082180">(715) 308-2180</a>
+      <span>Wilson, WI 54027</span>
+      <span>Mon–Fri 7:30–5:30</span>
+    </div>
+    <div class="footer-col footer-area">
+      <h4>Serving</h4>
+      <p>Hudson · North Hudson · River Falls · Somerset · Roberts · Hammond · Baldwin · Richmond · Menomonie · Plum City · Woodbury · Lakeland · Afton, and towns within 30 miles of Wilson.</p>
     </div>
   </div>
   <div class="wrap footer-base">
-    <p>© <span data-year>2026</span> StoneBrook Carpentry. Your Vision, Beautifully Built.</p>
+    <p>© <span data-year>2026</span> StoneBrook Carpentry, LLC · Licensed &amp; insured in Wisconsin</p>
+    <p>Your Vision, Beautifully Built.</p>
   </div>
 </footer>
 
