@@ -488,12 +488,24 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 
 .reviews .review-grid { gap: clamp(28px, 4vw, 48px); align-items: start; }
 .review.notepad { padding: 46px 26px 26px 44px; background-position: 0 0, 0 14px; }
-.review.notepad:nth-child(1) { transform: rotate(-1.5deg); }
-.review.notepad:nth-child(2) { transform: rotate(1deg); margin-top: 22px; }
-.review.notepad:nth-child(3) { transform: rotate(-.6deg); }
-.js .review.notepad[data-reveal].in:nth-child(1) { transform: rotate(-1.5deg); }
-.js .review.notepad[data-reveal].in:nth-child(2) { transform: rotate(1deg); }
-.js .review.notepad[data-reveal].in:nth-child(3) { transform: rotate(-.6deg); }
+.review.notepad { --tilt: -1.5deg; --d: 0s; transform: rotate(var(--tilt)); transition: transform .35s ease, box-shadow .35s ease; }
+.review.notepad:nth-child(2) { --tilt: 1deg; --d: .18s; margin-top: 22px; }
+.review.notepad:nth-child(3) { --tilt: -.6deg; --d: .36s; }
+.review.notepad:hover { transform: translateY(-8px) rotate(0deg); box-shadow: 0 22px 40px rgba(0,0,0,.28); }
+
+/* Pinned-up entrance: sheet drops and settles, tape presses on, words get "written" */
+.js .review.notepad[data-reveal] { opacity: 0; transform: translateY(-70px) rotate(calc(var(--tilt) - 9deg)) scale(1.04); transition: none; }
+.js .review.notepad[data-reveal].in { opacity: 1; transform: rotate(var(--tilt)); transition: transform .9s cubic-bezier(.34,1.45,.64,1) var(--d), opacity .4s ease var(--d), box-shadow .35s ease; }
+.js .review.notepad[data-reveal].in.settled { transition: transform .35s ease, box-shadow .35s ease; }
+.js .review.notepad[data-reveal].in.settled:hover { transform: translateY(-8px) rotate(0deg); }
+.js .review.notepad::before { transform: translateX(-50%) rotate(-2deg) scaleX(0); transform-origin: left center; transition: transform .35s ease calc(var(--d) + .75s); }
+.js .review.notepad.in::before { transform: translateX(-50%) rotate(-2deg) scaleX(1); }
+.js .review.notepad .w { opacity: 0; display: inline-block; transform: translateY(3px); transition: opacity .25s ease, transform .25s ease; }
+.js .review.notepad .w.on { opacity: 1; transform: none; }
+.js .review.notepad figcaption, .js .review.notepad .quote-mark { opacity: 0; transition: opacity .5s ease; }
+.js .review.notepad.written figcaption, .js .review.notepad.in .quote-mark { opacity: 1; }
+.js .review.notepad.in .quote-mark { transition-delay: calc(var(--d) + .9s); }
+
 .review.notepad .quote-mark { top: 4px; left: 40px; font-size: 4.6rem; color: var(--tan-deep); }
 .review.notepad blockquote { font-family: var(--hand); font-weight: 700; font-size: 1.5rem; line-height: 30px; color: #2B3A55; margin: 0 0 14px; }
 .review.notepad figcaption { color: var(--muted); }

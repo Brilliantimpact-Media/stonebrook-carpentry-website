@@ -102,6 +102,21 @@
     requestAnimationFrame(step);
   };
 
+  // ---- Reviews: split the handwriting into words so it can be "written" in ----
+  const reviewSheets = [...document.querySelectorAll('.review.notepad')];
+  if (!reduce) {
+    reviewSheets.forEach((sheet) => {
+      const q = sheet.querySelector('blockquote');
+      q.innerHTML = q.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
+    });
+  }
+  const writeReview = (sheet) => {
+    const words = [...sheet.querySelectorAll('.w')];
+    const start = (parseFloat(getComputedStyle(sheet).getPropertyValue('--d')) || 0) * 1000 + 950;
+    words.forEach((w, i) => setTimeout(() => w.classList.add('on'), start + i * 55));
+    setTimeout(() => sheet.classList.add('written', 'settled'), start + words.length * 55 + 200);
+  };
+
   // ---- Reveal + pencil draw-on ----
   const targets = new Set([
     ...document.querySelectorAll('[data-reveal]'),
@@ -112,6 +127,7 @@
   document.querySelectorAll('.wipe').forEach((w) => { targets.delete(w); targets.add(w.parentElement); });
   const reveal = (el) => {
     el.classList.add('in', 'drawn');
+    if (el.classList.contains('notepad') && el.classList.contains('review')) writeReview(el);
     el.querySelectorAll(':scope > .wipe').forEach((w) => w.classList.add('in'));
     el.querySelectorAll('[data-count]').forEach(countUp);
   };
