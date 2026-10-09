@@ -62,6 +62,13 @@
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
 
+  // ---- Logo: back to the top of the homepage ----
+  document.querySelectorAll('a.brand, a.brand-top').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
   // ---- Mobile menu ----
   const toggle = document.querySelector('.menu-toggle');
   const mobileNav = document.getElementById('mobile-nav');

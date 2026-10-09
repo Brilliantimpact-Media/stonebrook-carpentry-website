@@ -168,9 +168,6 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 .pin-track { position: relative; height: 320vh; }   /* extra height = scroll distance for the slider + pauses */
 .pin-stage { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: grid; place-items: center; padding: 20px var(--gutter); }
 .reveal-wrap { position: relative; width: min(980px, calc((100vh - var(--header-h) - 150px) * 1.6), 100%); }
-.dimension { position: relative; height: 34px; margin-bottom: 10px; }
-.dimension svg { position: absolute; left: 0; top: 4px; width: 100%; height: 24px; stroke-width: 1.8; }
-.dimension .hand { position: absolute; left: 50%; top: -14px; transform: translateX(-50%); background: var(--paper); padding: 0 12px; font-size: 1.6rem; }
 .before-after { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; box-shadow: 0 18px 40px rgba(0,0,0,.14); --p: .97; cursor: ew-resize; touch-action: pan-y; }
 .before-after > img, .ba-built img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
 .ba-built { position: absolute; inset: 0; clip-path: inset(0 0 0 calc(var(--p) * 100%)); }
