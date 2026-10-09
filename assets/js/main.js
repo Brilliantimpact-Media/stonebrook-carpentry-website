@@ -381,21 +381,34 @@
     document.querySelectorAll('.split .wipe').forEach((w) => wipeIO.observe(w));
   }
 
-  // "What we build": the list item passing under the pinned photo becomes active
-  let svcTick = false;
-  const svcFromScroll = () => {
-    if (!mobile.matches || svcTick) return;
-    svcTick = true;
-    requestAnimationFrame(() => {
-      const media = svcMedia.getBoundingClientRect();
-      const line = media.bottom + 40;            // just below the pinned photo
-      let pick = svcs[0];
-      svcs.forEach((b) => { if (b.getBoundingClientRect().top <= line) pick = b; });
-      activate(pick);
-      svcTick = false;
-    });
+  // "What we build": tabs above the photo pile on phones (desktop keeps the hover list)
+  const svcTabs = document.createElement('div');
+  svcTabs.className = 'svc-tabs';
+  svcTabs.setAttribute('role', 'tablist');
+  const svcDesc = document.createElement('div');
+  svcDesc.className = 'svc-desc';
+  svcDesc.setAttribute('aria-live', 'polite');
+  const tabLabels = ['Decks & Porches', 'Tile', 'Kitchens & Baths', 'Basements', 'Additions', 'Repairs'];
+  const showDesc = (b) => {
+    svcDesc.innerHTML = `<div class="swap"><strong>${b.querySelector('strong').textContent}</strong><p>${b.querySelector('span').textContent}</p></div>`;
   };
-  addEventListener('scroll', svcFromScroll, { passive: true });
+  svcs.forEach((b, i) => {
+    const t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'svc-tab' + (i === 0 ? ' on' : '');
+    t.setAttribute('role', 'tab');
+    t.textContent = tabLabels[i] || b.querySelector('strong').textContent;
+    t.addEventListener('click', () => {
+      svcTabs.querySelectorAll('.svc-tab').forEach((x) => x.classList.toggle('on', x === t));
+      svcTabs.scrollTo({ left: t.offsetLeft - (svcTabs.clientWidth - t.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+      activate(b);
+      showDesc(b);
+    });
+    svcTabs.appendChild(t);
+  });
+  document.querySelector('.svc-list h2').after(svcTabs);
+  svcMedia.after(svcDesc);
+  showDesc(svcs[0]);
 
   // Reviews: swipeable notes with dots
   const rGrid = document.querySelector('.reviews .review-grid');

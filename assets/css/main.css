@@ -545,14 +545,21 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
   .pin-stage .center-head p { font-size: .98rem; line-height: 1.55; margin-top: .8em; }
   .reveal-note { margin-top: 10px; font-size: 1.35rem; }
 
-  /* "What we build": the photo stack pins under the header while the list scrolls past it */
-
-  .services-grid { align-items: start; gap: 22px; }
-  .svc-media { position: sticky; top: calc(var(--header-h) + 14px); z-index: 3; aspect-ratio: 16 / 11; width: 88%; margin: 0 auto 10px; }
-  .services .svc-media::after { content: ""; position: absolute; left: -12%; right: -12%; top: -30px; bottom: -22px; background: linear-gradient(#fff 82%, rgba(255,255,255,0)); z-index: -1; }
+  /* "What we build": tap tabs above the photo pile (list hidden on phones) */
+  .services-grid { gap: 0; grid-template-columns: minmax(0, 1fr); }
+  .services-grid > * { min-width: 0; }
+  .svc-list ul { display: none; }
+  .svc-list h2 { margin-bottom: 16px; }
+  .svc-tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 calc(var(--gutter) * -1) 22px; padding: 2px var(--gutter) 4px; }
+  .svc-tabs::-webkit-scrollbar { display: none; }
+  .svc-tab { flex: none; font-family: var(--semi); font-weight: 600; font-size: .92rem; letter-spacing: .05em; text-transform: uppercase; padding: 9px 14px; border: 2px solid var(--slate); background: #fff; color: var(--slate); cursor: pointer; }
+  .svc-tab.on { background: var(--slate); color: #fff; }
+  .svc-media { order: 0; aspect-ratio: 4 / 3; width: 88%; margin: 0 auto 22px; }
   .stack-photo { border-width: 7px; }
-  .svc-list ul { padding-bottom: 34vh; }
-  .svc { padding: 20px 0 18px; }
+  .svc-desc { display: block; text-align: center; min-height: 5.6em; }
+  .svc-desc strong { display: block; font-family: var(--display); font-size: 1.5rem; text-transform: uppercase; color: var(--slate); }
+  .svc-desc p { margin: 4px 0 0; color: var(--muted); font-size: 1rem; }
+  .svc-desc .swap { animation: qIn .4s ease both; }
 
   /* "Behind the walls": compact cards that stack over each other like desktop */
   .stack-card { position: sticky; top: calc(var(--header-h) + 14px); grid-template-columns: 1fr; gap: 14px; min-height: 0; margin-bottom: 14vh; padding: 16px 16px 20px; box-shadow: 0 -12px 30px rgba(0,0,0,.28); }
@@ -572,4 +579,4 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
   .review-dots button { width: 10px; height: 10px; border-radius: 50%; border: 0; padding: 0; background: rgba(255,255,255,.3); transition: background .25s, transform .25s; }
   .review-dots button.on { background: var(--tan); transform: scale(1.25); }
 }
-@media (min-width: 861px) { .review-dots { display: none; } }
+@media (min-width: 861px) { .review-dots, .svc-tabs, .svc-desc { display: none; } }
