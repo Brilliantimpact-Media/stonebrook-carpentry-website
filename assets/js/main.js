@@ -1,38 +1,41 @@
 // StoneBrook Carpentry — interactions & animations:
 // header state, tape-measure progress, mobile menu, scroll reveal + pencil draw-on,
-// count-up stats, sketch→photo scrub, service image swap, punch-list checks,
-// lightbox, and a placeholder estimate form handler.
+// count-up stats, pinned sketch→photo scrub, service image swap, filterable gallery
+// with lightbox, and a placeholder estimate form handler.
 
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const header = document.querySelector('.site-header');
-  const tape = document.querySelector('.tape-fill');
+  const blade = document.querySelector('.tape-blade');
 
-  // ---- Sketch → photo scrub (scroll-driven, also draggable) ----
+  // ---- Pinned sketch → photo scrub ----
+  // The stage is sticky inside a tall track, so the slider only moves while the
+  // photo sits centered on screen.
+  const track = document.getElementById('vision-track');
   const ba = document.getElementById('sketch-reveal');
-  let baDragged = false;
-  const setP = (p) => ba && ba.style.setProperty('--p', Math.min(1, Math.max(0, p)).toFixed(4));
-  const scrubFromScroll = () => {
-    if (!ba || baDragged || reduce) return;
-    const r = ba.getBoundingClientRect();
-    const vh = innerHeight;
-    // 0 when the image enters low in the viewport, 1 when its middle reaches the upper third
-    const t = (vh * 0.85 - r.top) / (vh * 0.85 - vh * 0.33 + r.height / 2);
-    setP(0.92 - 0.84 * Math.min(1, Math.max(0, t)));
+  const note = document.querySelector('.reveal-note');
+  const setP = (p) => ba.style.setProperty('--p', clamp(p).toFixed(4));
+  const scrub = () => {
+    if (!track) return;
+    const r = track.getBoundingClientRect();
+    const stage = track.firstElementChild.offsetHeight;
+    const t = clamp(-r.top / Math.max(1, r.height - stage));
+    setP(0.97 - 0.94 * t);
+    note.classList.toggle('done', t > 0.9);
   };
   if (ba) {
-    setP(reduce ? 0.5 : 0.92);
+    if (reduce) setP(0.5);
+    // Dragging also works; the next scroll picks back up from the scroll position.
     const drag = (e) => {
       const r = ba.getBoundingClientRect();
-      const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
-      baDragged = true;
-      setP(x / r.width);
+      setP((e.clientX - r.left) / r.width);
     };
     ba.addEventListener('pointerdown', (e) => { drag(e); ba.setPointerCapture(e.pointerId); });
     ba.addEventListener('pointermove', (e) => { if (e.buttons) drag(e); });
   }
 
-  // ---- Scroll: header shadow, tape progress, scrub ----
+  // ---- Scroll: header shadow, tape blade, scrub ----
   let ticking = false;
   const onScroll = () => {
     if (ticking) return;
@@ -41,8 +44,9 @@
       const y = scrollY;
       header.classList.toggle('scrolled', y > 8);
       const max = document.documentElement.scrollHeight - innerHeight;
-      tape.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
-      scrubFromScroll();
+      const room = header.offsetWidth - 60;
+      blade.style.width = `${(max > 0 ? y / max : 0) * room}px`;
+      if (!reduce) scrub();
       ticking = false;
     });
   };
@@ -70,20 +74,13 @@
     });
   });
 
-  // ---- Punch list: stagger the pencil checks ----
-  document.querySelectorAll('.punch li .pencil').forEach((svg, i) => {
-    svg.style.transitionDelay = `${0.5 + i * 0.35}s`;
-    svg.style.transitionDuration = '.6s';
-  });
-
   // ---- Count-up numbers ----
   const countUp = (el) => {
     const end = Number(el.dataset.count);
     if (reduce) { el.textContent = end; return; }
     const start = performance.now();
-    const dur = 1400;
     const step = (now) => {
-      const k = Math.min(1, (now - start) / dur);
+      const k = Math.min(1, (now - start) / 1400);
       el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3)));
       if (k < 1) requestAnimationFrame(step);
     };
@@ -117,7 +114,6 @@
   // ---- Services: swap the photo on hover / tap ----
   const svcImg = document.querySelector('.svc-img');
   const svcs = document.querySelectorAll('.svc');
-  // Preload so the swap is instant
   svcs.forEach((b) => { const i = new Image(); i.src = b.dataset.img; });
   const activate = (btn) => {
     if (btn.classList.contains('active')) return;
@@ -135,33 +131,61 @@
     btn.addEventListener('click', () => activate(btn));
   });
 
-  // ---- Lightbox for work cards ----
+  // ---- Gallery: filter by project type ----
+  const items = [...document.querySelectorAll('.g')];
+  document.querySelectorAll('.filter').forEach((f) => {
+    f.addEventListener('click', () => {
+      document.querySelectorAll('.filter').forEach((o) => {
+        o.classList.toggle('active', o === f);
+        o.setAttribute('aria-pressed', String(o === f));
+      });
+      const cat = f.dataset.filter;
+      items.forEach((g) => {
+        const show = cat === 'all' || g.dataset.cat === cat;
+        g.classList.toggle('hide', !show);
+        g.classList.remove('fade-in');
+        if (show && !reduce) { void g.offsetWidth; g.classList.add('fade-in'); }
+      });
+    });
+  });
+
+  // ---- Lightbox with previous / next ----
   const box = document.querySelector('.lightbox');
   const boxImg = box.querySelector('img');
   const boxCap = box.querySelector('.lightbox-caption');
-  document.querySelectorAll('.card').forEach((card) => {
-    card.addEventListener('click', () => {
-      boxImg.src = card.dataset.full;
-      boxImg.alt = card.querySelector('img').alt;
-      boxCap.textContent = card.dataset.caption || '';
-      box.showModal();
-    });
-  });
+  let current = 0;
+  const visible = () => items.filter((g) => !g.classList.contains('hide'));
+  const show = (i) => {
+    const list = visible();
+    current = (i + list.length) % list.length;
+    const g = list[current];
+    const img = g.querySelector('img');
+    boxImg.src = img.src;
+    boxImg.alt = img.alt;
+    boxCap.textContent = g.dataset.caption || '';
+  };
+  items.forEach((g) => g.addEventListener('click', () => { show(visible().indexOf(g)); box.showModal(); }));
+  box.querySelector('.lightbox-prev').addEventListener('click', () => show(current - 1));
+  box.querySelector('.lightbox-next').addEventListener('click', () => show(current + 1));
   box.querySelector('.lightbox-close').addEventListener('click', () => box.close());
   box.addEventListener('click', (e) => { if (e.target === box) box.close(); });
+  box.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
 
   // ---- Estimate form (no backend yet — connect to the client's form service before launch) ----
   const form = document.querySelector('.estimate-form');
-  const note = form.querySelector('.form-note');
+  const formNote = form.querySelector('.form-note');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = form.elements.name.value.trim();
     const phone = form.elements.phone.value.trim();
     if (!name || !phone) {
-      note.textContent = 'Please add your name and phone number so we can reach you.';
+      formNote.textContent = 'Please add your name and phone number so we can reach you.';
       return;
     }
-    note.textContent = `Thanks, ${name.split(' ')[0]}. We'll be in touch soon to talk through your project.`;
+    formNote.textContent = `Thanks, ${name.split(' ')[0]}. We'll be in touch soon to talk through your project.`;
     form.reset();
   });
 
