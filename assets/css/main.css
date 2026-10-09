@@ -512,6 +512,27 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 .review.notepad figcaption strong { color: var(--slate); }
 @media (max-width: 860px) { .review.notepad:nth-child(2) { margin-top: 0; } }
 
+/* ---------- Hand-drawn arrows (client artwork), tinted with site colors ---------- */
+.arrow { position: absolute; display: block; pointer-events: none; z-index: 2; background-color: var(--tan);
+  -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat; }
+.arrow-loop { --src: url(../img/arrow-loop.png); aspect-ratio: 265 / 411; }
+.arrow-curve { --src: url(../img/arrow-curve.png); aspect-ratio: 432 / 261; }
+.arrow-straight { --src: url(../img/arrow-straight.png); aspect-ratio: 432 / 130; }
+/* draw-in: wipe along the direction of the stroke */
+.js .arrow[data-reveal] { opacity: 1; transform: none; clip-path: inset(0 100% 0 0); transition: clip-path 1.2s cubic-bezier(.6,.1,.3,1) .35s; }
+.js .arrow-loop[data-reveal] { clip-path: inset(0 0 100% 0); }
+.js .arrow[data-reveal].in { clip-path: inset(0 0 0 0); }
+
+.svc-list, .behind .center-head, .estimate-copy { position: relative; }
+.arrow-vision { width: 118px; left: -150px; top: 10px; transform: rotate(-8deg); }
+.js .arrow-vision[data-reveal], .js .arrow-vision[data-reveal].in { transform: rotate(-8deg); }
+.arrow-svc { width: 150px; right: -40px; top: 6px; }
+.arrow-behind { width: 88px; right: -130px; top: -6px; background-color: var(--tan-light); transform: scaleX(-1) rotate(-6deg); }
+.js .arrow-behind[data-reveal], .js .arrow-behind[data-reveal].in { transform: scaleX(-1) rotate(-6deg); }
+.arrow-est { width: 140px; right: -120px; top: 120px; }
+@media (max-width: 1240px) { .arrow-vision { left: -118px; width: 96px; } .arrow-est { right: -70px; width: 100px; } .arrow-behind { right: -96px; width: 72px; } }
+@media (max-width: 1120px) { .arrow-behind { display: none; } }
+
 /* =====================================================================
    Mobile refinements (phones / small tablets only — desktop unaffected)
    ===================================================================== */
@@ -580,3 +601,4 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
   .review-dots button.on { background: var(--tan); transform: scale(1.25); }
 }
 @media (min-width: 861px) { .review-dots, .svc-tabs, .svc-desc { display: none; } }
+@media (max-width: 860px) { .arrow { display: none; } }
