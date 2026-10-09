@@ -114,19 +114,38 @@
     targets.forEach(reveal);
   }
 
-  // ---- Services: swap the photo on hover / tap ----
-  const svcImg = document.querySelector('.svc-img');
-  const svcs = document.querySelectorAll('.svc');
-  svcs.forEach((b) => { const i = new Image(); i.src = b.dataset.img; });
+  // ---- Services: a stack of photos ----
+  // Moving down the list slides each new photo on top of the pile; moving back up
+  // slides the top photos off again.
+  const svcMedia = document.querySelector('.svc-media');
+  const svcs = [...document.querySelectorAll('.svc')];
+  const tilts = [-2.5, 2, -1.2, 2.6, -2, 1.4];
+  svcMedia.innerHTML = '';
+  const photos = svcs.map((b, i) => {
+    const img = document.createElement('img');
+    img.className = 'stack-photo' + (i === 0 ? ' in' : '');
+    img.src = b.dataset.img;
+    img.alt = b.dataset.alt;
+    img.style.setProperty('--tilt', `${tilts[i % tilts.length]}deg`);
+    img.style.zIndex = i + 1;
+    svcMedia.appendChild(img);
+    return img;
+  });
+  let svcActive = 0;
   const activate = (btn) => {
-    if (btn.classList.contains('active')) return;
+    const n = svcs.indexOf(btn);
+    if (n === svcActive) return;
     svcs.forEach((b) => b.classList.toggle('active', b === btn));
-    svcImg.classList.add('swap');
-    setTimeout(() => {
-      svcImg.src = btn.dataset.img;
-      svcImg.alt = btn.dataset.alt;
-      svcImg.classList.remove('swap');
-    }, 220);
+    const goingUp = n > svcActive;
+    photos.forEach((ph, i) => {
+      const on = i <= n;
+      if (on === ph.classList.contains('in')) return;
+      // stagger when jumping several items at once
+      const delay = goingUp ? (i - svcActive - 1) * 90 : (svcActive - i) * 90;
+      ph.style.transitionDelay = `${Math.max(0, delay)}ms`;
+      ph.classList.toggle('in', on);
+    });
+    svcActive = n;
   };
   svcs.forEach((btn) => {
     btn.addEventListener('mouseenter', () => activate(btn));
