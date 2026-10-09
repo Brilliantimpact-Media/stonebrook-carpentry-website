@@ -526,17 +526,24 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
   .js .split-rev .wipe img { clip-path: inset(0 100% 0 0); }
   .js .split .wipe.m-in img { clip-path: inset(0 0 0 0); transform: none; }
 
-  /* "Built to last": photo sits right under the heading and pins mid-screen;
-     the grid is drawn on the pinned stage so it stays still on iPhone too */
-  .vision { background-image: none; overflow: clip; }
-  .vision .center-head { position: relative; z-index: 2; }
-  .pin-track { height: 220vh; }
-  .pin-stage { height: auto; top: calc(50vh - 150px); top: calc(50svh - 150px); padding: 24px var(--gutter) 0; isolation: isolate; }
-  .pin-stage::before {
-    content: ""; position: absolute; left: 0; right: 0; top: -150vh; bottom: -150vh; z-index: -1;
+  /* "Built to last": heading + photo pin together as one block (JS moves the heading
+     into the stage on phones). The grid is on the pinned stage, so it never slides. */
+  .vision { padding-top: 0; background-image: none; }
+  .vision > .wrap { display: none; }
+  .pin-track { height: 190vh; background: var(--paper); }
+  .services { padding-top: 56px; }
+  .pin-stage {
+    top: var(--header-h); height: auto;
+    display: flex; flex-direction: column; align-items: stretch; gap: 18px;
+    padding: 28px var(--gutter) 30px;
+    background-color: var(--paper);
     background-image: linear-gradient(rgba(47,55,64,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(47,55,64,.07) 1px, transparent 1px);
-    background-size: 28px 28px; background-color: var(--paper);
+    background-size: 28px 28px;
   }
+  .pin-stage .center-head { margin: 0; }
+  .pin-stage .center-head h2 { font-size: 2rem; }
+  .pin-stage .center-head p { font-size: .98rem; line-height: 1.55; margin-top: .8em; }
+  .reveal-note { margin-top: 10px; font-size: 1.35rem; }
 
   /* "What we build": the photo stack pins under the header while the list scrolls past it */
 

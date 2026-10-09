@@ -361,6 +361,18 @@
   // =====================================================================
   const mobile = matchMedia('(max-width: 860px)');
 
+  // "Built to last": on phones the heading moves into the pinned stage so text and photo stay together
+  const vHead = document.querySelector('.vision .center-head');
+  const vHome = vHead.parentElement;
+  const vStage = document.querySelector('.pin-stage');
+  const placeVisionHead = () => {
+    if (mobile.matches) { if (vHead.parentElement !== vStage) vStage.prepend(vHead); }
+    else if (vHead.parentElement !== vHome) vHome.appendChild(vHead);
+    onScroll();
+  };
+  placeVisionHead();
+  mobile.addEventListener('change', placeVisionHead);
+
   // "Hiring a contractor" / About photos: wipe in once the photo is properly on screen
   if ('IntersectionObserver' in window) {
     const wipeIO = new IntersectionObserver((entries) => entries.forEach((e) => {
