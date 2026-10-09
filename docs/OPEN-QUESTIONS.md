@@ -48,6 +48,16 @@ What changed:
 - Estimate section keeps the quick **Request My Free Estimate** form. Below it, a "Want to break it down first?" option opens the **Project Planner** in the same card: project type (photo cards), size, timing, priorities, then a personal "what to expect" summary with contact fields. There's a link back to the quick form. Both forms still need to be connected to the client's form service.
 - Ideas hub (local only, `concepts/`): planner marked as live; live Google reviews and project story pages listed as next to build; instant follow-up, checklist download, review requests and (optional) job progress updates listed as options to bring to StoneBrook.
 
+## Desktop / monitor compatibility (October 9, 2026)
+Checked at 1024×768, 1280×720, 1366×768, 1536×864 (1080p with Windows 125% scaling), 1920×1080, 2560×1440, 3440×1440 ultrawide and 3840×2160. No sideways scrolling; the hero, pinned slider and stacking cards fit on short laptop screens.
+- Hero, crew and porch-side photos re-exported at 1800px, with smaller 900px versions served to small screens.
+- Split photo/text sections cap at 1920px (2048–2200px on larger screens) and center, so photos aren't stretched on ultrawide.
+- Type and content width scale up slightly at 1800px+ and 2400px+.
+- Text alignment uses the real page width, so Windows scrollbars don't shift it.
+- Hero grows up to 1400px tall on big screens.
+- Only modern CSS with broad support (Chrome, Edge, Firefox, Safari). Known limit: Safari on iPhone ignores the fixed grid background behind the slider (it scrolls normally there).
+- For sharper photos on 4K/ultrawide: download the full-resolution originals from the Google Photos album (the current set came down at 1800px max).
+
 ## Open (Alexia handling with the client)
 - **Google Business Profile**: needed to set up live Google reviews on the site.
 - **Their systems**: CRM / scheduling / email tools, before pitching the instant follow-up option.

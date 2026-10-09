@@ -40,6 +40,11 @@
 
   // ---- Scroll: header shadow, tape blade, scrub ----
   let ticking = false;
+  // Page width without the scrollbar (Windows scrollbars take ~17px that 100vw includes)
+  const setPageW = () => document.documentElement.style.setProperty('--page-w', `${document.documentElement.clientWidth}px`);
+  setPageW();
+  addEventListener('resize', setPageW);
+
   const onScroll = () => {
     if (ticking) return;
     ticking = true;
