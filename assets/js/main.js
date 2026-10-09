@@ -356,5 +356,58 @@
   quick.querySelector('.open-planner').addEventListener('click', () => swapTo(form, quick));
   form.querySelector('.close-planner').addEventListener('click', () => swapTo(quick, form));
 
+  // =====================================================================
+  // Mobile-only behaviour (desktop is unaffected)
+  // =====================================================================
+  const mobile = matchMedia('(max-width: 860px)');
+
+  // "Hiring a contractor" / About photos: wipe in once the photo is properly on screen
+  if ('IntersectionObserver' in window) {
+    const wipeIO = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('m-in'); wipeIO.unobserve(e.target); }
+    }), { threshold: 0.35 });
+    document.querySelectorAll('.split .wipe').forEach((w) => wipeIO.observe(w));
+  }
+
+  // "What we build": the list item passing under the pinned photo becomes active
+  let svcTick = false;
+  const svcFromScroll = () => {
+    if (!mobile.matches || svcTick) return;
+    svcTick = true;
+    requestAnimationFrame(() => {
+      const media = svcMedia.getBoundingClientRect();
+      const line = media.bottom + 40;            // just below the pinned photo
+      let pick = svcs[0];
+      svcs.forEach((b) => { if (b.getBoundingClientRect().top <= line) pick = b; });
+      activate(pick);
+      svcTick = false;
+    });
+  };
+  addEventListener('scroll', svcFromScroll, { passive: true });
+
+  // Reviews: swipeable notes with dots
+  const rGrid = document.querySelector('.reviews .review-grid');
+  const dots = document.createElement('div');
+  dots.className = 'review-dots';
+  reviewSheets.forEach((sheet, i) => {
+    const d = document.createElement('button');
+    d.type = 'button';
+    d.setAttribute('aria-label', `Show review ${i + 1}`);
+    d.addEventListener('click', () => rGrid.scrollTo({ left: sheet.offsetLeft - (rGrid.clientWidth - sheet.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' }));
+    dots.appendChild(d);
+  });
+  rGrid.after(dots);
+  const markDot = () => {
+    const mid = rGrid.scrollLeft + rGrid.clientWidth / 2;
+    let best = 0, bestD = Infinity;
+    reviewSheets.forEach((sheet, i) => {
+      const d = Math.abs(sheet.offsetLeft + sheet.offsetWidth / 2 - mid);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    [...dots.children].forEach((d, i) => d.classList.toggle('on', i === best));
+  };
+  rGrid.addEventListener('scroll', markDot, { passive: true });
+  markDot();
+
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 })();
