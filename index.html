@@ -341,7 +341,7 @@
     <div class="estimate-copy" data-reveal>
       <p class="kicker">Get Started</p>
       <h2>Get your free <span class="pmark">estimate.<svg class="pencil p-circle"><use href="#p-circle"/></svg></span></h2>
-      <p>Tell us a little about your project. We'll call you back to set up a time to see the space and talk it through. No pressure, no obligation.</p>
+      <p>Answer a few quick questions and you'll get a simple plan of what to expect. Gary gets your details and calls to set up a time to see the space. No pressure, no obligation.</p>
       <div class="contact-lines">
         <p><span class="label">Call</span><a href="tel:+17153082180">(715) 308-2180</a></p>
         <p><span class="label">Hours</span>Mon–Fri, 7:30am–5:30pm</p>
@@ -350,30 +350,82 @@
       <p class="hand estimate-note">Prefer to talk? Just call.<br>We pick up.</p>
     </div>
 
-    <form class="estimate-form" data-reveal novalidate>
-      <div class="field-row">
-        <label>Name<input type="text" name="name" autocomplete="name" required></label>
-        <label>Phone<input type="tel" name="phone" autocomplete="tel" required></label>
+    <!-- Project Planner: a few taps, then contact details. Replaces the plain estimate form. -->
+    <form class="estimate-form planner" data-reveal novalidate>
+      <div class="meter" aria-hidden="true"><div class="meter-blade"></div></div>
+      <p class="meter-label" aria-live="polite">Step 1 of 5</p>
+
+      <fieldset class="q on" data-key="type" data-single>
+        <legend>What are we building?</legend>
+        <div class="opts opts-photo">
+          <button type="button" class="opt" data-v="Deck or porch"><img src="assets/img/porch-front.jpg" alt=""><strong>Deck or Porch</strong></button>
+          <button type="button" class="opt" data-v="Bathroom or tile"><img src="assets/img/shower-blue-tile.jpg" alt=""><strong>Bath &amp; Tile</strong></button>
+          <button type="button" class="opt" data-v="Kitchen"><img src="assets/img/vanity-wide.jpg" alt=""><strong>Kitchen</strong></button>
+          <button type="button" class="opt" data-v="Basement"><img src="assets/img/basement.jpg" alt=""><strong>Basement</strong></button>
+          <button type="button" class="opt" data-v="Addition or exterior"><img src="assets/img/addition-siding.jpg" alt=""><strong>Addition / Exterior</strong></button>
+          <button type="button" class="opt" data-v="Repair"><img src="assets/img/deck-structure.jpg" alt=""><strong>Repair</strong></button>
+        </div>
+      </fieldset>
+
+      <fieldset class="q" data-key="size" data-single>
+        <legend>How big is the job?</legend>
+        <div class="opts">
+          <button type="button" class="opt" data-v="A repair or small update"><strong>Small</strong><span>A repair or single update</span></button>
+          <button type="button" class="opt" data-v="One full room or space"><strong>One Space</strong><span>A full room, deck or porch</span></button>
+          <button type="button" class="opt" data-v="Several rooms or a large project"><strong>Large</strong><span>Several rooms or an addition</span></button>
+          <button type="button" class="opt" data-v="Not sure yet"><strong>Not Sure</strong><span>Let's figure it out together</span></button>
+        </div>
+      </fieldset>
+
+      <fieldset class="q" data-key="when" data-single>
+        <legend>When are you hoping to start?</legend>
+        <div class="opts">
+          <button type="button" class="opt" data-v="As soon as possible"><strong>ASAP</strong><span>Something needs attention</span></button>
+          <button type="button" class="opt" data-v="In the next 1–3 months"><strong>1–3 Months</strong><span>Ready to plan</span></button>
+          <button type="button" class="opt" data-v="In 3–6 months"><strong>3–6 Months</strong><span>Getting ahead of it</span></button>
+          <button type="button" class="opt" data-v="Just exploring"><strong>Just Exploring</strong><span>Gathering ideas</span></button>
+        </div>
+      </fieldset>
+
+      <fieldset class="q" data-key="care">
+        <legend>What matters most to you?</legend>
+        <p class="q-hint">Pick as many as you like.</p>
+        <div class="opts">
+          <button type="button" class="opt" data-v="A clear price with no surprises"><strong>No Surprises</strong><span>A clear, written price</span></button>
+          <button type="button" class="opt" data-v="Minimal disruption to daily life"><strong>Less Disruption</strong><span>Keep life running</span></button>
+          <button type="button" class="opt" data-v="A clean jobsite"><strong>Clean Jobsite</strong><span>Respect for the house</span></button>
+          <button type="button" class="opt" data-v="Low-maintenance, long-lasting materials"><strong>Built to Last</strong><span>Low maintenance</span></button>
+          <button type="button" class="opt" data-v="Regular updates"><strong>Updates</strong><span>Know what's happening</span></button>
+          <button type="button" class="opt" data-v="Help picturing the finished space"><strong>Help Me See It</strong><span>Ideas and examples</span></button>
+        </div>
+      </fieldset>
+
+      <fieldset class="q" data-key="contact">
+        <legend>Here's your project plan.</legend>
+        <div class="plan">
+          <dl class="plan-list"></dl>
+          <div>
+            <p class="plan-head">What to expect</p>
+            <ul class="plan-expect"></ul>
+          </div>
+        </div>
+        <div class="field-row">
+          <label>Name<input type="text" name="name" autocomplete="name" required></label>
+          <label>Phone<input type="tel" name="phone" autocomplete="tel" required></label>
+        </div>
+        <div class="field-row">
+          <label>Email<input type="email" name="email" autocomplete="email"></label>
+          <label>Town<input type="text" name="town" autocomplete="address-level2"></label>
+        </div>
+        <label>Anything else we should know?<textarea name="message" rows="3"></textarea></label>
+        <button class="btn btn-tan" type="submit">Request My Free Estimate</button>
+        <p class="form-note" role="status" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="planner-nav">
+        <button type="button" class="link-btn p-back" disabled>Back</button>
+        <button type="button" class="btn btn-slate btn-sm p-next" disabled>Next</button>
       </div>
-      <div class="field-row">
-        <label>Email<input type="email" name="email" autocomplete="email"></label>
-        <label>Town<input type="text" name="town" autocomplete="address-level2"></label>
-      </div>
-      <label>Project type
-        <select name="type">
-          <option value="">Choose one</option>
-          <option>Deck or porch</option>
-          <option>Custom tile</option>
-          <option>Kitchen or bathroom</option>
-          <option>Basement finishing</option>
-          <option>Addition or exterior</option>
-          <option>Repair</option>
-          <option>Something else</option>
-        </select>
-      </label>
-      <label>Tell us about your project<textarea name="message" rows="4"></textarea></label>
-      <button class="btn btn-tan" type="submit">Request My Free Estimate</button>
-      <p class="form-note" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>

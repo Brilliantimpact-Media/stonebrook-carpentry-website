@@ -42,7 +42,15 @@ What changed:
 - What to expect: back to the yellow lined legal pad on a plain background (bullets kept).
 - Gallery: "All Projects" shows one cover photo per project type; picking a type (or tapping its cover) shows those photos in a single row you scroll through, with arrows and a lightbox.
 
+## Round 6 (October 9, 2026)
+- Removed text arrows (gallery covers now read "6 projects").
+- Graph paper behind the pinned sketch slider stays still while the photo is pinned.
+- The estimate form is now the **Project Planner**: project type (photo cards), size, timing, priorities, then a personal "what to expect" summary with contact fields. It still needs to be connected to the client's form service.
+- Ideas hub (local only, `concepts/`): planner marked as live; live Google reviews and project story pages listed as next to build; instant follow-up, checklist download, review requests and (optional) job progress updates listed as options to bring to StoneBrook.
+
 ## Open (Alexia handling with the client)
+- **Google Business Profile**: needed to set up live Google reviews on the site.
+- **Their systems**: CRM / scheduling / email tools, before pitching the instant follow-up option.
 - **Arrow graphics**: Alexia is sending arrow artwork; place it where an arrow points at something meaningful.
 - **Email address**: to confirm. The contract was signed from gary@stonebrookcarpentry.com, but it isn't on the site until the client confirms which address to publish.
 - **Estimate form**: waiting on the client's form service; the form currently only shows a thank-you message.

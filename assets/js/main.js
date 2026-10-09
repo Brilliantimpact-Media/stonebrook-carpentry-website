@@ -196,9 +196,76 @@
     if (e.key === 'ArrowRight') show(current + 1);
   });
 
-  // ---- Estimate form (no backend yet — connect to the client's form service before launch) ----
-  const form = document.querySelector('.estimate-form');
+  // ---- Project Planner (estimate form) ----
+  // A few taps, then contact details. No backend yet: connect to the client's form service before launch.
+  const form = document.querySelector('.planner');
+  const qs = [...form.querySelectorAll('.q')];
+  const blade2 = form.querySelector('.meter-blade');
+  const mLabel = form.querySelector('.meter-label');
+  const pNext = form.querySelector('.p-next');
+  const pBack = form.querySelector('.p-back');
+  const pNav = form.querySelector('.planner-nav');
   const formNote = form.querySelector('.form-note');
+  const answers = {};
+  let stepI = 0;
+  const expectFor = {
+    'Deck or porch': 'We check footings, ledger and framing first. What holds it up matters more than the boards on top.',
+    'Bathroom or tile': 'Everything behind the tile is waterproofed and checked before a single tile goes up.',
+    'Kitchen': 'We plan the order of work so you keep as much of your kitchen usable as possible.',
+    'Basement': 'We look at moisture and egress up front so the finished space stays dry and safe.',
+    'Addition or exterior': 'We tie the new work into the existing house so it looks like it was always there.',
+    'Repair': 'We find the cause, not just the symptom, and show you photos of what we find.'
+  };
+  const careNote = {
+    'A clear price with no surprises': 'A written quote we walk through line by line. Any change is approved by you first.',
+    'Minimal disruption to daily life': 'A schedule built around your routine, with work areas closed off.',
+    'A clean jobsite': 'The site is cleaned up at the end of every day.',
+    'Low-maintenance, long-lasting materials': 'Material options compared for durability and upkeep, not just looks.',
+    'Regular updates': 'Regular updates, so you always know what is happening.',
+    'Help picturing the finished space': 'Examples of similar finished projects at your visit.'
+  };
+  const buildPlan = () => {
+    const rows = [['Project', answers.type], ['Size', answers.size], ['Timing', answers.when], ['Priorities', (answers.care || []).join('; ')]];
+    form.querySelector('.plan-list').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v || 'Not chosen'}</dd>`).join('');
+    const care = answers.care || [];
+    const items = [
+      'A free visit: Gary comes out, listens, and looks closely at the space.',
+      expectFor[answers.type],
+      ...care.map((c) => careNote[c]),
+      care.includes('A clear price with no surprises') ? null : 'A written quote you review together, at your pace.'
+    ].filter(Boolean);
+    form.querySelector('.plan-expect').innerHTML = items.map((t) => `<li>${t}</li>`).join('');
+  };
+  const renderStep = () => {
+    qs.forEach((q, i) => q.classList.toggle('on', i === stepI));
+    blade2.style.width = `${(stepI / (qs.length - 1)) * 100}%`;
+    mLabel.textContent = `Step ${stepI + 1} of ${qs.length}`;
+    pBack.disabled = stepI === 0;
+    const last = stepI === qs.length - 1;
+    pNext.style.display = last ? 'none' : '';
+    const key = qs[stepI].dataset.key;
+    pNext.disabled = !last && !(answers[key] && answers[key].length);
+    if (last) buildPlan();
+  };
+  const go = (d) => { stepI = clamp(stepI + d, 0, qs.length - 1); renderStep(); };
+  qs.forEach((q) => {
+    const single = q.hasAttribute('data-single');
+    q.querySelectorAll('.opt').forEach((o) => o.addEventListener('click', () => {
+      const key = q.dataset.key;
+      if (single) {
+        q.querySelectorAll('.opt').forEach((x) => x.classList.toggle('sel', x === o));
+        answers[key] = o.dataset.v;
+        renderStep();
+        setTimeout(() => { if (qs[stepI] === q) go(1); }, 320);
+      } else {
+        o.classList.toggle('sel');
+        answers[key] = [...q.querySelectorAll('.opt.sel')].map((x) => x.dataset.v);
+        renderStep();
+      }
+    }));
+  });
+  pNext.addEventListener('click', () => go(1));
+  pBack.addEventListener('click', () => go(-1));
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = form.elements.name.value.trim();
@@ -207,9 +274,17 @@
       formNote.textContent = 'Please add your name and phone number so we can reach you.';
       return;
     }
-    formNote.textContent = `Thanks, ${name.split(' ')[0]}. We'll be in touch soon to talk through your project.`;
-    form.reset();
+    qs[stepI].classList.remove('on');
+    pNav.classList.add('hide');
+    blade2.style.width = '100%';
+    mLabel.textContent = 'Sent';
+    formNote.textContent = '';
+    const done = document.createElement('div');
+    done.className = 'q on';
+    done.innerHTML = `<p class="planner-done"><strong>Thanks, ${name.split(' ')[0]}.</strong> Your project plan is on its way to Gary. He'll call you to set up a time to see the space.</p>`;
+    form.appendChild(done);
   });
+  renderStep();
 
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 })();
