@@ -341,7 +341,7 @@
     <div class="estimate-copy" data-reveal>
       <p class="kicker">Get Started</p>
       <h2>Get your free <span class="pmark">estimate.<svg class="pencil p-circle"><use href="#p-circle"/></svg></span></h2>
-      <p>Answer a few quick questions and you'll get a simple plan of what to expect. Gary gets your details and calls to set up a time to see the space. No pressure, no obligation.</p>
+      <p>Tell us a little about your project. We'll call you back to set up a time to see the space and talk it through. No pressure, no obligation.</p>
       <div class="contact-lines">
         <p><span class="label">Call</span><a href="tel:+17153082180">(715) 308-2180</a></p>
         <p><span class="label">Hours</span>Mon–Fri, 7:30am–5:30pm</p>
@@ -350,8 +350,40 @@
       <p class="hand estimate-note">Prefer to talk? Just call.<br>We pick up.</p>
     </div>
 
-    <!-- Project Planner: a few taps, then contact details. Replaces the plain estimate form. -->
-    <form class="estimate-form planner" data-reveal novalidate>
+    <div class="estimate-card" data-reveal>
+    <form class="estimate-form quick-form" novalidate>
+      <div class="field-row">
+        <label>Name<input type="text" name="name" autocomplete="name" required></label>
+        <label>Phone<input type="tel" name="phone" autocomplete="tel" required></label>
+      </div>
+      <div class="field-row">
+        <label>Email<input type="email" name="email" autocomplete="email"></label>
+        <label>Town<input type="text" name="town" autocomplete="address-level2"></label>
+      </div>
+      <label>Project type
+        <select name="type">
+          <option value="">Choose one</option>
+          <option>Deck or porch</option>
+          <option>Custom tile</option>
+          <option>Kitchen or bathroom</option>
+          <option>Basement finishing</option>
+          <option>Addition or exterior</option>
+          <option>Repair</option>
+          <option>Something else</option>
+        </select>
+      </label>
+      <label>Tell us about your project<textarea name="message" rows="4"></textarea></label>
+      <button class="btn btn-tan" type="submit">Request My Free Estimate</button>
+      <p class="form-note" role="status" aria-live="polite"></p>
+      <div class="planner-cta">
+        <p><strong>Want to break it down first?</strong> Answer a few quick questions and get a simple plan of what to expect.</p>
+        <button type="button" class="btn btn-slate btn-sm open-planner">Use the Project Planner</button>
+      </div>
+    </form>
+
+    <!-- Project Planner: an optional step-by-step version of the estimate request. -->
+    <form class="estimate-form planner" novalidate hidden>
+      <button type="button" class="link-btn close-planner">Back to the quick form</button>
       <div class="meter" aria-hidden="true"><div class="meter-blade"></div></div>
       <p class="meter-label" aria-live="polite">Step 1 of 5</p>
 
@@ -427,6 +459,7 @@
         <button type="button" class="btn btn-slate btn-sm p-next" disabled>Next</button>
       </div>
     </form>
+    </div>
   </div>
 </section>
 

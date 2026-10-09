@@ -196,8 +196,21 @@
     if (e.key === 'ArrowRight') show(current + 1);
   });
 
-  // ---- Project Planner (estimate form) ----
-  // A few taps, then contact details. No backend yet: connect to the client's form service before launch.
+  // ---- Estimate: quick form, with the Project Planner as an optional step-by-step version ----
+  // No backend yet: connect both forms to the client's form service before launch.
+  const quick = document.querySelector('.quick-form');
+  const quickNote = quick.querySelector('.form-note');
+  quick.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = quick.elements.name.value.trim();
+    const phone = quick.elements.phone.value.trim();
+    if (!name || !phone) {
+      quickNote.textContent = 'Please add your name and phone number so we can reach you.';
+      return;
+    }
+    quickNote.textContent = `Thanks, ${name.split(' ')[0]}. We'll be in touch soon to talk through your project.`;
+    quick.reset();
+  });
   const form = document.querySelector('.planner');
   const qs = [...form.querySelectorAll('.q')];
   const blade2 = form.querySelector('.meter-blade');
@@ -285,6 +298,16 @@
     form.appendChild(done);
   });
   renderStep();
+
+  // Swap between the quick form and the planner
+  const swapTo = (show, hide) => {
+    hide.hidden = true;
+    show.hidden = false;
+    const top = show.getBoundingClientRect().top;
+    if (top < 80) scrollBy({ top: top - 100, behavior: reduce ? 'auto' : 'smooth' });
+  };
+  quick.querySelector('.open-planner').addEventListener('click', () => swapTo(form, quick));
+  form.querySelector('.close-planner').addEventListener('click', () => swapTo(quick, form));
 
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 })();

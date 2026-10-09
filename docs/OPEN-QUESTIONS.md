@@ -45,7 +45,7 @@ What changed:
 ## Round 6 (October 9, 2026)
 - Removed text arrows (gallery covers now read "6 projects").
 - Graph paper behind the pinned sketch slider stays still while the photo is pinned.
-- The estimate form is now the **Project Planner**: project type (photo cards), size, timing, priorities, then a personal "what to expect" summary with contact fields. It still needs to be connected to the client's form service.
+- Estimate section keeps the quick **Request My Free Estimate** form. Below it, a "Want to break it down first?" option opens the **Project Planner** in the same card: project type (photo cards), size, timing, priorities, then a personal "what to expect" summary with contact fields. There's a link back to the quick form. Both forms still need to be connected to the client's form service.
 - Ideas hub (local only, `concepts/`): planner marked as live; live Google reviews and project story pages listed as next to build; instant follow-up, checklist download, review requests and (optional) job progress updates listed as options to bring to StoneBrook.
 
 ## Open (Alexia handling with the client)

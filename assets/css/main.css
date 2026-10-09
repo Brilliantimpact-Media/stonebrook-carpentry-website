@@ -438,3 +438,12 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 }
 .planner-done { font-size: 1.15rem; margin: 10px 0; }
 .planner-done strong { display: block; font-family: var(--display); font-size: 2rem; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+
+/* ---------- Quick form + optional planner ---------- */
+.estimate-card { position: relative; }
+.estimate-form[hidden] { display: none; }
+.planner-cta { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 4px; padding: 16px 18px; background: var(--paper); border-left: 4px solid var(--tan); }
+.planner-cta p { margin: 0; flex: 1 1 260px; font-size: .98rem; }
+.planner-cta strong { color: var(--slate); }
+.close-planner { margin: -8px 0 10px; font-size: .9rem; }
+.estimate-card .estimate-form { animation: qIn .4s ease both; }
