@@ -1,25 +1,32 @@
-# StoneBrook Carpentry — Open Questions & Placeholders
+# StoneBrook Carpentry — Notes & Open Items
 
-## Round 2 (October 9, 2026)
-Client feedback on round 1: "too feminine," wants a construction aesthetic, likes the hand-drawn circles and arrows on acarpenterssondesignco.com ("like writing on a construction pad"), likes the font on ebcogc.com, and liked the photos and the new logo.
+## Round 3 (October 9, 2026)
+Client direction: use A Carpenter's Son's layout and styling with more animations, add pencil marks "like a contractor was there," leave out the pointed section transitions, use EBCO's font, and modernize StoneBrook's **existing** logo instead of a new one.
 
 What changed:
-- Type: **Barlow Condensed** bold uppercase for headings (the same font ebcogc.com uses), **Barlow** for body text, and **Caveat** for handwritten marker notes. The logo lockup itself (Cinzel wordmark) was left as approved.
-- Color: charcoal and steel with a lumber-tan "carpenter's marker" accent. Cream and brass are gone.
-- Hand-drawn marker circles, underlines, arrows and check marks that draw themselves on scroll. Light sections sit on graph paper, and job photos are "taped" to the pad with handwritten captions.
-- Real business details from stonebrookcarpentry.com: phone, Wilson WI, hours, licensed & insured, service-area towns, and three real customer reviews (Dave M., Wells L., Todd R.).
+- **Logo**: rebuilt from the original (three stacked rooflines plus the wall post) as clean black-and-white line work with a Barlow Condensed wordmark. Text is converted to outlines, so the files work anywhere.
+  - `assets/img/logo-horizontal-white.svg` / `-black.svg`: header and footer
+  - `assets/img/logo-stacked-white.svg` / `-black.svg`: closest to the original layout
+  - `assets/img/logo-mark.svg`: rooflines only (favicon, social icon)
+  - `design/original-logo.png`: the original, for reference
+- **Layout (A Carpenter's Son)**: solid nav bar; full-width hero with a centered headline; split text/photo rows; a centered section with a pencil drawing; a service list that swaps the photo on hover; a tan "story" band with hand-drawn 1-2-3 numerals; case-study style project cards; a "Ready to get started?" closing section. No pointed or wavy dividers.
+- **Font (EBCO)**: Barlow Condensed bold for headings, Barlow Semi Condensed for sub-heads and buttons, Barlow for body text.
+- **Pencil marks**: circles, underlines, arrows, a crow's-foot cut mark, a dimension line ("32' - 0"), handwritten notes, and a job-site punch list with checks that tick off one at a time. Each mark draws itself on as you scroll.
+- **More animation**:
+  - a tape-measure scroll progress bar
+  - slow zoom on the hero image
+  - staggered headline entrance
+  - photo wipe reveals
+  - count-up stats
+  - a pencil sketch that becomes the finished porch photo as you scroll (it can also be dragged)
+  - service photo swap
+  - lifting cards
+  - a lightbox for project photos
+- **Owner**: Gary Accola (from the signed contract), now named in the copy.
 
-## Still open
-- **Email address**: none listed on the current site, so email isn't shown.
-- **Estimate form**: no backend yet; it only shows a thank-you message. Connect it to the form service and the email sequence (guide pages 23–26).
-- **Owner name / photo**: not on the current site or in the guide.
-- **Review wording**: quotes are from the current site's testimonials page, lightly trimmed for length. Confirm with the client that they're fine reusing them.
-- **Domain**: currently live on GitHub Pages for review.
-
-## Logo
-- New black-and-white mark (gable roofline, laid courses, brook line). The client approved it in round 1.
-- Files: `assets/img/logo-mark.svg`, `logo-black.svg`, `logo-white.svg`. The lockups use web fonts; convert the text to outlines before print use.
-
-## Photos
-- 18 photos chosen from 359 in the "Work with Gary" album. The client approved the selection in round 1.
-- `crew-door.jpg` shows a crew member. Confirm the client is fine with it being used.
+## Open (Alexia handling with the client)
+- **Email address**: to confirm. The contract was signed from gary@stonebrookcarpentry.com, but it isn't on the site until the client confirms which address to publish.
+- **Estimate form**: waiting on the client's form service; the form currently only shows a thank-you message.
+- **Contract scope**: the contract specifies a WordPress site with 5–8 pages. This is a one-page static design for review; it will need to move into WordPress and expand to the agreed pages.
+- **Review wording**: quotes come from the current site's testimonials page, lightly trimmed. Confirm the client is fine reusing them.
+- **Photo release**: `crew-door.jpg` shows a crew member. Confirm it's OK to use.
