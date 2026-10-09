@@ -21,8 +21,11 @@
     const r = track.getBoundingClientRect();
     const stage = track.firstElementChild.offsetHeight;
     const t = clamp(-r.top / Math.max(1, r.height - stage));
-    setP(0.97 - 0.94 * t);
-    note.classList.toggle('done', t > 0.9);
+    // Hold on the sketch briefly, slide, then hold on the finished photo before the
+    // page moves on, so it pauses at both ends (scrolling down or back up).
+    const e = clamp((t - 0.12) / 0.6);
+    setP(0.97 - 0.94 * e);
+    note.classList.toggle('done', e > 0.95);
   };
   if (ba) {
     if (reduce) setP(0.5);
@@ -44,7 +47,7 @@
       const y = scrollY;
       header.classList.toggle('scrolled', y > 8);
       const max = document.documentElement.scrollHeight - innerHeight;
-      const room = header.offsetWidth - 60;
+      const room = innerWidth - 8;
       blade.style.width = `${(max > 0 ? y / max : 0) * room}px`;
       if (!reduce) scrub();
       ticking = false;
@@ -131,30 +134,45 @@
     btn.addEventListener('click', () => activate(btn));
   });
 
-  // ---- Gallery: filter by project type ----
-  const items = [...document.querySelectorAll('.g')];
-  document.querySelectorAll('.filter').forEach((f) => {
-    f.addEventListener('click', () => {
-      document.querySelectorAll('.filter').forEach((o) => {
-        o.classList.toggle('active', o === f);
-        o.setAttribute('aria-pressed', String(o === f));
-      });
-      const cat = f.dataset.filter;
-      items.forEach((g) => {
-        const show = cat === 'all' || g.dataset.cat === cat;
-        g.classList.toggle('hide', !show);
-        g.classList.remove('fade-in');
-        if (show && !reduce) { void g.offsetWidth; g.classList.add('fade-in'); }
-      });
+  // ---- Gallery: category covers + scrolling row ----
+  const track2 = document.getElementById('gallery-track');
+  const items = [...track2.querySelectorAll('.g')];
+  const prev = document.querySelector('.car-prev');
+  const next = document.querySelector('.car-next');
+  const filters = document.querySelectorAll('.filter');
+  const updateNav = () => {
+    prev.disabled = track2.scrollLeft < 8;
+    next.disabled = track2.scrollLeft + track2.clientWidth > track2.scrollWidth - 8;
+  };
+  const setFilter = (cat) => {
+    filters.forEach((o) => {
+      const on = o.dataset.filter === cat;
+      o.classList.toggle('active', on);
+      o.setAttribute('aria-pressed', String(on));
     });
-  });
+    items.forEach((g) => {
+      const show = g.dataset.cat === cat;   // "all" shows the category covers
+      g.classList.toggle('hide', !show);
+      g.classList.remove('fade-in');
+      if (show && !reduce) { void g.offsetWidth; g.classList.add('fade-in'); }
+    });
+    track2.scrollLeft = 0;
+    updateNav();
+  };
+  filters.forEach((f) => f.addEventListener('click', () => setFilter(f.dataset.filter)));
+  const step = () => track2.clientWidth * 0.8;
+  prev.addEventListener('click', () => track2.scrollBy({ left: -step() }));
+  next.addEventListener('click', () => track2.scrollBy({ left: step() }));
+  track2.addEventListener('scroll', updateNav, { passive: true });
+  addEventListener('resize', updateNav);
+  updateNav();
 
-  // ---- Lightbox with previous / next ----
+  // ---- Lightbox with previous / next (project photos only, not the covers) ----
   const box = document.querySelector('.lightbox');
   const boxImg = box.querySelector('img');
   const boxCap = box.querySelector('.lightbox-caption');
   let current = 0;
-  const visible = () => items.filter((g) => !g.classList.contains('hide'));
+  const visible = () => items.filter((g) => !g.classList.contains('hide') && !g.classList.contains('cover'));
   const show = (i) => {
     const list = visible();
     current = (i + list.length) % list.length;
@@ -164,7 +182,11 @@
     boxImg.alt = img.alt;
     boxCap.textContent = g.dataset.caption || '';
   };
-  items.forEach((g) => g.addEventListener('click', () => { show(visible().indexOf(g)); box.showModal(); }));
+  items.forEach((g) => g.addEventListener('click', () => {
+    if (g.classList.contains('cover')) { setFilter(g.dataset.goto); return; }
+    show(visible().indexOf(g));
+    box.showModal();
+  }));
   box.querySelector('.lightbox-prev').addEventListener('click', () => show(current - 1));
   box.querySelector('.lightbox-next').addEventListener('click', () => show(current + 1));
   box.querySelector('.lightbox-close').addEventListener('click', () => box.close());

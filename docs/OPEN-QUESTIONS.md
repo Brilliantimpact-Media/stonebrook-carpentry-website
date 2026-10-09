@@ -35,6 +35,13 @@ What changed:
 - Hero subline moved up closer to the headline.
 - Removed every hand-drawn arrow (hero, "hiring a contractor," "scroll to build it," "cut here," estimate). Waiting on Alexia's arrow graphics to add arrows back where they make sense.
 
+## Round 5 (October 9, 2026)
+- Tape measure: case removed; the blade with its silver hook runs across the very top of the screen again.
+- Sketch slider: added a pause at both ends. It holds on the sketch briefly, slides, then holds on the finished photo before the page moves on, in both scroll directions.
+- Behind the walls: the brown band stays; each step is now a graph-paper page (taped at the top) that slides up over the last.
+- What to expect: back to the yellow lined legal pad on a plain background (bullets kept).
+- Gallery: "All Projects" shows one cover photo per project type; picking a type (or tapping its cover) shows those photos in a single row you scroll through, with arrows and a lightbox.
+
 ## Open (Alexia handling with the client)
 - **Arrow graphics**: Alexia is sending arrow artwork; place it where an arrow points at something meaningful.
 - **Email address**: to confirm. The contract was signed from gary@stonebrookcarpentry.com, but it isn't on the site until the client confirms which address to publish.
