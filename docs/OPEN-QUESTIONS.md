@@ -58,6 +58,25 @@ Checked at 1024×768, 1280×720, 1366×768, 1536×864 (1080p with Windows 125% s
 - Only modern CSS with broad support (Chrome, Edge, Firefox, Safari). Known limit: Safari on iPhone ignores the fixed grid background behind the slider (it scrolls normally there).
 - For sharper photos on 4K/ultrawide: download the full-resolution originals from the Google Photos album (the current set came down at 1800px max).
 
+## Round 7: client feedback (October 14, 2026)
+Done:
+- Header button reads "Get Your Free Estimate."
+- "Hiring a contractor" photo: now a person at work from a different job (installing a vanity).
+- Stat reads "mile radius around Wilson, WI."
+- What we build: Decks & Porches uses a different porch photo than the sketch slider; Additions & Exteriors uses a clean finished exterior (no dirt or ladders).
+- Behind the walls: new intro line ("Here's what that looks like on a real bathroom remodel"); step 1 now shows the same bathroom gutted to the studs, so all three steps follow one project; "built-in niche" removed from step 3.
+- What to expect: step 3 reads "We take pride in our work, keep you updated, and don't disappear when things get hard."
+- Gallery: intro says "western Wisconsin" only, with the instructions on their own line; button reads "Get Your Free Estimate."
+- About photo (just above the footer) replaced so the side-view porch isn't repeated.
+
+Waiting on Gary (no changes made yet):
+- Service area: keep "30-mile radius around Wilson, WI" or switch to the St. Croix Valley (Hudson, New Richmond, Menomonie)?
+- Footer "Serving" list: which towns, or "Western WI & Eastern MN"?
+- "Built to last" copy: do they do blueprints or designs? If not, remove "put it on paper."
+- Custom Tile: approve "waterproofed before a single tile goes up."
+- Behind the walls: confirm step 1 ("put the fix in writing") and step 2 (waterproof membrane) are accurate.
+- Basement Finishing photo: none of the album's basement photos show a furnished, lived-in space. Need a better photo from Gary.
+
 ## Open (Alexia handling with the client)
 - **Google Business Profile**: needed to set up live Google reviews on the site.
 - **Their systems**: CRM / scheduling / email tools, before pitching the instant follow-up option.
