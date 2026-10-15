@@ -20,21 +20,24 @@
 .pcat-head { max-width: 760px; margin-bottom: 28px; }
 .pcat-head h2 { margin-bottom: .3em; }
 .pcat-head p { margin: 0; }
-.pgrid { columns: 4 220px; column-gap: 16px; }
-.pshot { margin: 0 0 18px; break-inside: avoid; }
+.pgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.pshot { position: relative; margin: 0; overflow: hidden; background: var(--slate-dark); }
 .pshot-btn { display: block; width: 100%; padding: 0; border: 0; background: var(--paper); cursor: zoom-in; overflow: hidden; }
-.pshot-btn img { width: 100%; height: auto; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
-.pshot-btn:hover img { transform: scale(1.04); }
-.pshot figcaption { font-size: .95rem; color: var(--muted); margin-top: 8px; }
+.pshot-btn img { display: block; width: 100%; aspect-ratio: 4 / 5; height: auto; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.pshot-btn:hover img { transform: scale(1.05); }
+.pshot figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 48px 14px 12px; pointer-events: none;
+  background: linear-gradient(to top, rgba(20,24,28,.88) 0%, rgba(20,24,28,.55) 45%, rgba(20,24,28,0) 100%);
+  font-family: var(--semi); font-weight: 600; font-size: .92rem; line-height: 1.3; letter-spacing: .02em; color: var(--tan-light); }
 .pshot.fade-in { animation: qIn .45s ease both; }
 
 .pcta { margin-top: clamp(64px, 8vw, 110px); padding: clamp(56px, 7vw, 90px) 0; background: var(--slate); color: rgba(255,255,255,.88); text-align: center; }
 .pcta h2 { color: #fff; }
 .pcta p { margin: 0 auto 1.6em; max-width: 36em; }
 
+@media (min-width: 861px) and (max-width: 1100px) { .pgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
 @media (max-width: 860px) {
   .ptabs-bar { top: var(--header-h); }
-  .pgrid { columns: 2; column-gap: 10px; }
-  .pshot { margin-bottom: 12px; }
-  .pshot figcaption { font-size: .82rem; }
+  .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .pshot figcaption { font-size: .78rem; padding: 36px 10px 9px; }
 }
