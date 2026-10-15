@@ -20,7 +20,7 @@
 .pcat-head { max-width: 760px; margin-bottom: 28px; }
 .pcat-head h2 { margin-bottom: .3em; }
 .pcat-head p { margin: 0; }
-.pgrid { columns: 3 280px; column-gap: 16px; }
+.pgrid { columns: 4 220px; column-gap: 16px; }
 .pshot { margin: 0 0 18px; break-inside: avoid; }
 .pshot-btn { display: block; width: 100%; padding: 0; border: 0; background: var(--paper); cursor: zoom-in; overflow: hidden; }
 .pshot-btn img { width: 100%; height: auto; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
