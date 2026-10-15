@@ -385,5 +385,12 @@
   rGrid.addEventListener('scroll', markDot, { passive: true });
   markDot();
 
+  // Phone bar: tuck it away while the estimate form is on screen so it never covers the form
+  const mBar = document.querySelector('.m-bar');
+  if (mBar && 'IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => entries.forEach((e) => mBar.classList.toggle('away', e.isIntersecting)), { threshold: 0.15 })
+      .observe(document.getElementById('estimate'));
+  }
+
   document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 })();
