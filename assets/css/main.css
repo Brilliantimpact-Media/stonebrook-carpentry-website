@@ -640,3 +640,12 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 .planner-kicker { margin: 0 0 12px; font-family: var(--semi); font-weight: 600; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; color: var(--tan-deep); }
 .planner-kicker span { color: var(--muted); letter-spacing: .08em; }
 .planner .form-note:empty { display: none; }
+
+/* Placeholder until Gary's photo arrives */
+.photo-ph { display: grid; place-items: center; background-color: var(--paper); background-image: linear-gradient(rgba(47,55,64,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(47,55,64,.08) 1px, transparent 1px); background-size: 28px 28px; }
+.ph-frame { display: grid; justify-items: center; gap: 4px; padding: 48px 56px; border: 2px dashed rgba(47,55,64,.35); text-align: center; color: var(--slate); }
+.ph-icon { width: 96px; height: 96px; fill: none; stroke: var(--graphite); stroke-width: 2.2; stroke-linecap: round; margin-bottom: 12px; }
+.ph-name { margin: 0; font-family: var(--display); font-weight: 700; font-size: 1.8rem; text-transform: uppercase; }
+.ph-role { margin: 0; font-family: var(--semi); font-weight: 600; font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.ph-note { margin: 14px 0 0; font-family: var(--hand); font-size: 1.5rem; color: var(--tan-deep); }
+@media (max-width: 860px) { .js .split .photo-ph.wipe { clip-path: none !important; } }
