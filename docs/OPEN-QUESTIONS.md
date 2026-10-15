@@ -92,6 +92,14 @@ Waiting on Gary (no changes made yet):
 - Pending a decision: a new deck-focused hero photo and a finished "Built to last" photo from the same house (options in `concepts/photo-options.html`, local only).
 - Idea under discussion: replace the photo with a scroll effect that "builds" a deck as you scroll.
 
+## Round 10 (October 15, 2026)
+- Hero: front porch and stairs photo (shifted slightly left). "Built to last": finished backyard at dusk (temporary).
+- Estimate form: contact fields on top, then the project planner. "Just send my info" sits in the project-type step; follow-up questions keep "Other".
+- Projects page: 96 finished photos in an even 4-column grid with captions over a fade; header photo is the white-railing deck; "western Wisconsin" removed.
+- Hiring section: placeholder card for Gary's photo (must be replaced before launch).
+- Feature decisions: Google rating badge goes under the reviews, not in the hero (needs Google Business Profile). Town pages and FAQ: revisit later. Featured project stories: not decided.
+- "Built to last": going with the scroll build-out (concepts/built-to-last-ideas.html, idea 3). Waiting on approval to put it on the homepage.
+
 ## Open (Alexia handling with the client)
 - **Google Business Profile**: needed to set up live Google reviews on the site.
 - **Their systems**: CRM / scheduling / email tools, before pitching the instant follow-up option.
