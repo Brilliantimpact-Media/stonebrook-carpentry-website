@@ -85,6 +85,13 @@ Waiting on Gary (no changes made yet):
 - CSS/JS links carry a version number so browsers don't serve old cached files.
 - Waiting on Gary: a photo of himself for "Hiring a contractor" (none of the album shots show him clearly).
 
+## Round 9 (October 15, 2026)
+- Projects page: removed "in western Wisconsin" from the heading, added a dusk deck photo behind it, and removed the small line above "Our Work".
+- Estimate form now starts with name, phone, email and town, then moves into the planner. A "just send my info" link lets people stop after the contact step.
+- Every planner question has an "Other" option. If someone picks it, the last step asks them to describe it in the notes box.
+- Pending a decision: a new deck-focused hero photo and a finished "Built to last" photo from the same house (options in `concepts/photo-options.html`, local only).
+- Idea under discussion: replace the photo with a scroll effect that "builds" a deck as you scroll.
+
 ## Open (Alexia handling with the client)
 - **Google Business Profile**: needed to set up live Google reviews on the site.
 - **Their systems**: CRM / scheduling / email tools, before pitching the instant follow-up option.
