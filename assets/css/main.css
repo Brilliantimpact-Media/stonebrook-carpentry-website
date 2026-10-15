@@ -624,3 +624,14 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 }
 @media (min-width: 861px) { .review-dots, .svc-tabs, .svc-desc { display: none; } }
 @media (max-width: 860px) { .arrow { display: none; } }
+
+/* Estimate: contact details always on top, optional planner underneath */
+.planner [hidden] { display: none !important; }
+.contact-block { display: grid; gap: 16px; }
+.send-row { display: flex; align-items: center; gap: 14px 22px; flex-wrap: wrap; margin-top: 22px; padding-bottom: 30px; border-bottom: 1px dashed rgba(47,55,64,.25); transition: opacity .3s; }
+.send-row p { margin: 0; flex: 1 1 240px; color: var(--muted); font-size: .98rem; }
+.send-row.dim { opacity: .45; }
+.planner-block { margin-top: 28px; }
+.planner-kicker { margin: 0 0 12px; font-family: var(--semi); font-weight: 600; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; color: var(--tan-deep); }
+.planner-kicker span { color: var(--muted); letter-spacing: .08em; }
+.planner .form-note:empty { display: none; }

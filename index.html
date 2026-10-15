@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow+Semi+Condensed:wght@500;600&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=202610151830">
+<link rel="stylesheet" href="assets/css/main.css?v=202610151900">
 <script>
   // Only hide animated elements when JS is running and motion is wanted.
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -321,21 +321,27 @@
     <!-- Estimate form: contact details first, then the Project Planner. Follow-up questions are
          tailored to the chosen project (built in main.js); every question has an "Other" option. -->
     <form class="estimate-form planner" data-reveal novalidate>
-      <div class="meter" aria-hidden="true"><div class="meter-blade"></div></div>
-      <p class="meter-label" aria-live="polite">Step 1</p>
-
-      <fieldset class="q on q-contact" data-key="contact">
+      <fieldset class="contact-block">
         <legend>Let's start with you.</legend>
         <div class="field-row">
           <label>Name<input type="text" name="name" autocomplete="name" required></label>
           <label>Phone<input type="tel" name="phone" autocomplete="tel" required></label>
         </div>
         <div class="field-row">
-          <label>Email<input type="email" name="email" autocomplete="email"></label>
           <label>Town<input type="text" name="town" autocomplete="address-level2"></label>
+          <label>Email<input type="email" name="email" autocomplete="email"></label>
         </div>
-        <p class="q-note">Next, a few quick questions about your project. It takes about a minute. Or <button type="submit" class="link-inline send-now">just send my info</button> and we'll call you.</p>
       </fieldset>
+
+      <div class="send-row">
+        <button type="submit" class="btn btn-tan send-now">Just Send My Info</button>
+        <p>Gary will call you. Or tell us more with the project planner below. It takes about a minute.</p>
+      </div>
+
+      <div class="planner-block">
+        <p class="planner-kicker">Project planner <span>(optional)</span></p>
+        <div class="meter" aria-hidden="true"><div class="meter-blade"></div></div>
+        <p class="meter-label" aria-live="polite">Step 1</p>
 
       <fieldset class="q" data-key="type" data-single data-label="Project">
         <legend>What are we building?</legend>
@@ -361,14 +367,15 @@
         </div>
         <label class="final-note"><span class="final-label">Anything else we should know?</span><textarea name="message" rows="3"></textarea></label>
         <input type="hidden" name="project_plan">
-        <button class="btn btn-tan" type="submit">Request My Free Estimate</button>
+        <button class="btn btn-tan send-plan" type="submit">Send My Info &amp; Project Plan</button>
       </fieldset>
 
-      <p class="form-note" role="status" aria-live="polite"></p>
-      <div class="planner-nav">
-        <button type="button" class="link-btn p-back" disabled>Back</button>
-        <button type="button" class="btn btn-slate btn-sm p-next">Next</button>
+        <div class="planner-nav">
+          <button type="button" class="link-btn p-back" disabled>Back</button>
+          <button type="button" class="btn btn-slate btn-sm p-next">Next</button>
+        </div>
       </div>
+      <p class="form-note" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
@@ -409,6 +416,6 @@
 </footer>
 
 
-<script src="assets/js/main.js?v=202610151830"></script>
+<script src="assets/js/main.js?v=202610151900"></script>
 </body>
 </html>

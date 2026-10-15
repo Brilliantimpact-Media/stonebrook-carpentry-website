@@ -154,18 +154,18 @@
   // ---- Estimate form: contact first, then the Project Planner ----
   // Step 1 is name/phone/email/town (they can send right there). Then the project type,
   // follow-up questions tailored to it, timing, priorities, and a final summary + notes.
-  // Every question has an "Other" option; picking it asks for details on the last step.
+  // Contact info sits above the planner; the planner is optional. Every question has an "Other" option; picking it asks for details on the last step.
   // No backend yet: connect to the client's form service before launch.
   const form = document.querySelector('.planner');
-  const contactStep = form.querySelector('.q-contact');
   const typeStep = form.querySelector('.q[data-key="type"]');
   const finalStep = form.querySelector('.q-final');
   const blade2 = form.querySelector('.meter-blade');
   const mLabel = form.querySelector('.meter-label');
   const pNext = form.querySelector('.p-next');
   const pBack = form.querySelector('.p-back');
-  const pNav = form.querySelector('.planner-nav');
   const formNote = form.querySelector('.form-note');
+  const contactBlock = form.querySelector('.contact-block');
+  const sendRow = form.querySelector('.send-row');
   const finalLabel = form.querySelector('.final-label');
   const opt = (v, sub = '') => ({ v, sub });
   const OTHER = opt('Other', 'Tell us at the end');
@@ -220,7 +220,7 @@
   };
 
   const answers = {};
-  let steps = [contactStep, typeStep, finalStep];   // rebuilt once a project type is picked
+  let steps = [typeStep, finalStep];   // rebuilt once a project type is picked
   let stepI = 0;
 
   const makeStep = (def) => {
@@ -240,7 +240,7 @@
     Object.keys(answers).forEach((k) => { if (k !== 'type') delete answers[k]; });
     const generated = [...(FLOW[type] || []), ...COMMON].map(makeStep);
     generated.forEach((g) => finalStep.before(g));
-    steps = [contactStep, typeStep, ...generated, finalStep];
+    steps = [typeStep, ...generated, finalStep];
   };
   const pickedOther = () => Object.values(answers).some((v) => [].concat(v).includes('Other'));
   const summary = () => steps.filter((q) => answers[q.dataset.key] && answers[q.dataset.key].length)
@@ -275,11 +275,11 @@
     const last = cur === finalStep;
     pNext.style.display = last ? 'none' : '';
     const key = cur.dataset.key;
-    pNext.disabled = cur !== contactStep && !last && !(answers[key] && answers[key].length);
+    pNext.disabled = !last && !(answers[key] && answers[key].length);
+    sendRow.classList.toggle('dim', last);
     if (last) buildPlan();
   };
   const go = (d) => {
-    if (d > 0 && steps[stepI] === contactStep && !contactOk()) return;
     stepI = clamp(stepI + d, 0, steps.length - 1);
     renderStep();
   };
@@ -291,7 +291,7 @@
         q.querySelectorAll('.opt').forEach((x) => x.classList.toggle('sel', x === o));
         const changed = answers[key] !== o.dataset.v;
         answers[key] = o.dataset.v;
-        if (key === 'type' && (changed || steps.length === 3)) buildFlow(o.dataset.v);
+        if (key === 'type' && (changed || steps.length === 2)) buildFlow(o.dataset.v);
         renderStep();
         setTimeout(() => { if (steps[stepI] === q) go(1); }, 320);
       } else {
@@ -306,18 +306,18 @@
   pBack.addEventListener('click', () => go(-1));
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    // Enter in a contact field moves on to the questions; "just send my info" sends now.
-    const sendNow = e.submitter && e.submitter.classList.contains('send-now');
-    if (steps[stepI] === contactStep && !sendNow) { go(1); return; }
-    if (!contactOk()) { stepI = 0; renderStep(); return; }
+    // Sends from "Just send my info" or the plan's last step. Enter in a field doesn't send early.
+    const btn = e.submitter;
+    if (!btn || !(btn.classList.contains('send-now') || btn.classList.contains('send-plan'))) return;
+    if (!contactOk()) {
+      contactBlock.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      form.elements[form.elements.name.value.trim() ? 'phone' : 'name'].focus({ preventScroll: true });
+      return;
+    }
+    if (btn.classList.contains('send-now')) form.elements.project_plan.value = summary().map(([k, v]) => `${k}: ${v}`).join(' | ');
     const name = form.elements.name.value.trim();
-    steps[stepI].classList.remove('on');
-    pNav.classList.add('hide');
-    blade2.style.width = '100%';
-    mLabel.textContent = 'Sent';
-    formNote.textContent = '';
+    [...form.children].forEach((c) => { c.hidden = true; });
     const done = document.createElement('div');
-    done.className = 'q on';
     done.innerHTML = `<p class="planner-done"><strong>Thanks, ${name.split(' ')[0]}.</strong> Your request is on its way to Gary. He'll call you to set up a time to see the space.</p>`;
     form.appendChild(done);
   });
