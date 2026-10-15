@@ -151,19 +151,24 @@
     btn.addEventListener('click', () => activate(btn));
   });
 
-  // ---- Estimate form with the Project Planner built in ----
-  // Step 1 picks the project; the next questions are tailored to it; then timing,
-  // priorities and contact. No backend yet: connect to the client's form service.
+  // ---- Estimate form: contact first, then the Project Planner ----
+  // Step 1 is name/phone/email/town (they can send right there). Then the project type,
+  // follow-up questions tailored to it, timing, priorities, and a final summary + notes.
+  // Every question has an "Other" option; picking it asks for details on the last step.
+  // No backend yet: connect to the client's form service before launch.
   const form = document.querySelector('.planner');
-  const typeStep = form.querySelector('.q[data-key="type"]');
   const contactStep = form.querySelector('.q-contact');
+  const typeStep = form.querySelector('.q[data-key="type"]');
+  const finalStep = form.querySelector('.q-final');
   const blade2 = form.querySelector('.meter-blade');
   const mLabel = form.querySelector('.meter-label');
   const pNext = form.querySelector('.p-next');
   const pBack = form.querySelector('.p-back');
   const pNav = form.querySelector('.planner-nav');
   const formNote = form.querySelector('.form-note');
+  const finalLabel = form.querySelector('.final-label');
   const opt = (v, sub = '') => ({ v, sub });
+  const OTHER = opt('Other', 'Tell us at the end');
   const FLOW = {
     'Deck or porch': [
       { key: 'scope', label: 'Type', q: 'What kind of deck or porch project?', opts: [opt('New deck', 'Built from scratch'), opt('New or covered porch', 'Front, back or screened'), opt('Replace an old one', 'Tear out and rebuild'), opt('Repair', 'Boards, railings or stairs')] },
@@ -174,21 +179,22 @@
       { key: 'room', label: 'Room', q: 'Which bathroom?', opts: [opt('Main bathroom'), opt("Hall or kids' bath"), opt('Basement bath'), opt('Half bath'), opt('More than one')] }
     ],
     'Kitchen': [
-      { key: 'scope', label: 'Changes', multi: true, q: 'What would you like to change?', hint: 'Pick as many as you like.', opts: [opt('Cabinets'), opt('Countertops'), opt('Backsplash'), opt('Flooring'), opt('Full remodel'), opt('Something else')] },
+      { key: 'scope', label: 'Changes', multi: true, q: 'What would you like to change?', hint: 'Pick as many as you like.', opts: [opt('Cabinets'), opt('Countertops'), opt('Backsplash'), opt('Flooring'), opt('Full remodel')] },
       { key: 'layout', label: 'Layout', q: 'What about the layout?', opts: [opt('Keep it the same', 'Update what is there'), opt('Open it up', 'Move or remove walls'), opt('Not sure', "Let's talk it through")] }
     ],
     'Basement': [
       { key: 'scope', label: 'Today', q: 'Where is your basement today?', opts: [opt('Unfinished', 'Concrete and framing'), opt('Partly finished', 'Some rooms done'), opt('Finished, needs updating', 'Refresh or redo'), opt('Water damage', 'Repair first')] },
-      { key: 'use', label: 'Use', multi: true, q: 'What will you use it for?', hint: 'Pick as many as you like.', opts: [opt('Family room'), opt('Bedroom'), opt('Bathroom'), opt('Office'), opt('Storage'), opt('Something else')] }
+      { key: 'use', label: 'Use', multi: true, q: 'What will you use it for?', hint: 'Pick as many as you like.', opts: [opt('Family room'), opt('Bedroom'), opt('Bathroom'), opt('Office'), opt('Storage')] }
     ],
     'Addition or exterior': [
       { key: 'scope', label: 'Type', q: 'What kind of project?', opts: [opt('Room addition', 'More living space'), opt('Siding or trim', 'Replace or repair'), opt('Roofing', 'Replace or repair'), opt('Windows or doors', 'Replace or add'), opt('Garage or outbuilding', 'New or rebuild')] },
       { key: 'size', label: 'Scope', q: 'How much of the house?', opts: [opt('One area', 'A single spot'), opt('One side', 'One side of the house'), opt('Whole house', 'All the way around'), opt('Not sure', "We'll look together")] }
     ],
     'Repair': [
-      { key: 'scope', label: 'Repair', multi: true, q: 'What needs fixing?', hint: 'Pick as many as you like.', opts: [opt('Rotted wood'), opt('Sagging floor'), opt('Deck or stairs'), opt('Water damage'), opt('Drywall'), opt('Doors or windows'), opt('Something else')] },
+      { key: 'scope', label: 'Repair', multi: true, q: 'What needs fixing?', hint: 'Pick as many as you like.', opts: [opt('Rotted wood'), opt('Sagging floor'), opt('Deck or stairs'), opt('Water damage'), opt('Drywall'), opt('Doors or windows')] },
       { key: 'urgency', label: 'How soon', q: 'How soon does it need attention?', opts: [opt('Safety concern now', 'Please call me soon'), opt('In the next few weeks'), opt('It can wait', 'Planning ahead'), opt('Not sure')] }
-    ]
+    ],
+    'Other': []
   };
   const COMMON = [
     { key: 'when', label: 'Timing', q: 'When are you hoping to start?', opts: [opt('As soon as possible', 'Something needs attention'), opt('In the next 1–3 months', 'Ready to plan'), opt('In 3–6 months', 'Getting ahead of it'), opt('Just exploring', 'Gathering ideas')] },
@@ -201,7 +207,8 @@
     'Kitchen': 'We plan the order of work so you keep as much of your kitchen usable as possible.',
     'Basement': 'We look at moisture and egress up front so the finished space stays dry and safe.',
     'Addition or exterior': 'We tie the new work into the existing house so it looks like it was always there.',
-    'Repair': 'We find the cause, not just the symptom, and show you photos of what we find.'
+    'Repair': 'We find the cause, not just the symptom, and show you photos of what we find.',
+    'Other': 'We talk through what you have in mind and tell you honestly whether it is a fit for our crew.'
   };
   const careNote = {
     'A clear price with no surprises': 'A written quote we walk through line by line. Any change is approved by you first.',
@@ -213,9 +220,8 @@
   };
 
   const answers = {};
-  let steps = [typeStep, contactStep];   // rebuilt once a project type is picked
+  let steps = [contactStep, typeStep, finalStep];   // rebuilt once a project type is picked
   let stepI = 0;
-  let skipped = false;
 
   const makeStep = (def) => {
     const fs = document.createElement('fieldset');
@@ -223,8 +229,9 @@
     fs.dataset.key = def.key;
     fs.dataset.label = def.label;
     if (!def.multi) fs.dataset.single = '';
-    fs.innerHTML = `<legend>${def.q}</legend>${def.hint ? `<p class="q-hint">${def.hint}</p>` : ''}<div class="opts">${def.opts.map((o) =>
-      `<button type="button" class="opt" data-v="${o.v}"><strong>${short[o.v] || o.v}</strong>${o.sub ? `<span>${o.sub}</span>` : ''}</button>`).join('')}</div>`;
+    const opts = [...def.opts, OTHER];
+    fs.innerHTML = `<legend>${def.q}</legend>${def.hint ? `<p class="q-hint">${def.hint}</p>` : ''}<div class="opts">${opts.map((o) =>
+      `<button type="button" class="opt${o.v === 'Other' ? ' opt-other-text' : ''}" data-v="${o.v}"><strong>${short[o.v] || o.v}</strong>${o.sub ? `<span>${o.sub}</span>` : ''}</button>`).join('')}</div>`;
     wireOpts(fs);
     return fs;
   };
@@ -232,16 +239,13 @@
     form.querySelectorAll('.q-gen').forEach((q) => q.remove());
     Object.keys(answers).forEach((k) => { if (k !== 'type') delete answers[k]; });
     const generated = [...(FLOW[type] || []), ...COMMON].map(makeStep);
-    generated.forEach((g) => contactStep.before(g));
-    steps = [typeStep, ...generated, contactStep];
+    generated.forEach((g) => finalStep.before(g));
+    steps = [contactStep, typeStep, ...generated, finalStep];
   };
-  const summary = () => steps.filter((q) => q !== contactStep && answers[q.dataset.key] && answers[q.dataset.key].length)
+  const pickedOther = () => Object.values(answers).some((v) => [].concat(v).includes('Other'));
+  const summary = () => steps.filter((q) => answers[q.dataset.key] && answers[q.dataset.key].length)
     .map((q) => [q.dataset.label, [].concat(answers[q.dataset.key]).join('; ')]);
   const buildPlan = () => {
-    const plan = form.querySelector('.plan');
-    if (skipped || !answers.type) { plan.hidden = true; contactStep.querySelector('legend').textContent = 'Where should we reach you?'; return; }
-    plan.hidden = false;
-    contactStep.querySelector('legend').textContent = "Here's your project plan.";
     const rows = summary();
     form.querySelector('.plan-list').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
     const care = [].concat(answers.care || []);
@@ -253,20 +257,32 @@
     ].filter(Boolean);
     form.querySelector('.plan-expect').innerHTML = items.map((t) => `<li>${t}</li>`).join('');
     form.elements.project_plan.value = rows.map(([k, v]) => `${k}: ${v}`).join(' | ');
+    const other = pickedOther();
+    finalLabel.textContent = other ? 'You picked "Other." Tell us a little more:' : 'Anything else we should know?';
+    finalStep.classList.toggle('needs-note', other);
+  };
+  const contactOk = () => {
+    const ok = form.elements.name.value.trim() && form.elements.phone.value.trim();
+    formNote.textContent = ok ? '' : 'Please add your name and phone number so we can reach you.';
+    return ok;
   };
   const renderStep = () => {
     steps.forEach((q, i) => q.classList.toggle('on', i === stepI));
-    const total = answers.type && !skipped ? steps.length : 2;
     blade2.style.width = `${(stepI / Math.max(1, steps.length - 1)) * 100}%`;
-    mLabel.textContent = answers.type || skipped ? `Step ${stepI + 1} of ${skipped ? 2 : total}` : 'Step 1';
+    mLabel.textContent = answers.type ? `Step ${stepI + 1} of ${steps.length}` : `Step ${stepI + 1}`;
     pBack.disabled = stepI === 0;
-    const last = steps[stepI] === contactStep;
+    const cur = steps[stepI];
+    const last = cur === finalStep;
     pNext.style.display = last ? 'none' : '';
-    const key = steps[stepI].dataset.key;
-    pNext.disabled = !last && !(answers[key] && answers[key].length);
+    const key = cur.dataset.key;
+    pNext.disabled = cur !== contactStep && !last && !(answers[key] && answers[key].length);
     if (last) buildPlan();
   };
-  const go = (d) => { stepI = clamp(stepI + d, 0, steps.length - 1); renderStep(); };
+  const go = (d) => {
+    if (d > 0 && steps[stepI] === contactStep && !contactOk()) return;
+    stepI = clamp(stepI + d, 0, steps.length - 1);
+    renderStep();
+  };
   function wireOpts(q) {
     const single = q.hasAttribute('data-single');
     q.querySelectorAll('.opt').forEach((o) => o.addEventListener('click', () => {
@@ -275,7 +291,7 @@
         q.querySelectorAll('.opt').forEach((x) => x.classList.toggle('sel', x === o));
         const changed = answers[key] !== o.dataset.v;
         answers[key] = o.dataset.v;
-        if (key === 'type' && (changed || steps.length === 2)) { skipped = false; buildFlow(o.dataset.v); }
+        if (key === 'type' && (changed || steps.length === 3)) buildFlow(o.dataset.v);
         renderStep();
         setTimeout(() => { if (steps[stepI] === q) go(1); }, 320);
       } else {
@@ -286,27 +302,15 @@
     }));
   }
   wireOpts(typeStep);
-  form.querySelector('.skip-q').addEventListener('click', () => {
-    skipped = true;
-    steps = [typeStep, contactStep];
-    form.querySelectorAll('.q-gen').forEach((q) => q.remove());
-    stepI = 1;
-    renderStep();
-    form.elements.name.focus({ preventScroll: true });
-  });
   pNext.addEventListener('click', () => go(1));
-  pBack.addEventListener('click', () => {
-    if (skipped && stepI === 1) { skipped = false; stepI = 0; renderStep(); return; }
-    go(-1);
-  });
+  pBack.addEventListener('click', () => go(-1));
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    // Enter in a contact field moves on to the questions; "just send my info" sends now.
+    const sendNow = e.submitter && e.submitter.classList.contains('send-now');
+    if (steps[stepI] === contactStep && !sendNow) { go(1); return; }
+    if (!contactOk()) { stepI = 0; renderStep(); return; }
     const name = form.elements.name.value.trim();
-    const phone = form.elements.phone.value.trim();
-    if (!name || !phone) {
-      formNote.textContent = 'Please add your name and phone number so we can reach you.';
-      return;
-    }
     steps[stepI].classList.remove('on');
     pNav.classList.add('hide');
     blade2.style.width = '100%';

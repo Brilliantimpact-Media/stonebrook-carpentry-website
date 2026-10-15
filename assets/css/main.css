@@ -555,7 +555,14 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 .work-ctas { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: clamp(32px, 4vw, 48px) 0 0; }
 
 /* ---------- Planner extras ---------- */
-.skip-q { justify-self: start; margin-top: 4px; font-size: .9rem; text-transform: none; letter-spacing: .02em; text-decoration: underline; text-underline-offset: 3px; color: var(--muted); }
+.q-note { margin: 4px 0 0; font-size: .98rem; color: var(--muted); }
+.link-inline { background: none; border: 0; padding: 0; font: inherit; color: var(--slate); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.link-inline:hover { color: var(--tan-deep); }
+.other-art { display: grid; place-items: center; aspect-ratio: 4 / 3; font-family: var(--hand); font-size: 3.2rem; color: var(--graphite);
+  background-color: var(--paper); background-image: linear-gradient(rgba(47,55,64,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(47,55,64,.08) 1px, transparent 1px); background-size: 16px 16px; }
+.opt-other-text { border-style: dashed; }
+.q-final.needs-note .final-note textarea { border-color: var(--tan); box-shadow: 0 0 0 3px rgba(184,149,106,.3); background: #fff; }
+.q-final.needs-note .final-label { color: var(--tan-deep); }
 
 /* =====================================================================
    Mobile refinements (phones / small tablets only — desktop unaffected)
