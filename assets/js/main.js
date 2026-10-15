@@ -154,7 +154,7 @@
   // ---- Estimate form: contact first, then the Project Planner ----
   // Step 1 is name/phone/email/town (they can send right there). Then the project type,
   // follow-up questions tailored to it, timing, priorities, and a final summary + notes.
-  // Contact info sits above the planner; the planner is optional. Every question has an "Other" option; picking it asks for details on the last step.
+  // Contact info sits above the planner. The project-type step has a "Just send my info" tile; every follow-up question has an "Other" option; picking it asks for details on the last step.
   // No backend yet: connect to the client's form service before launch.
   const form = document.querySelector('.planner');
   const typeStep = form.querySelector('.q[data-key="type"]');
@@ -165,7 +165,6 @@
   const pBack = form.querySelector('.p-back');
   const formNote = form.querySelector('.form-note');
   const contactBlock = form.querySelector('.contact-block');
-  const sendRow = form.querySelector('.send-row');
   const finalLabel = form.querySelector('.final-label');
   const opt = (v, sub = '') => ({ v, sub });
   const OTHER = opt('Other', 'Tell us at the end');
@@ -194,7 +193,6 @@
       { key: 'scope', label: 'Repair', multi: true, q: 'What needs fixing?', hint: 'Pick as many as you like.', opts: [opt('Rotted wood'), opt('Sagging floor'), opt('Deck or stairs'), opt('Water damage'), opt('Drywall'), opt('Doors or windows')] },
       { key: 'urgency', label: 'How soon', q: 'How soon does it need attention?', opts: [opt('Safety concern now', 'Please call me soon'), opt('In the next few weeks'), opt('It can wait', 'Planning ahead'), opt('Not sure')] }
     ],
-    'Other': []
   };
   const COMMON = [
     { key: 'when', label: 'Timing', q: 'When are you hoping to start?', opts: [opt('As soon as possible', 'Something needs attention'), opt('In the next 1–3 months', 'Ready to plan'), opt('In 3–6 months', 'Getting ahead of it'), opt('Just exploring', 'Gathering ideas')] },
@@ -207,8 +205,7 @@
     'Kitchen': 'We plan the order of work so you keep as much of your kitchen usable as possible.',
     'Basement': 'We look at moisture and egress up front so the finished space stays dry and safe.',
     'Addition or exterior': 'We tie the new work into the existing house so it looks like it was always there.',
-    'Repair': 'We find the cause, not just the symptom, and show you photos of what we find.',
-    'Other': 'We talk through what you have in mind and tell you honestly whether it is a fit for our crew.'
+    'Repair': 'We find the cause, not just the symptom, and show you photos of what we find.'
   };
   const careNote = {
     'A clear price with no surprises': 'A written quote we walk through line by line. Any change is approved by you first.',
@@ -276,7 +273,6 @@
     pNext.style.display = last ? 'none' : '';
     const key = cur.dataset.key;
     pNext.disabled = !last && !(answers[key] && answers[key].length);
-    sendRow.classList.toggle('dim', last);
     if (last) buildPlan();
   };
   const go = (d) => {
