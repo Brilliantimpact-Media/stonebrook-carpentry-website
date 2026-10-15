@@ -77,6 +77,14 @@ Waiting on Gary (no changes made yet):
 - Behind the walls: confirm step 1 ("put the fix in writing") and step 2 (waterproof membrane) are accurate.
 - Basement Finishing photo: none of the album's basement photos show a furnished, lived-in space. Need a better photo from Gary.
 
+## Round 8 (October 15, 2026)
+- "Built to last": the sketch slider is replaced by a single finished photo (outdoor kitchen and pergola at dusk, from the album's new photos).
+- Estimate form: the Project Planner is built in. Step 1 is the project type; the next two questions are tailored to it (deck type and size, which bathroom, kitchen changes and layout, basement condition and use, addition type and scope, what needs repair and how urgent), then timing, priorities and contact with a "what to expect" summary. A "skip the questions" link goes straight to contact. The answers are put in a hidden `project_plan` field for the form service.
+- "See our latest work": a five-tile layout (Decks & Porches large in the center; Baths & Tile, Basements, Additions & Exteriors, Garages & Outbuildings around it). Each tile links into the new **projects.html** page.
+- New `projects.html`: an SEO-friendly page with its own title and description, an H1, an H2 per category with a short description, captioned photos, sticky category tabs (deep links like `projects.html#decks-porches`), and a lightbox. Added new album photos (decks at dusk, composite deck, cedar porch ceiling, dusk patio).
+- CSS/JS links carry a version number so browsers don't serve old cached files.
+- Waiting on Gary: a photo of himself for "Hiring a contractor" (none of the album shots show him clearly).
+
 ## Open (Alexia handling with the client)
 - **Google Business Profile**: needed to set up live Google reviews on the site.
 - **Their systems**: CRM / scheduling / email tools, before pitching the instant follow-up option.

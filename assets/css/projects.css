@@ -1,0 +1,37 @@
+/* StoneBrook Carpentry — Projects page (builds on main.css) */
+.phero { padding: clamp(56px, 8vw, 110px) 0 clamp(32px, 4vw, 48px); background-color: var(--paper);
+  background-image: linear-gradient(rgba(47,55,64,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(47,55,64,.07) 1px, transparent 1px);
+  background-size: 28px 28px; }
+.phero h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); max-width: 16em; }
+.phero p:not(.kicker) { max-width: 40em; font-size: 1.1rem; margin: 0; }
+
+.ptabs-bar { position: sticky; top: var(--header-h); z-index: 20; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 6px 16px rgba(0,0,0,.05); }
+.ptabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-top: 14px; padding-bottom: 14px; }
+.ptabs::-webkit-scrollbar { display: none; }
+.ptab { flex: none; font-family: var(--semi); font-weight: 600; font-size: .95rem; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; padding: 9px 16px; border: 2px solid var(--slate); color: var(--slate); background: #fff; transition: background .2s, color .2s; }
+.ptab:hover { background: rgba(47,55,64,.08); }
+.ptab.on { background: var(--slate); color: #fff; }
+
+.pcat { padding: clamp(48px, 6vw, 80px) 0 0; scroll-margin-top: calc(var(--header-h) + 70px); }
+.pcat[hidden] { display: none; }
+.pcat-head { max-width: 760px; margin-bottom: 28px; }
+.pcat-head h2 { margin-bottom: .3em; }
+.pcat-head p { margin: 0; }
+.pgrid { columns: 3 280px; column-gap: 16px; }
+.pshot { margin: 0 0 18px; break-inside: avoid; }
+.pshot-btn { display: block; width: 100%; padding: 0; border: 0; background: var(--paper); cursor: zoom-in; overflow: hidden; }
+.pshot-btn img { width: 100%; height: auto; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.pshot-btn:hover img { transform: scale(1.04); }
+.pshot figcaption { font-size: .95rem; color: var(--muted); margin-top: 8px; }
+.pshot.fade-in { animation: qIn .45s ease both; }
+
+.pcta { margin-top: clamp(64px, 8vw, 110px); padding: clamp(56px, 7vw, 90px) 0; background: var(--slate); color: rgba(255,255,255,.88); text-align: center; }
+.pcta h2 { color: #fff; }
+.pcta p { margin: 0 auto 1.6em; max-width: 36em; }
+
+@media (max-width: 860px) {
+  .ptabs-bar { top: var(--header-h); }
+  .pgrid { columns: 2; column-gap: 10px; }
+  .pshot { margin-bottom: 12px; }
+  .pshot figcaption { font-size: .82rem; }
+}

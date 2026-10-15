@@ -163,7 +163,7 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 .center-head p { max-width: 44em; margin: 1.2em auto 0; }
 
 /* ---------- Vision → built (pinned scrub) ---------- */
-.vision { padding: var(--section) 0 0; background-attachment: fixed; }   /* grid stays still while the photo is pinned */
+.vision { padding: var(--section) 0; }
 .vision .center-head { margin-bottom: 0; }
 .pin-track { position: relative; height: 320vh; }   /* extra height = scroll distance for the slider + pauses */
 .pin-stage { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: grid; place-items: center; padding: 20px var(--gutter); }
@@ -533,6 +533,30 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 @media (max-width: 1240px) { .arrow-vision { left: -118px; width: 96px; } .arrow-est { right: -70px; width: 100px; } .arrow-behind { right: -96px; width: 72px; } }
 @media (max-width: 1120px) { .arrow-behind { display: none; } }
 
+/* ---------- Built to last: single photo ---------- */
+.vision-photo { position: relative; margin: clamp(36px, 5vw, 56px) auto 0; max-width: 1000px; aspect-ratio: 16 / 9; overflow: visible; }
+.vision-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 58%; box-shadow: 0 22px 46px rgba(0,0,0,.18); }
+.vision-photo .arrow-vision { left: -150px; top: -30px; }
+
+/* ---------- Our work: five-tile mosaic ---------- */
+.work-sec { padding: var(--section) 0; }
+.mosaic { display: grid; grid-template-columns: 1fr 1.65fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; height: clamp(560px, 58vw, 860px); }
+.m-l1 { grid-area: 1 / 1; } .m-l2 { grid-area: 2 / 1; } .m-center { grid-area: 1 / 2 / 3 / 3; } .m-r1 { grid-area: 1 / 3; } .m-r2 { grid-area: 2 / 3; }
+.mtile { position: relative; display: block; overflow: hidden; color: #fff; text-decoration: none; background: var(--slate); }
+.mtile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+.mtile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(22,26,30,.82) 0%, rgba(22,26,30,.35) 45%, rgba(22,26,30,.1) 100%); transition: background .4s; }
+.mtile:hover img, .mtile:focus-visible img { transform: scale(1.05); }
+.mtile:hover::after { background: linear-gradient(0deg, rgba(22,26,30,.88) 0%, rgba(22,26,30,.45) 55%, rgba(22,26,30,.15) 100%); }
+.m-text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(18px, 2.2vw, 30px); display: flex; flex-direction: column; gap: 4px; }
+.m-eyebrow { font-family: var(--semi); font-weight: 600; font-size: .85rem; letter-spacing: .2em; text-transform: uppercase; color: var(--tan-light); }
+.mtile strong { font-family: var(--display); font-weight: 700; font-size: clamp(1.5rem, 2.2vw, 2.1rem); text-transform: uppercase; line-height: 1.05; }
+.m-center strong { font-size: clamp(2.2rem, 3.6vw, 3.4rem); }
+.m-link { align-self: flex-start; margin-top: 8px; font-family: var(--semi); font-weight: 600; font-size: .9rem; letter-spacing: .14em; text-transform: uppercase; padding-bottom: 3px; border-bottom: 2px solid var(--tan); }
+.work-ctas { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: clamp(32px, 4vw, 48px) 0 0; }
+
+/* ---------- Planner extras ---------- */
+.skip-q { justify-self: start; margin-top: 4px; font-size: .9rem; text-transform: none; letter-spacing: .02em; text-decoration: underline; text-underline-offset: 3px; color: var(--muted); }
+
 /* =====================================================================
    Mobile refinements (phones / small tablets only — desktop unaffected)
    ===================================================================== */
@@ -547,24 +571,14 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
   .js .split-rev .wipe img { clip-path: inset(0 100% 0 0); }
   .js .split .wipe.m-in img { clip-path: inset(0 0 0 0); transform: none; }
 
-  /* "Built to last": heading + photo pin together as one block (JS moves the heading
-     into the stage on phones). The grid is on the pinned stage, so it never slides. */
-  .vision { padding-top: 0; background-image: none; }
-  .vision > .wrap { display: none; }
-  .pin-track { height: 190vh; background: var(--paper); }
-  .services { padding-top: 56px; }
-  .pin-stage {
-    top: var(--header-h); height: auto;
-    display: flex; flex-direction: column; align-items: stretch; gap: 18px;
-    padding: 28px var(--gutter) 30px;
-    background-color: var(--paper);
-    background-image: linear-gradient(rgba(47,55,64,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(47,55,64,.07) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-  .pin-stage .center-head { margin: 0; }
-  .pin-stage .center-head h2 { font-size: 2rem; }
-  .pin-stage .center-head p { font-size: .98rem; line-height: 1.55; margin-top: .8em; }
-  .reveal-note { margin-top: 10px; font-size: 1.35rem; }
+  /* "Built to last": a single photo on phones too */
+  .vision-photo { aspect-ratio: 4 / 3; }
+  .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 300px 200px 200px; height: auto; gap: 10px; }
+  .m-center { grid-area: 1 / 1 / 2 / 3; } .m-l1 { grid-area: 2 / 1; } .m-l2 { grid-area: 2 / 2; } .m-r1 { grid-area: 3 / 1; } .m-r2 { grid-area: 3 / 2; }
+  .m-link { display: none; }
+  .mtile strong { font-size: 1.25rem; }
+  .m-center strong { font-size: 2rem; }
+  .m-eyebrow { font-size: .72rem; }
 
   /* "What we build": tap tabs above the photo pile (list hidden on phones) */
   .services-grid { gap: 0; grid-template-columns: minmax(0, 1fr); }

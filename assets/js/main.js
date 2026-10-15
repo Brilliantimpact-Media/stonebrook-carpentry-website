@@ -1,7 +1,7 @@
 // StoneBrook Carpentry — interactions & animations:
 // header state, tape-measure progress, mobile menu, scroll reveal + pencil draw-on,
-// count-up stats, pinned sketch→photo scrub, service image swap, filterable gallery
-// with lightbox, and a placeholder estimate form handler.
+// count-up stats, service photo stack, and the estimate form with a built-in
+// Project Planner (follow-up questions tailored to the chosen project).
 
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -9,36 +9,7 @@
   const header = document.querySelector('.site-header');
   const blade = document.querySelector('.tape-blade');
 
-  // ---- Pinned sketch → photo scrub ----
-  // The stage is sticky inside a tall track, so the slider only moves while the
-  // photo sits centered on screen.
-  const track = document.getElementById('vision-track');
-  const ba = document.getElementById('sketch-reveal');
-  const note = document.querySelector('.reveal-note');
-  const setP = (p) => ba.style.setProperty('--p', clamp(p).toFixed(4));
-  const scrub = () => {
-    if (!track) return;
-    const r = track.getBoundingClientRect();
-    const stage = track.firstElementChild.offsetHeight;
-    const t = clamp(-r.top / Math.max(1, r.height - stage));
-    // Hold on the sketch briefly, slide, then hold on the finished photo before the
-    // page moves on, so it pauses at both ends (scrolling down or back up).
-    const e = clamp((t - 0.12) / 0.6);
-    setP(0.97 - 0.94 * e);
-    note.classList.toggle('done', e > 0.95);
-  };
-  if (ba) {
-    if (reduce) setP(0.5);
-    // Dragging also works; the next scroll picks back up from the scroll position.
-    const drag = (e) => {
-      const r = ba.getBoundingClientRect();
-      setP((e.clientX - r.left) / r.width);
-    };
-    ba.addEventListener('pointerdown', (e) => { drag(e); ba.setPointerCapture(e.pointerId); });
-    ba.addEventListener('pointermove', (e) => { if (e.buttons) drag(e); });
-  }
-
-  // ---- Scroll: header shadow, tape blade, scrub ----
+  // ---- Scroll: header shadow, tape blade ----
   let ticking = false;
   // Page width without the scrollbar (Windows scrollbars take ~17px that 100vw includes)
   const setPageW = () => document.documentElement.style.setProperty('--page-w', `${document.documentElement.clientWidth}px`);
@@ -54,7 +25,6 @@
       const max = document.documentElement.scrollHeight - innerHeight;
       const room = innerWidth - 8;
       blade.style.width = `${(max > 0 ? y / max : 0) * room}px`;
-      if (!reduce) scrub();
       ticking = false;
     });
   };
@@ -181,96 +151,53 @@
     btn.addEventListener('click', () => activate(btn));
   });
 
-  // ---- Gallery: category covers + scrolling row ----
-  const track2 = document.getElementById('gallery-track');
-  const items = [...track2.querySelectorAll('.g')];
-  const prev = document.querySelector('.car-prev');
-  const next = document.querySelector('.car-next');
-  const filters = document.querySelectorAll('.filter');
-  const updateNav = () => {
-    prev.disabled = track2.scrollLeft < 8;
-    next.disabled = track2.scrollLeft + track2.clientWidth > track2.scrollWidth - 8;
-  };
-  const setFilter = (cat) => {
-    filters.forEach((o) => {
-      const on = o.dataset.filter === cat;
-      o.classList.toggle('active', on);
-      o.setAttribute('aria-pressed', String(on));
-    });
-    items.forEach((g) => {
-      const show = g.dataset.cat === cat;   // "all" shows the category covers
-      g.classList.toggle('hide', !show);
-      g.classList.remove('fade-in');
-      if (show && !reduce) { void g.offsetWidth; g.classList.add('fade-in'); }
-    });
-    track2.scrollLeft = 0;
-    updateNav();
-  };
-  filters.forEach((f) => f.addEventListener('click', () => setFilter(f.dataset.filter)));
-  const step = () => track2.clientWidth * 0.8;
-  prev.addEventListener('click', () => track2.scrollBy({ left: -step() }));
-  next.addEventListener('click', () => track2.scrollBy({ left: step() }));
-  track2.addEventListener('scroll', updateNav, { passive: true });
-  addEventListener('resize', updateNav);
-  updateNav();
-
-  // ---- Lightbox with previous / next (project photos only, not the covers) ----
-  const box = document.querySelector('.lightbox');
-  const boxImg = box.querySelector('img');
-  const boxCap = box.querySelector('.lightbox-caption');
-  let current = 0;
-  const visible = () => items.filter((g) => !g.classList.contains('hide') && !g.classList.contains('cover'));
-  const show = (i) => {
-    const list = visible();
-    current = (i + list.length) % list.length;
-    const g = list[current];
-    const img = g.querySelector('img');
-    boxImg.src = img.src;
-    boxImg.alt = img.alt;
-    boxCap.textContent = g.dataset.caption || '';
-  };
-  items.forEach((g) => g.addEventListener('click', () => {
-    if (g.classList.contains('cover')) { setFilter(g.dataset.goto); return; }
-    show(visible().indexOf(g));
-    box.showModal();
-  }));
-  box.querySelector('.lightbox-prev').addEventListener('click', () => show(current - 1));
-  box.querySelector('.lightbox-next').addEventListener('click', () => show(current + 1));
-  box.querySelector('.lightbox-close').addEventListener('click', () => box.close());
-  box.addEventListener('click', (e) => { if (e.target === box) box.close(); });
-  box.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') show(current - 1);
-    if (e.key === 'ArrowRight') show(current + 1);
-  });
-
-  // ---- Estimate: quick form, with the Project Planner as an optional step-by-step version ----
-  // No backend yet: connect both forms to the client's form service before launch.
-  const quick = document.querySelector('.quick-form');
-  const quickNote = quick.querySelector('.form-note');
-  quick.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = quick.elements.name.value.trim();
-    const phone = quick.elements.phone.value.trim();
-    if (!name || !phone) {
-      quickNote.textContent = 'Please add your name and phone number so we can reach you.';
-      return;
-    }
-    quickNote.textContent = `Thanks, ${name.split(' ')[0]}. We'll be in touch soon to talk through your project.`;
-    quick.reset();
-  });
+  // ---- Estimate form with the Project Planner built in ----
+  // Step 1 picks the project; the next questions are tailored to it; then timing,
+  // priorities and contact. No backend yet: connect to the client's form service.
   const form = document.querySelector('.planner');
-  const qs = [...form.querySelectorAll('.q')];
+  const typeStep = form.querySelector('.q[data-key="type"]');
+  const contactStep = form.querySelector('.q-contact');
   const blade2 = form.querySelector('.meter-blade');
   const mLabel = form.querySelector('.meter-label');
   const pNext = form.querySelector('.p-next');
   const pBack = form.querySelector('.p-back');
   const pNav = form.querySelector('.planner-nav');
   const formNote = form.querySelector('.form-note');
-  const answers = {};
-  let stepI = 0;
+  const opt = (v, sub = '') => ({ v, sub });
+  const FLOW = {
+    'Deck or porch': [
+      { key: 'scope', label: 'Type', q: 'What kind of deck or porch project?', opts: [opt('New deck', 'Built from scratch'), opt('New or covered porch', 'Front, back or screened'), opt('Replace an old one', 'Tear out and rebuild'), opt('Repair', 'Boards, railings or stairs')] },
+      { key: 'size', label: 'Size', q: 'Roughly how big?', opts: [opt('Small', 'Under 200 sq ft'), opt('Medium', '200–400 sq ft'), opt('Large', 'Over 400 sq ft'), opt('Not sure', "We'll measure together")] }
+    ],
+    'Bathroom or tile': [
+      { key: 'scope', label: 'Work', q: 'What are we working on?', opts: [opt('Full bathroom remodel', 'Everything new'), opt('Shower or tub', 'Tile, surround or replacement'), opt('Tile floor or backsplash', 'Just the tile'), opt('Leak or water damage', 'Fix what went wrong')] },
+      { key: 'room', label: 'Room', q: 'Which bathroom?', opts: [opt('Main bathroom'), opt("Hall or kids' bath"), opt('Basement bath'), opt('Half bath'), opt('More than one')] }
+    ],
+    'Kitchen': [
+      { key: 'scope', label: 'Changes', multi: true, q: 'What would you like to change?', hint: 'Pick as many as you like.', opts: [opt('Cabinets'), opt('Countertops'), opt('Backsplash'), opt('Flooring'), opt('Full remodel'), opt('Something else')] },
+      { key: 'layout', label: 'Layout', q: 'What about the layout?', opts: [opt('Keep it the same', 'Update what is there'), opt('Open it up', 'Move or remove walls'), opt('Not sure', "Let's talk it through")] }
+    ],
+    'Basement': [
+      { key: 'scope', label: 'Today', q: 'Where is your basement today?', opts: [opt('Unfinished', 'Concrete and framing'), opt('Partly finished', 'Some rooms done'), opt('Finished, needs updating', 'Refresh or redo'), opt('Water damage', 'Repair first')] },
+      { key: 'use', label: 'Use', multi: true, q: 'What will you use it for?', hint: 'Pick as many as you like.', opts: [opt('Family room'), opt('Bedroom'), opt('Bathroom'), opt('Office'), opt('Storage'), opt('Something else')] }
+    ],
+    'Addition or exterior': [
+      { key: 'scope', label: 'Type', q: 'What kind of project?', opts: [opt('Room addition', 'More living space'), opt('Siding or trim', 'Replace or repair'), opt('Roofing', 'Replace or repair'), opt('Windows or doors', 'Replace or add'), opt('Garage or outbuilding', 'New or rebuild')] },
+      { key: 'size', label: 'Scope', q: 'How much of the house?', opts: [opt('One area', 'A single spot'), opt('One side', 'One side of the house'), opt('Whole house', 'All the way around'), opt('Not sure', "We'll look together")] }
+    ],
+    'Repair': [
+      { key: 'scope', label: 'Repair', multi: true, q: 'What needs fixing?', hint: 'Pick as many as you like.', opts: [opt('Rotted wood'), opt('Sagging floor'), opt('Deck or stairs'), opt('Water damage'), opt('Drywall'), opt('Doors or windows'), opt('Something else')] },
+      { key: 'urgency', label: 'How soon', q: 'How soon does it need attention?', opts: [opt('Safety concern now', 'Please call me soon'), opt('In the next few weeks'), opt('It can wait', 'Planning ahead'), opt('Not sure')] }
+    ]
+  };
+  const COMMON = [
+    { key: 'when', label: 'Timing', q: 'When are you hoping to start?', opts: [opt('As soon as possible', 'Something needs attention'), opt('In the next 1–3 months', 'Ready to plan'), opt('In 3–6 months', 'Getting ahead of it'), opt('Just exploring', 'Gathering ideas')] },
+    { key: 'care', label: 'Priorities', multi: true, q: 'What matters most to you?', hint: 'Pick as many as you like.', opts: [opt('A clear price with no surprises', 'A clear, written price'), opt('Minimal disruption to daily life', 'Keep life running'), opt('A clean jobsite', 'Respect for the house'), opt('Low-maintenance, long-lasting materials', 'Built to last'), opt('Regular updates', "Know what's happening"), opt('Help picturing the finished space', 'Ideas and examples')] }
+  ];
+  const short = { 'A clear price with no surprises': 'No Surprises', 'Minimal disruption to daily life': 'Less Disruption', 'A clean jobsite': 'Clean Jobsite', 'Low-maintenance, long-lasting materials': 'Built to Last', 'Regular updates': 'Updates', 'Help picturing the finished space': 'Help Me See It', 'As soon as possible': 'ASAP', 'In the next 1–3 months': '1–3 Months', 'In 3–6 months': '3–6 Months' };
   const expectFor = {
     'Deck or porch': 'We check footings, ledger and framing first. What holds it up matters more than the boards on top.',
-    'Bathroom or tile': 'Everything behind the tile is waterproofed and checked before a single tile goes up.',
+    'Bathroom or tile': 'We look at what is behind the walls and floor before any new tile goes in.',
     'Kitchen': 'We plan the order of work so you keep as much of your kitchen usable as possible.',
     'Basement': 'We look at moisture and egress up front so the finished space stays dry and safe.',
     'Addition or exterior': 'We tie the new work into the existing house so it looks like it was always there.',
@@ -284,10 +211,40 @@
     'Regular updates': 'Regular updates, so you always know what is happening.',
     'Help picturing the finished space': 'Examples of similar finished projects at your visit.'
   };
+
+  const answers = {};
+  let steps = [typeStep, contactStep];   // rebuilt once a project type is picked
+  let stepI = 0;
+  let skipped = false;
+
+  const makeStep = (def) => {
+    const fs = document.createElement('fieldset');
+    fs.className = 'q q-gen';
+    fs.dataset.key = def.key;
+    fs.dataset.label = def.label;
+    if (!def.multi) fs.dataset.single = '';
+    fs.innerHTML = `<legend>${def.q}</legend>${def.hint ? `<p class="q-hint">${def.hint}</p>` : ''}<div class="opts">${def.opts.map((o) =>
+      `<button type="button" class="opt" data-v="${o.v}"><strong>${short[o.v] || o.v}</strong>${o.sub ? `<span>${o.sub}</span>` : ''}</button>`).join('')}</div>`;
+    wireOpts(fs);
+    return fs;
+  };
+  const buildFlow = (type) => {
+    form.querySelectorAll('.q-gen').forEach((q) => q.remove());
+    Object.keys(answers).forEach((k) => { if (k !== 'type') delete answers[k]; });
+    const generated = [...(FLOW[type] || []), ...COMMON].map(makeStep);
+    generated.forEach((g) => contactStep.before(g));
+    steps = [typeStep, ...generated, contactStep];
+  };
+  const summary = () => steps.filter((q) => q !== contactStep && answers[q.dataset.key] && answers[q.dataset.key].length)
+    .map((q) => [q.dataset.label, [].concat(answers[q.dataset.key]).join('; ')]);
   const buildPlan = () => {
-    const rows = [['Project', answers.type], ['Size', answers.size], ['Timing', answers.when], ['Priorities', (answers.care || []).join('; ')]];
-    form.querySelector('.plan-list').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v || 'Not chosen'}</dd>`).join('');
-    const care = answers.care || [];
+    const plan = form.querySelector('.plan');
+    if (skipped || !answers.type) { plan.hidden = true; contactStep.querySelector('legend').textContent = 'Where should we reach you?'; return; }
+    plan.hidden = false;
+    contactStep.querySelector('legend').textContent = "Here's your project plan.";
+    const rows = summary();
+    form.querySelector('.plan-list').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+    const care = [].concat(answers.care || []);
     const items = [
       'A free visit: Gary comes out, listens, and looks closely at the space.',
       expectFor[answers.type],
@@ -295,37 +252,53 @@
       care.includes('A clear price with no surprises') ? null : 'A written quote you review together, at your pace.'
     ].filter(Boolean);
     form.querySelector('.plan-expect').innerHTML = items.map((t) => `<li>${t}</li>`).join('');
+    form.elements.project_plan.value = rows.map(([k, v]) => `${k}: ${v}`).join(' | ');
   };
   const renderStep = () => {
-    qs.forEach((q, i) => q.classList.toggle('on', i === stepI));
-    blade2.style.width = `${(stepI / (qs.length - 1)) * 100}%`;
-    mLabel.textContent = `Step ${stepI + 1} of ${qs.length}`;
+    steps.forEach((q, i) => q.classList.toggle('on', i === stepI));
+    const total = answers.type && !skipped ? steps.length : 2;
+    blade2.style.width = `${(stepI / Math.max(1, steps.length - 1)) * 100}%`;
+    mLabel.textContent = answers.type || skipped ? `Step ${stepI + 1} of ${skipped ? 2 : total}` : 'Step 1';
     pBack.disabled = stepI === 0;
-    const last = stepI === qs.length - 1;
+    const last = steps[stepI] === contactStep;
     pNext.style.display = last ? 'none' : '';
-    const key = qs[stepI].dataset.key;
+    const key = steps[stepI].dataset.key;
     pNext.disabled = !last && !(answers[key] && answers[key].length);
     if (last) buildPlan();
   };
-  const go = (d) => { stepI = clamp(stepI + d, 0, qs.length - 1); renderStep(); };
-  qs.forEach((q) => {
+  const go = (d) => { stepI = clamp(stepI + d, 0, steps.length - 1); renderStep(); };
+  function wireOpts(q) {
     const single = q.hasAttribute('data-single');
     q.querySelectorAll('.opt').forEach((o) => o.addEventListener('click', () => {
       const key = q.dataset.key;
       if (single) {
         q.querySelectorAll('.opt').forEach((x) => x.classList.toggle('sel', x === o));
+        const changed = answers[key] !== o.dataset.v;
         answers[key] = o.dataset.v;
+        if (key === 'type' && (changed || steps.length === 2)) { skipped = false; buildFlow(o.dataset.v); }
         renderStep();
-        setTimeout(() => { if (qs[stepI] === q) go(1); }, 320);
+        setTimeout(() => { if (steps[stepI] === q) go(1); }, 320);
       } else {
         o.classList.toggle('sel');
         answers[key] = [...q.querySelectorAll('.opt.sel')].map((x) => x.dataset.v);
         renderStep();
       }
     }));
+  }
+  wireOpts(typeStep);
+  form.querySelector('.skip-q').addEventListener('click', () => {
+    skipped = true;
+    steps = [typeStep, contactStep];
+    form.querySelectorAll('.q-gen').forEach((q) => q.remove());
+    stepI = 1;
+    renderStep();
+    form.elements.name.focus({ preventScroll: true });
   });
   pNext.addEventListener('click', () => go(1));
-  pBack.addEventListener('click', () => go(-1));
+  pBack.addEventListener('click', () => {
+    if (skipped && stepI === 1) { skipped = false; stepI = 0; renderStep(); return; }
+    go(-1);
+  });
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = form.elements.name.value.trim();
@@ -334,44 +307,22 @@
       formNote.textContent = 'Please add your name and phone number so we can reach you.';
       return;
     }
-    qs[stepI].classList.remove('on');
+    steps[stepI].classList.remove('on');
     pNav.classList.add('hide');
     blade2.style.width = '100%';
     mLabel.textContent = 'Sent';
     formNote.textContent = '';
     const done = document.createElement('div');
     done.className = 'q on';
-    done.innerHTML = `<p class="planner-done"><strong>Thanks, ${name.split(' ')[0]}.</strong> Your project plan is on its way to Gary. He'll call you to set up a time to see the space.</p>`;
+    done.innerHTML = `<p class="planner-done"><strong>Thanks, ${name.split(' ')[0]}.</strong> Your request is on its way to Gary. He'll call you to set up a time to see the space.</p>`;
     form.appendChild(done);
   });
   renderStep();
-
-  // Swap between the quick form and the planner
-  const swapTo = (show, hide) => {
-    hide.hidden = true;
-    show.hidden = false;
-    const top = show.getBoundingClientRect().top;
-    if (top < 80) scrollBy({ top: top - 100, behavior: reduce ? 'auto' : 'smooth' });
-  };
-  quick.querySelector('.open-planner').addEventListener('click', () => swapTo(form, quick));
-  form.querySelector('.close-planner').addEventListener('click', () => swapTo(quick, form));
 
   // =====================================================================
   // Mobile-only behaviour (desktop is unaffected)
   // =====================================================================
   const mobile = matchMedia('(max-width: 860px)');
-
-  // "Built to last": on phones the heading moves into the pinned stage so text and photo stay together
-  const vHead = document.querySelector('.vision .center-head');
-  const vHome = vHead.parentElement;
-  const vStage = document.querySelector('.pin-stage');
-  const placeVisionHead = () => {
-    if (mobile.matches) { if (vHead.parentElement !== vStage) vStage.prepend(vHead); }
-    else if (vHead.parentElement !== vHome) vHome.appendChild(vHead);
-    onScroll();
-  };
-  placeVisionHead();
-  mobile.addEventListener('change', placeVisionHead);
 
   // "Hiring a contractor" / About photos: wipe in once the photo is properly on screen
   if ('IntersectionObserver' in window) {
