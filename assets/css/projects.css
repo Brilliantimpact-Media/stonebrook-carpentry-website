@@ -41,3 +41,17 @@
   .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .pshot figcaption { font-size: .78rem; padding: 36px 10px 9px; }
 }
+
+/* Breadcrumb + category links */
+.crumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; font-family: var(--semi); font-weight: 600; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+.crumbs a { color: rgba(255,255,255,.85); text-decoration: none; }
+.crumbs a:hover { color: var(--tan-light); text-decoration: underline; text-underline-offset: 3px; }
+.crumbs [aria-current] { color: var(--tan-light); }
+.pcat-head h2 a { color: inherit; text-decoration: none; }
+.pcat-head h2 a:hover { color: var(--tan-deep); }
+.pcat-more { display: inline-block; margin-top: 10px; font-family: var(--semi); font-weight: 600; letter-spacing: .04em; color: var(--slate); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--tan); }
+.pcat-more:hover { color: var(--tan-deep); }
+.pcat-single { padding-top: clamp(36px, 5vw, 56px); }
+.pcat-back { margin: 32px 0 0; text-align: center; }
+.pcat-back a { font-family: var(--semi); font-weight: 600; letter-spacing: .04em; color: var(--slate); text-underline-offset: 4px; text-decoration-color: var(--tan); }
+.ptab:focus-visible { outline: 2px solid var(--tan); outline-offset: 2px; }
