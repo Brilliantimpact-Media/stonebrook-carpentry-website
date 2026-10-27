@@ -15,6 +15,21 @@
   const current = tabRow && tabRow.querySelector('[aria-current="page"]');
   if (current) tabRow.scrollLeft = current.offsetLeft - (tabRow.clientWidth - current.offsetWidth) / 2;
 
+  // Switching categories feels like one page: if the tabs were stuck under the header when a
+  // tab was clicked, open the next page at that same spot instead of back at the top.
+  const bar = document.querySelector('.ptabs-bar');
+  const header = document.querySelector('.site-header');
+  const barTop = () => bar.getBoundingClientRect().top + scrollY - header.offsetHeight;
+  let came = null;
+  try { came = sessionStorage.getItem('sbTab'); sessionStorage.removeItem('sbTab'); } catch (e) { /* storage blocked */ }
+  if (came === 'stuck' && !location.hash) {
+    history.scrollRestoration = 'manual';
+    scrollTo({ top: barTop(), behavior: 'instant' });
+  }
+  tabRow.querySelectorAll('.ptab').forEach((t) => t.addEventListener('click', () => {
+    try { sessionStorage.setItem('sbTab', scrollY >= barTop() - 2 ? 'stuck' : 'top'); } catch (e) { /* storage blocked */ }
+  }));
+
   // Lightbox (previous / next through every photo on the page)
   const box = document.querySelector('.lightbox');
   const boxImg = box.querySelector('img');

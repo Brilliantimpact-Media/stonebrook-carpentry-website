@@ -5,8 +5,8 @@
 .phero .wrap { position: relative; z-index: 1; }
 /* Same header height on every project page, with the content anchored to the top, so the
    title and the category tabs stay in the same place when switching between pages. */
-.phero { min-height: clamp(440px, 37vw, 560px); }
-@media (max-width: 860px) { .phero { min-height: 480px; } }
+.phero { min-height: clamp(460px, calc(25vw + 190px), 600px); }
+@media (max-width: 860px) { .phero { min-height: 500px; } }
 .phero .kicker { color: var(--tan-light); }
 .phero .kicker::before { display: none; }
 .phero h1 { color: #fff; font-size: clamp(2.6rem, 6vw, 5rem); max-width: 14em; }
@@ -59,3 +59,14 @@
 .pcat-back { margin: 32px 0 0; text-align: center; }
 .pcat-back a { font-family: var(--semi); font-weight: 600; letter-spacing: .04em; color: var(--slate); text-underline-offset: 4px; text-decoration-color: var(--tan); }
 .ptab:focus-visible { outline: 2px solid var(--tan); outline-offset: 2px; }
+
+/* Switching between project pages: crossfade instead of a hard reload flash, keep the
+   header and tabs in place, and skip the header photo's slow zoom (see projects.js). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .tape { view-transition-name: tape; }
+  .site-header { view-transition-name: site-header; }
+  .ptabs-bar { view-transition-name: project-tabs; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .28s; }
+}
+.from-tab .phero-bg { animation: none; }

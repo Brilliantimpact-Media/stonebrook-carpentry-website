@@ -275,6 +275,14 @@ LIGHTBOX = '''  <dialog class="lightbox" aria-label="Project photo">
   </dialog>'''
 
 
+# Runs before the page paints: if the visitor arrived by clicking a category tab, skip the
+# header zoom and (in projects.js) return them to the same scroll spot.
+TAB_HEAD = '''
+<script>
+  try { if (sessionStorage.getItem('sbTab')) document.documentElement.classList.add('from-tab'); } catch (e) {}
+</script>'''
+
+
 def build_projects():
     a = data['all']
     root, home = '../', '../'
@@ -294,7 +302,7 @@ def build_projects():
     write('projects/index.html', page(
         root, home, title=a['title'], desc=a['meta'], path='projects/', body=body, current='all',
         css=('projects',), js=('page', 'nav', 'projects'), body_attr=' class="projects-page" data-cat="all"',
-        extra_head=breadcrumb_ld([('Home', ''), ('Our Work', 'projects/')])))
+        extra_head=TAB_HEAD + breadcrumb_ld([('Home', ''), ('Our Work', 'projects/')])))
 
     for c in CATS:
         root, home = '../../', '../../'
@@ -313,7 +321,7 @@ def build_projects():
         write(f'projects/{c["slug"]}/index.html', page(
             root, home, title=c['title'], desc=c['meta'], path=f'projects/{c["slug"]}/', body=body, current=c['slug'],
             css=('projects',), js=('page', 'nav', 'projects'), body_attr=f' class="projects-page" data-cat="{c["slug"]}"',
-            extra_head=breadcrumb_ld([('Home', ''), ('Our Work', 'projects/'), (c['name'], f'projects/{c["slug"]}/')])))
+            extra_head=TAB_HEAD + breadcrumb_ld([('Home', ''), ('Our Work', 'projects/'), (c['name'], f'projects/{c["slug"]}/')])))
 
 
 # ---------------------------------------------------------------- estimate page
