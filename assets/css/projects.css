@@ -70,3 +70,6 @@
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .28s; }
 }
 .from-tab .phero-bg { animation: none; }
+/* Keep the breadcrumb on one line so long category names never push the title down */
+.crumbs { flex-wrap: nowrap; white-space: nowrap; overflow: hidden; }
+.crumbs [aria-current] { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
