@@ -288,7 +288,8 @@ def build_projects():
     </div>
   </section>''')
     body = '\n\n'.join([
-        phero(root, a['hero'], a['pos'], 'Our Work', a['h1'], a['intro']),
+        phero(root, a['hero'], a['pos'], 'Our Work', a['h1'], a['intro'], f'''
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="{home}">Home</a><span aria-hidden="true">/</span><span aria-current="page">Our Work</span></nav>'''),
         tabs(root, 'all'), *sections, cta(root, 'Thinking about a project like these?'), LIGHTBOX])
     write('projects/index.html', page(
         root, home, title=a['title'], desc=a['meta'], path='projects/', body=body, current='all',
