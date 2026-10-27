@@ -51,11 +51,11 @@ h4 { font-family: var(--semi); font-weight: 600; font-size: 1.05rem; letter-spac
 /* Fixed across the very top of the screen; the blade pulls out as you scroll, silver hook on the end. */
 .tape { position: fixed; top: 0; left: 0; right: 0; height: 18px; z-index: 120; pointer-events: none; --tape-h: 16px; }
 /* The blade: printed inch numbers, 1/8" ticks and red 16" stud marks (tape-blade.svg) on
-   yellow steel, with a slight curve highlight. Width follows scroll progress (main.js / page.js). */
+   yellow steel, measured from the hook so "1" rides along with it and higher numbers pull out behind, with a slight curve highlight. Width follows scroll progress (main.js / page.js). */
 .tape-blade {
   position: absolute; left: 0; top: 0; height: var(--tape-h); width: 0;
   background:
-    url("../img/tape-blade.svg") 0 0 / auto 100% no-repeat,
+    url("../img/tape-blade.svg") right top / auto 100% no-repeat,
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,0) 35%, rgba(0,0,0,0) 70%, rgba(0,0,0,.12)),
     linear-gradient(#F4CF55, #E2B43C);
   border-bottom: 1px solid #B98E22;
