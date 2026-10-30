@@ -1,44 +1,100 @@
 # StoneBrook Carpentry: launch checklist
 
-Status as of October 27, 2026. ✅ done · 🟡 started, needs input · ⬜ not started
+Status as of October 30, 2026. ✅ done · 🟡 started, needs input · ⬜ not started
 
-## Pages
-- 🟡 **Privacy Policy:** `/privacy-policy/` exists and is linked in the footer. It's a clearly marked **draft placeholder** with headings only (no legal text), and it's hidden from search engines until approved. Needs real content from the business or their attorney, plus the name of the form service once chosen.
-- 🟡 **Terms & Conditions:** `/terms/` exists and is linked in the footer. Same status as the privacy policy.
-- ✅ **Custom 404 page:** `404.html`, with links to Home, Our Work and the free estimate page. GitHub Pages serves it automatically. It uses `BASE_PATH` in `tools/build.py`, which must be updated if the site moves to a new domain.
-- ✅ **Project category pages:** All Projects plus five categories, each with its own URL, title, description, H1 and canonical tag.
-- ✅ **Free estimate page:** `/free-estimate/`.
+## Design checks
+- ✅ **Favicon:** the white StoneBrook roof mark on a slate tile, in every format browsers and phones use: `favicon.ico`, SVG, 32px, Apple touch icon (180px), and 192/512px app icons with `site.webmanifest`. The old icon was drawn in "current color" and showed up black, so it disappeared on dark browser tabs.
+- ✅ **Featured CTA above the fold (homepage):** "Get Your Free Estimate" in the hero.
+  - Tested at real browser sizes after the toolbar: 1024×600, 1280×600, 1366×657, 1440×760, 1536×730, 1440×900 and 1920×950.
+  - On short laptop screens (like 1366×768) the button used to sit just below the fold. The hero headline now scales to the screen height there; taller screens are unchanged.
+- ✅ **Uniform:** checked and consistent across all pages:
+  - project header heights and title positions, measured at every width from 320 to 2600px
+  - buttons, header, footer, tape measure, masking tape and phone bar
+  - text colors adjusted where contrast was too low (see ADA)
+- 🟡 **ADA compliance (Billie's list):** automated checks run on all 11 pages. Fixed:
+  - Footer headings skipped from H2 to H4 (now H2).
+  - Small tan text on the dark estimate section was below 4.5:1 contrast (now lighter tan).
+  - Tan step numbers ("01–03") and the "10+" stat on white were below 3:1 (now darker tan).
+  - Dimmed service names in "What we build" were below 3:1 (now darker gray).
+  - Placeholder caption contrast.
 
-## Forms
-- ⬜ **Connect the estimate form** to the client's form service. It currently only shows a thank-you message. This is one change in `assets/js/estimate.js`, and it applies to the homepage and `/free-estimate/` together.
-- ⬜ Spam protection and the automatic "we got your request" email (part of the form service setup).
-- ⬜ Test a real submission end to end on desktop and phone.
+  Now passing:
+  - every image has alt text (decorative images use empty alt)
+  - every form field has a label; required fields are marked
+  - every button and link has a name
+  - no duplicate IDs; page language is set
+  - skip link, visible keyboard focus, accessible dropdown
+  - reduced-motion support
 
-## Content waiting on the client
-- ⬜ Gary's photo for "Hiring a contractor" (a placeholder card is live now).
-- ⬜ Which email address to publish (none is shown yet).
-- ⬜ Confirm "10+ years" and the 30-mile service radius / town list.
-- ⬜ Revised copy and photos from Jonathan (sections listed in `docs/UPDATES-2026-10-27.md`).
-- ⬜ Approve photo captions (materials such as "composite" and "cedar").
-- ⬜ Approve reuse of the three testimonials from the current site.
-- ⬜ Category page copy (100–200 words each), if wanted for SEO.
-- See `docs/OPEN-QUESTIONS.md` for the full list of items waiting on Gary.
+  Billie's manual review should still cover:
+  - screen reader pass (VoiceOver and NVDA)
+  - keyboard-only walkthrough of the estimate planner
+  - zoom to 200%
+  - text over photos (hero, project headers), which automated tools can't measure
 
-## Search and sharing
-- ✅ Unique titles, descriptions, H1s and canonical tags on every public page.
-- ✅ Breadcrumb structured data on project and estimate pages; business structured data on the homepage.
-- ✅ Share image (1200×630) and share tags on every page.
-- ⬜ `sitemap.xml` and `robots.txt`. Easy to generate from the build script, or handled by WordPress after the move.
-- ⬜ Update `SITE` (and `BASE_PATH`) in `tools/build.py` to the real domain, then rebuild, so canonical and share links point to it.
-- ⬜ Submit the site to Google Search Console once it's on the real domain.
-- 🟡 Google rating strip: live, linked to the Business Profile. The review count is typed in by hand, so update it as reviews come in.
+## Mobile checks
+- ✅ **Mobile version tested:** every page at 320, 360, 375, 390, 414, 768, 820, 1024 and 1280px. No sideways scrolling anywhere.
+- ✅ **Breakpoints tested:**
+  - phone layout up to 860px
+  - tablet uses the mobile menu up to 1120px
+  - desktop above 1120px
+- ✅ **Mobile CTA above the fold:** the sticky Call / Free Estimate bar is always on screen on phones and tablets. It tucks away only while the form itself is in view.
 
-## Quality
-- ✅ Skip link, visible keyboard focus, alt text on all project photos, accessible dropdown.
-- ✅ Animations turn off for visitors with "reduce motion" on.
-- ✅ Phone call bar, mobile menu and every page checked at phone and desktop sizes.
-- ⬜ Favicon PNG / Apple touch icon (only an SVG icon exists now, which some phones don't use).
-- ⬜ Analytics, if wanted. Adding it would also need a line in the privacy policy, and possibly a cookie notice.
+## SEO
+- ✅ **Meta title per page:** unique on every page.
+- ✅ **Meta description per page:** unique on every page.
+- ✅ Canonical tags, one H1 per page, breadcrumbs, business and breadcrumb structured data. The homepage structured data now lists the Yelp and HomeAdvisor profiles.
+- ✅ **sitemap.xml:** generated by the build. Lists the 8 public pages.
+- 🟡 **robots.txt:** generated (allows everything except the thank-you page and points to the sitemap). Search engines only read robots.txt at the root of a domain, so it takes effect once the site is on its real domain.
+- ⬜ At launch:
+  - update `SITE` and `BASE_PATH` in `tools/build.py` to the real domain and rebuild
+  - submit the sitemap in Google Search Console
+
+## Essential pages
+- ✅ **Custom 404 page.**
+- ✅ **Thank-you page:** `/thank-you/`, shown after every estimate request. It greets the visitor by first name and links to Our Work and the Google reviews. It's hidden from search, and it's the page analytics should count as a conversion.
+- 🟡 **Privacy policy page:** exists and is linked in the footer. Draft headings only; needs approved content.
+- 🟡 **Terms and conditions page:** same as above.
+- ⬜ **Analytics page and report:** needs the Google Analytics property first (see below). After that, set up a simple monthly report (visitors, top pages, estimate requests via thank-you page views, where visitors came from).
+
+## Functionality checks
+- ✅ **Alt text on every image:** checked by script on all pages.
+- ✅ **Links going to the correct places:** every internal link and anchor checked by script.
+  - Google review links return correctly.
+  - Yelp and HomeAdvisor block automated checkers, so I opened both in a browser: both profiles are live.
+- 🟡 **Forms working:** the form is ready to send.
+  - Already works: field checks, a spam trap, the "Sending…" state, an error message with the phone number if sending fails, and the redirect to the thank-you page.
+  - Still needed: the client's form service address in `FORM_ENDPOINT` (`tools/build.py`).
+  - Until then, the form validates and shows the thank-you page but **does not send anything**.
+  - After connecting: test a real submission on desktop and phone.
+- ✅ **Form error check:** clear messages under each field:
+  - name required
+  - phone required and must have 10 digits
+  - email checked only if filled in
+
+  Fields with errors are outlined, the first one gets focus, and each error clears as soon as it's corrected.
+- 🟡 **Social media connections:**
+  - The current site has no Facebook or Instagram, only Google, Yelp and HomeAdvisor profiles. Those three are now linked in the footer on every page.
+  - If Gary has Facebook, Instagram or other profiles, send the links and they'll be added.
+- ⬜ **Google Analytics connected/created:**
+  - Someone with access to the client's Google account needs to create a GA4 property and share the Measurement ID (looks like `G-XXXXXXXXXX`).
+  - Once the ID is set in `GA_ID` (`tools/build.py`) and the site is rebuilt, the tag goes on every public page.
+  - Mark the thank-you page view as the conversion.
+- 🟡 **Cookie banner (is it needed?):**
+  - The site currently sets no tracking cookies, so no banner is needed today.
+  - Basic Google Analytics on a Wisconsin business serving local US customers generally doesn't call for a banner, but the privacy policy should mention analytics.
+  - A banner becomes worth adding if ad or remarketing pixels (Google Ads, Meta) are added, or if the business wants to be cautious. Confirm with whoever reviews the privacy policy.
+
+## Still waiting on the client
+- Gary's photo (a placeholder card is live)
+- which email address to publish
+- confirm "10+ years" and the 30-mile radius / town list
+- revised copy and photos from Jonathan
+- caption and testimonial approval
+- form service and GA4 access
+- privacy policy and terms content
+
+See `docs/OPEN-QUESTIONS.md` for the full list.
 
 ## Platform
-- ⬜ The contract specifies a WordPress site with 5–8 pages. This static build is the approved design; it still needs to be moved into WordPress.
+- ⬜ The contract specifies a WordPress site with 5–8 pages. This static build is the approved design; it still needs to be moved into WordPress, and the checks above re-run there.

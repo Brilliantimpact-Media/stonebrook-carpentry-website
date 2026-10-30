@@ -28,7 +28,17 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = 'https://brilliantimpact-media.github.io/stonebrook-carpentry-website/'
 BASE_PATH = '/stonebrook-carpentry-website/'
 VERSION = time.strftime('%Y%m%d%H%M')
+# Google Analytics 4 measurement ID (looks like 'G-XXXXXXXXXX'). Leave empty until the
+# property is created; when set, the tracking tag is added to every public page.
+GA_ID = ''
+# Where the estimate form posts (a form service endpoint, e.g. Formspree / Web3Forms).
+# Empty = preview mode: the form validates and shows the thank-you page but sends nothing.
+FORM_ENDPOINT = ''
 PHONE, PHONE_TEL = '(715) 308-2180', '+17153082180'
+# Business profiles (from the current stonebrookcarpentry.com footer and Google listing)
+GOOGLE_REVIEWS = 'https://www.google.com/search?q=StoneBrook+Carpentry,+LLC#lrd=0x87f807442768f6ab:0x76c101ca6e3b87b3,1,,,,'
+YELP = 'https://www.yelp.com/biz/stonebrook-carpentry-wilson'
+HOMEADVISOR = 'https://www.homeadvisor.com/rated.StoneBrookCarpentryLLC.52659418.html'
 
 data = json.loads((ROOT / 'data/projects.json').read_text())
 CATS = data['categories']
@@ -115,7 +125,7 @@ def footer(root, home):
       <p>Carpentry and remodeling built to last, not just built fast.</p>
     </div>
     <nav class="footer-col" aria-label="Footer">
-      <h4>Explore</h4>
+      <h2 class="footer-h">Explore</h2>
       <a href="{L['services']}">Services</a>
       <a href="{L['work']}">Our Work</a>
       <a href="{L['process']}">What to Expect</a>
@@ -123,14 +133,15 @@ def footer(root, home):
       <a href="{L['estimate']}">Free Estimate</a>
     </nav>
     <div class="footer-col">
-      <h4>Contact</h4>
+      <h2 class="footer-h">Contact</h2>
       <a href="tel:{PHONE_TEL}">{PHONE}</a>
       <span>Wilson, WI 54027</span>
       <span>Mon–Fri 7:30–5:30</span>
       <span>Licensed &amp; insured in Wisconsin</span>
+      <span class="footer-find"><a href="{GOOGLE_REVIEWS}" target="_blank" rel="noopener">Google</a><a href="{YELP}" target="_blank" rel="noopener">Yelp</a><a href="{HOMEADVISOR}" target="_blank" rel="noopener">HomeAdvisor</a></span>
     </div>
     <div class="footer-col">
-      <h4>Serving</h4>
+      <h2 class="footer-h">Serving</h2>
       <p>Hudson · North Hudson · River Falls · Somerset · Roberts · Hammond · Baldwin · Richmond · Menomonie · Plum City · Woodbury · Lakeland · Afton, and towns within 30 miles of Wilson.</p>
     </div>
   </div>
@@ -146,6 +157,18 @@ def mbar(root, home):
     L = links(root, home)
     return f'''<!-- Phone-only call / estimate bar -->
 <nav class="m-bar" aria-label="Quick contact"><a href="tel:{PHONE_TEL}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Call</a><a href="{L['estimate']}">Free Estimate</a></nav>'''
+
+
+def icons(root):
+    ga = '' if not GA_ID else f'''
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){{dataLayer.push(arguments);}} gtag('js', new Date()); gtag('config', '{GA_ID}');</script>'''
+    form = f'\n<meta name="sb-form-endpoint" content="{FORM_ENDPOINT}">' if FORM_ENDPOINT else ''
+    return f'''<link rel="icon" href="{root}favicon.ico" sizes="48x48">
+<link rel="icon" href="{root}assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{root}assets/img/apple-touch-icon.png">
+<link rel="manifest" href="{root}site.webmanifest">
+<meta name="theme-color" content="#2F3740">{form}{ga}'''
 
 
 def head(root, title, desc, path, css=(), noindex=False, extra=''):
@@ -171,7 +194,7 @@ def head(root, title, desc, path, css=(), noindex=False, extra=''):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:image" content="{SITE}assets/img/share-card.jpg">
-<link rel="icon" href="{root}assets/img/logo-mark.svg" type="image/svg+xml">
+{icons(root)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow+Semi+Condensed:wght@500;600&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">{styles}
@@ -393,6 +416,37 @@ def build_404():
     write('404.html', out)
 
 
+def build_thanks():
+    root = home = '../'
+    check = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+    body = f'''  <section class="thanks grid-paper">
+    <div class="wrap thanks-wrap">
+      <div class="check">{check}</div>
+      <h1>Thanks<span class="thanks-name"></span>.</h1>
+      <p>Your request is on its way to Gary. He'll call you to set up a time to see the space.</p>
+      <p class="next"><a class="btn btn-slate" href="{root}projects/">See Our Work</a><a class="btn btn-tan" href="{GOOGLE_REVIEWS}" target="_blank" rel="noopener">Read Our Google Reviews</a></p>
+      <p>Need us sooner? Call <a href="tel:{PHONE_TEL}">{PHONE}</a>.</p>
+    </div>
+  </section>
+  <script>
+    try {{ var n = sessionStorage.getItem('sbName'); if (n) document.querySelector('.thanks-name').textContent = ', ' + n; }} catch (e) {{}}
+  </script>'''
+    write('thank-you/index.html', page(root, home, title='Thank You | StoneBrook Carpentry', desc='Your estimate request was received.',
+                                     path='thank-you/', body=body, noindex=True, body_attr=' class="thanks-page"'))
+
+
+PUBLIC = ['', 'projects/'] + [f'projects/{c["slug"]}/' for c in CATS] + ['free-estimate/']
+
+
+def build_seo_files():
+    today = time.strftime('%Y-%m-%d')
+    urls = ''.join(f'\n  <url><loc>{SITE}{u}</loc><lastmod>{today}</lastmod></url>' for u in PUBLIC)
+    write('sitemap.xml', f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}\n</urlset>\n')
+    # Note: search engines only read robots.txt at the root of a domain, so this file takes
+    # effect once the site is on its own domain (not on the github.io preview address).
+    write('robots.txt', f'User-agent: *\nDisallow: /thank-you/\n\nSitemap: {SITE}sitemap.xml\n')
+
+
 def build_redirect():
     # Old address of the gallery. Category hashes go to the new category pages.
     write('projects.html', f'''<!DOCTYPE html>
@@ -424,6 +478,7 @@ def build_index():
         'footer': footer('', ''),
         'mbar': mbar('', ''),
         'scripts': scripts('', ('nav', 'estimate', 'main')).strip(),
+        'icons': icons(''),
     }
     for k, v in blocks.items():
         pat = re.compile(rf'(<!-- BUILD:{k} -->\n).*?(\n<!-- /BUILD:{k} -->)', re.S)
@@ -441,4 +496,6 @@ if __name__ == '__main__':
     build_legal()
     build_404()
     build_redirect()
+    build_thanks()
+    build_seo_files()
     build_index()

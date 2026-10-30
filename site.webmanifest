@@ -1,0 +1,11 @@
+{
+  "name": "StoneBrook Carpentry",
+  "short_name": "StoneBrook",
+  "icons": [
+    { "src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#2F3740",
+  "background_color": "#2F3740",
+  "display": "browser"
+}

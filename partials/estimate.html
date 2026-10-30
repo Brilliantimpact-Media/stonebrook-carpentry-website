@@ -16,17 +16,19 @@
 
     <!-- Estimate form: contact details first, then the Project Planner. Follow-up questions are
          tailored to the chosen project (built in main.js); every question has an "Other" option. -->
-    <form class="estimate-form planner" data-reveal novalidate>
+    <form class="estimate-form planner" data-reveal novalidate data-thanks="{{root}}thank-you/">
       <fieldset class="contact-block">
         <legend>Let's start with you.</legend>
+        <p class="req-note"><span aria-hidden="true">*</span> Required</p>
         <div class="field-row">
-          <label>Name<input type="text" name="name" autocomplete="name" required></label>
-          <label>Phone<input type="tel" name="phone" autocomplete="tel" required></label>
+          <label><span>Name <span class="req" aria-hidden="true">*</span></span><input type="text" name="name" autocomplete="name" required aria-describedby="err-name"><span class="field-err" id="err-name"></span></label>
+          <label><span>Phone <span class="req" aria-hidden="true">*</span></span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="err-phone"><span class="field-err" id="err-phone"></span></label>
         </div>
         <div class="field-row">
           <label>Town<input type="text" name="town" autocomplete="address-level2"></label>
-          <label>Email<input type="email" name="email" autocomplete="email"></label>
+          <label>Email<input type="email" name="email" autocomplete="email" aria-describedby="err-email"><span class="field-err" id="err-email"></span></label>
         </div>
+        <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
       </fieldset>
 
       <div class="planner-block">

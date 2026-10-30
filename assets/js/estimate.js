@@ -112,11 +112,37 @@
     finalLabel.textContent = other ? 'You picked "Other." Tell us a little more:' : 'Anything else we should know?';
     finalStep.classList.toggle('needs-note', other);
   };
-  const contactOk = () => {
-    const ok = form.elements.name.value.trim() && form.elements.phone.value.trim();
-    formNote.textContent = ok ? '' : 'Please add your name and phone number so we can reach you.';
-    return ok;
+  // Field checks: name, a 10-digit phone, and a valid email if one is given.
+  const checks = {
+    name: (v) => (v.trim() ? '' : 'Please enter your name.'),
+    phone: (v) => {
+      if (!v.trim()) return 'Please enter a phone number so we can reach you.';
+      return v.replace(/\D/g, '').length >= 10 ? '' : 'Please enter a 10-digit phone number.';
+    },
+    email: (v) => (!v.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Please check the email address.'),
   };
+  const showErr = (field, msg) => {
+    const input = form.elements[field];
+    input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    form.querySelector(`#err-${field}`).textContent = msg;
+  };
+  const contactOk = () => {
+    let first = null;
+    Object.entries(checks).forEach(([field, check]) => {
+      const msg = check(form.elements[field].value);
+      showErr(field, msg);
+      if (msg && !first) first = field;
+    });
+    formNote.textContent = first ? 'Please fix the highlighted field above.' : '';
+    return first;
+  };
+  // Clear a field's error as soon as it's corrected.
+  Object.keys(checks).forEach((field) => form.elements[field].addEventListener('input', () => {
+    if (form.elements[field].getAttribute('aria-invalid') === 'true' && !checks[field](form.elements[field].value)) {
+      showErr(field, '');
+      if (!form.querySelector('[aria-invalid="true"]')) formNote.textContent = '';
+    }
+  }));
   const renderStep = () => {
     steps.forEach((q, i) => q.classList.toggle('on', i === stepI));
     blade2.style.width = `${(stepI / Math.max(1, steps.length - 1)) * 100}%`;
@@ -159,17 +185,30 @@
     // Sends from "Just send my info" or the plan's last step. Enter in a field doesn't send early.
     const btn = e.submitter;
     if (!btn || !(btn.classList.contains('send-now') || btn.classList.contains('send-plan'))) return;
-    if (!contactOk()) {
+    const bad = contactOk();
+    if (bad) {
       contactBlock.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-      form.elements[form.elements.name.value.trim() ? 'phone' : 'name'].focus({ preventScroll: true });
+      form.elements[bad].focus({ preventScroll: true });
       return;
     }
     if (btn.classList.contains('send-now')) form.elements.project_plan.value = summary().map(([k, v]) => `${k}: ${v}`).join(' | ');
-    const name = form.elements.name.value.trim();
-    [...form.children].forEach((c) => { c.hidden = true; });
-    const done = document.createElement('div');
-    done.innerHTML = `<p class="planner-done"><strong>Thanks, ${name.split(' ')[0]}.</strong> Your request is on its way to Gary. He'll call you to set up a time to see the space.</p>`;
-    form.appendChild(done);
+    const first = form.elements.name.value.trim().split(' ')[0];
+    const finish = () => {
+      try { sessionStorage.setItem('sbName', first); } catch (err) { /* storage blocked */ }
+      location.href = form.dataset.thanks;
+    };
+    // The form service address is set in tools/build.py (FORM_ENDPOINT). Until then the
+    // site is in preview mode: nothing is sent, the visitor just sees the thank-you page.
+    const endpoint = (document.querySelector('meta[name="sb-form-endpoint"]') || {}).content;
+    if (!endpoint) { finish(); return; }
+    btn.disabled = true;
+    formNote.textContent = 'Sending…';
+    fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+      .then((r) => { if (!r.ok) throw new Error(r.status); finish(); })
+      .catch(() => {
+        btn.disabled = false;
+        formNote.textContent = "Sorry, your request didn't go through. Please try again, or call (715) 308-2180.";
+      });
   });
   renderStep();
 })();
