@@ -398,41 +398,86 @@ def build_legal():
     ])
 
 
+def photo_cards(root, extra_estimate=True):
+    """A row of photo cards into the main pages (used on the 404 and thank-you pages)."""
+    pick = {'decks-porches': 'Decks & Porches', 'baths-tile': 'Baths & Tile', 'additions-exteriors': 'Additions & Exteriors'}
+    cards = []
+    for c in CATS:
+        if c['slug'] in pick:
+            cards.append(f'<a class="go-card" href="{root}projects/{c["slug"]}/"><img src="{root}assets/img/projects/{c["photos"][0]["file"]}" alt="" loading="lazy"><span>{esc(pick[c["slug"]])}</span></a>')
+    if extra_estimate:
+        cards.append(f'<a class="go-card go-est" href="{root}free-estimate/"><span class="go-k">Ready when you are</span><span>Get Your Free Estimate</span></a>')
+    else:
+        cards.append(f'<a class="go-card" href="{root}projects/"><img src="{root}assets/img/backyard-dusk.jpg" alt="" loading="lazy"><span>All Projects</span></a>')
+    return '<div class="go-cards">' + ''.join(cards) + '</div>'
+
+
 def build_404():
     # Served for any missing path, so links resolve from the site root via <base>.
     root = home = ''
-    body = '''  <section class="nf grid-paper">
-    <div class="wrap nf-wrap">
-      <p class="nf-num" aria-hidden="true">404</p>
-      <h1>This page doesn't measure up.</h1>
-      <p>The page you're looking for has moved or doesn't exist. Try one of these instead:</p>
-      <p class="nf-links"><a class="btn btn-slate" href="./">Home</a><a class="btn btn-slate" href="projects/">Our Work</a><a class="btn btn-tan" href="free-estimate/">Get Your Free Estimate</a></p>
-      <p>Or call us at <a href="tel:+17153082180">(715) 308-2180</a>.</p>
+    body = f'''  <section class="nf grid-paper">
+    <div class="wrap nf-grid">
+      <div class="nf-art" aria-hidden="true">
+        <p class="nf-num"><span class="pmark">404<svg class="pencil p-circle"><use href="#p-circle"/></svg></span></p>
+        <div class="nf-tape"><div class="tape-blade"><span class="tape-hook"></span></div></div>
+        <p class="hand nf-note">Came up a little short.</p>
+      </div>
+      <div class="nf-copy">
+        <p class="kicker">Page not found</p>
+        <h1>This page doesn't <span class="pmark">measure up.<svg class="pencil p-under"><use href="#p-underline"/></svg></span></h1>
+        <p>The page you're looking for has moved or doesn't exist. Head back home, browse our work, or call us at <a href="tel:{PHONE_TEL}">{PHONE}</a>.</p>
+        <p class="nf-links"><a class="btn btn-slate" href="./">Back to Home</a><a class="btn btn-tan" href="free-estimate/">Get Your Free Estimate</a></p>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="go-head">Or jump to one of these</p>
+      {photo_cards(root)}
     </div>
   </section>'''
     out = page(root, './', title='Page Not Found | StoneBrook Carpentry', desc='This page could not be found.', path='404.html',
-               body=body, noindex=True, body_attr=' class="nf-page"')
+               body=body, noindex=True, body_attr=' class="nf-page"', sprite=True)
     out = out.replace('<meta charset="UTF-8">', f'<meta charset="UTF-8">\n<base href="{BASE_PATH}">', 1)
     write('404.html', out)
 
 
 def build_thanks():
     root = home = '../'
-    check = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
-    body = f'''  <section class="thanks grid-paper">
-    <div class="wrap thanks-wrap">
-      <div class="check">{check}</div>
-      <h1>Thanks<span class="thanks-name"></span>.</h1>
-      <p>Your request is on its way to Gary. He'll call you to set up a time to see the space.</p>
-      <p class="next"><a class="btn btn-slate" href="{root}projects/">See Our Work</a><a class="btn btn-tan" href="{GOOGLE_REVIEWS}" target="_blank" rel="noopener">Read Our Google Reviews</a></p>
-      <p>Need us sooner? Call <a href="tel:{PHONE_TEL}">{PHONE}</a>.</p>
+    body = f'''  <section class="thanks">
+    <div class="wrap thanks-grid">
+      <div class="thanks-copy" data-reveal>
+        <p class="kicker">Request received</p>
+        <h1>Thanks<span class="thanks-name"></span>. <span class="pmark">We've got it.<svg class="pencil p-under"><use href="#p-underline"/></svg></span></h1>
+        <p>Your request is on its way to Gary. He'll call you to set up a time to see the space.</p>
+        <div class="thanks-call">
+          <span class="label">Need us sooner?</span>
+          <a href="tel:{PHONE_TEL}">{PHONE}</a>
+          <span class="thanks-hours">Mon–Fri, 7:30am–5:30pm</span>
+        </div>
+      </div>
+      <div class="punch thanks-note" data-reveal>
+        <p class="punch-title">What happens next</p>
+        <ul>
+          <li><strong>Gary reviews your request.</strong></li>
+          <li><strong>He calls you</strong> to set up a time to see the space.</li>
+          <li><strong>Free visit.</strong> We listen and look closely at the space, including what might be behind the walls.</li>
+          <li><strong>Your written quote.</strong> We walk through every line together, at your pace.</li>
+        </ul>
+        <p class="hand punch-sign">— Gary</p>
+      </div>
+    </div>
+  </section>
+  <section class="thanks-more grid-paper">
+    <div class="wrap">
+      <p class="go-head">While you wait, look around</p>
+      {photo_cards(root, extra_estimate=False)}
+      <p class="thanks-reviews"><a href="{GOOGLE_REVIEWS}" target="_blank" rel="noopener">Read what homeowners say on Google</a></p>
     </div>
   </section>
   <script>
     try {{ var n = sessionStorage.getItem('sbName'); if (n) document.querySelector('.thanks-name').textContent = ', ' + n; }} catch (e) {{}}
   </script>'''
     write('thank-you/index.html', page(root, home, title='Thank You | StoneBrook Carpentry', desc='Your estimate request was received.',
-                                     path='thank-you/', body=body, noindex=True, body_attr=' class="thanks-page"'))
+                                     path='thank-you/', body=body, noindex=True, body_attr=' class="thanks-page"', sprite=True))
 
 
 PUBLIC = ['', 'projects/'] + [f'projects/{c["slug"]}/' for c in CATS] + ['free-estimate/']

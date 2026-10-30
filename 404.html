@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow+Semi+Condensed:wght@500;600&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=202610301223">
+<link rel="stylesheet" href="assets/css/main.css?v=202610301301">
 <script>
   // Only hide animated elements when JS is running and motion is wanted.
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js');
@@ -35,6 +35,21 @@
 <body class="nf-page">
 
 <a class="skip" href="#main">Skip to content</a>
+
+<!-- Reusable pencil marks. Paths use pathLength="1" so the draw-on animation works at any size. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="p-circle" viewBox="0 0 200 80" preserveAspectRatio="none">
+      <path pathLength="1" d="M34 13 C 88 -1, 176 5, 193 32 C 207 59, 141 77, 88 74 C 31 71, 2 57, 8 36 C 13 20, 48 8, 118 9"/>
+    </symbol>
+    <symbol id="p-underline" viewBox="0 0 200 20" preserveAspectRatio="none">
+      <path pathLength="1" d="M3 13 C 52 5, 128 3, 197 9 M22 18 C 74 11, 140 10, 184 14"/>
+    </symbol>
+    <symbol id="p-one" viewBox="0 0 70 120"><path pathLength="1" d="M18 26 C 30 18, 38 10, 44 4 C 42 40, 40 80, 38 114"/></symbol>
+    <symbol id="p-two" viewBox="0 0 90 120"><path pathLength="1" d="M10 34 C 12 8, 70 0, 72 32 C 74 58, 30 82, 8 112 C 34 108, 60 108, 86 110"/></symbol>
+    <symbol id="p-three" viewBox="0 0 90 120"><path pathLength="1" d="M12 16 C 44 -2, 84 12, 58 46 C 50 54, 38 56, 32 56 C 92 54, 86 120, 10 104"/></symbol>
+  </defs>
+</svg>
 
 <!-- Tape-measure scroll progress: the blade pulls out across the top as you scroll -->
 <div class="tape" aria-hidden="true"><div class="tape-blade"><span class="tape-hook"></span></div></div>
@@ -91,12 +106,22 @@
 
 <main id="main">
   <section class="nf grid-paper">
-    <div class="wrap nf-wrap">
-      <p class="nf-num" aria-hidden="true">404</p>
-      <h1>This page doesn't measure up.</h1>
-      <p>The page you're looking for has moved or doesn't exist. Try one of these instead:</p>
-      <p class="nf-links"><a class="btn btn-slate" href="./">Home</a><a class="btn btn-slate" href="projects/">Our Work</a><a class="btn btn-tan" href="free-estimate/">Get Your Free Estimate</a></p>
-      <p>Or call us at <a href="tel:+17153082180">(715) 308-2180</a>.</p>
+    <div class="wrap nf-grid">
+      <div class="nf-art" aria-hidden="true">
+        <p class="nf-num"><span class="pmark">404<svg class="pencil p-circle"><use href="#p-circle"/></svg></span></p>
+        <div class="nf-tape"><div class="tape-blade"><span class="tape-hook"></span></div></div>
+        <p class="hand nf-note">Came up a little short.</p>
+      </div>
+      <div class="nf-copy">
+        <p class="kicker">Page not found</p>
+        <h1>This page doesn't <span class="pmark">measure up.<svg class="pencil p-under"><use href="#p-underline"/></svg></span></h1>
+        <p>The page you're looking for has moved or doesn't exist. Head back home, browse our work, or call us at <a href="tel:+17153082180">(715) 308-2180</a>.</p>
+        <p class="nf-links"><a class="btn btn-slate" href="./">Back to Home</a><a class="btn btn-tan" href="free-estimate/">Get Your Free Estimate</a></p>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="go-head">Or jump to one of these</p>
+      <div class="go-cards"><a class="go-card" href="projects/decks-porches/"><img src="assets/img/projects/composite-deck-with-white-railing-and-dining-are-1097.jpg" alt="" loading="lazy"><span>Decks &amp; Porches</span></a><a class="go-card" href="projects/baths-tile/"><img src="assets/img/projects/river-stone-shower-with-black-grid-glass-door-0032.jpg" alt="" loading="lazy"><span>Baths &amp; Tile</span></a><a class="go-card" href="projects/additions-exteriors/"><img src="assets/img/projects/screened-porch-addition-1647.jpg" alt="" loading="lazy"><span>Additions &amp; Exteriors</span></a><a class="go-card go-est" href="free-estimate/"><span class="go-k">Ready when you are</span><span>Get Your Free Estimate</span></a></div>
     </div>
   </section>
 </main>
@@ -138,7 +163,7 @@
 
 <!-- Phone-only call / estimate bar -->
 <nav class="m-bar" aria-label="Quick contact"><a href="tel:+17153082180"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Call</a><a href="free-estimate/">Free Estimate</a></nav>
-<script src="assets/js/page.js?v=202610301223"></script>
-<script src="assets/js/nav.js?v=202610301223"></script>
+<script src="assets/js/page.js?v=202610301301"></script>
+<script src="assets/js/nav.js?v=202610301301"></script>
 </body>
 </html>

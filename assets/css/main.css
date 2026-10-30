@@ -735,12 +735,6 @@ html:not(.nav-js) .has-menu:focus-within .submenu { opacity: 1; visibility: visi
 .legal .todo { color: var(--muted); font-style: italic; }
 .draft-flag { background: #FBF6DC; border-left: 4px solid var(--tan); padding: 16px 20px; margin-bottom: 36px; }
 
-/* ---------- 404 ---------- */
-.nf { padding: clamp(64px, 9vw, 130px) 0; text-align: center; }
-.nf-wrap { max-width: 760px; }
-.nf-num { margin: 0; font-family: var(--hand); font-size: clamp(5rem, 14vw, 9rem); line-height: 1; color: var(--graphite); }
-.nf h1 { font-size: clamp(2.4rem, 5.5vw, 4.2rem); }
-.nf-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 28px 0; }
 
 /* ---------- Masking tape (review notes, punch list, stacked cards) ----------
    One look everywhere: semi-transparent paper tape with a faint crepe texture,
@@ -769,13 +763,53 @@ html:not(.nav-js) .has-menu:focus-within .submenu { opacity: 1; visibility: visi
 .footer-find { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; }
 .footer-find a { font-size: .92rem; }
 
+
+/* ---------- Photo cards (404 + thank-you) ---------- */
+.go-head { margin: 0 0 16px; font-family: var(--semi); font-weight: 600; font-size: .9rem; letter-spacing: .14em; text-transform: uppercase; color: var(--tan-deep); }
+.go-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.go-card { position: relative; display: flex; align-items: flex-end; aspect-ratio: 4 / 3; overflow: hidden; background: var(--slate); color: #fff; text-decoration: none; }
+.go-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.go-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(22,26,30,.85) 0%, rgba(22,26,30,.2) 60%, rgba(22,26,30,0) 100%); }
+.go-card span { position: relative; z-index: 1; padding: 16px 18px; font-family: var(--display); font-weight: 700; font-size: 1.35rem; letter-spacing: .03em; text-transform: uppercase; }
+.go-card:hover img { transform: scale(1.05); }
+.go-card:focus-visible { outline: 3px solid var(--tan); outline-offset: 3px; }
+.go-est { flex-direction: column; align-items: flex-start; justify-content: flex-end; background: var(--tan); color: var(--slate-dark); }
+.go-est::after { display: none; }
+.go-est .go-k { padding-bottom: 0; font-family: var(--hand); font-size: 1.6rem; text-transform: none; letter-spacing: 0; }
+.go-est:hover { background: #c7a57a; }
+@media (max-width: 860px) { .go-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .go-card span { font-size: 1.05rem; padding: 12px; } }
+
+/* ---------- 404 ---------- */
+.nf { padding: clamp(56px, 8vw, 110px) 0 clamp(56px, 7vw, 96px); }
+.nf-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 6vw, 90px); align-items: center; margin-bottom: clamp(48px, 6vw, 80px); }
+.nf-art { text-align: center; }
+.nf-num { margin: 0; font-family: var(--hand); font-weight: 700; font-size: clamp(6rem, 15vw, 11rem); line-height: 1; color: var(--slate); }
+.nf-num .pmark { padding: 0 .25em; }
+.nf-tape { position: relative; height: 34px; width: min(100%, 440px); margin: 18px auto 0; transform: rotate(-3deg); --tape-h: 34px; }
+.nf-tape .tape-blade { width: 72%; height: 34px; box-shadow: 0 6px 14px rgba(0,0,0,.25); border-radius: 2px; }
+.nf-tape .tape-hook { width: 14px; right: -10px; height: 44px; top: -5px; }
+.nf-note { margin: 22px 0 0; font-size: 1.9rem; color: var(--graphite); transform: rotate(-2deg); }
+.nf-copy h1 { font-size: clamp(2.6rem, 5.6vw, 4.6rem); }
+.nf-copy p { max-width: 34em; }
+.nf-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+@media (max-width: 860px) { .nf-grid { grid-template-columns: 1fr; text-align: center; } .nf-copy p { margin-left: auto; margin-right: auto; } .nf-links { justify-content: center; } .nf-copy .kicker { justify-content: center; } }
+
 /* ---------- Thank-you page ---------- */
-.thanks { padding: clamp(64px, 9vw, 130px) 0; text-align: center; }
-.thanks-wrap { max-width: 760px; }
-.thanks .check { width: 84px; height: 84px; margin: 0 auto 18px; border-radius: 50%; display: grid; place-items: center; background: var(--tan); }
-.thanks .check svg { width: 40px; height: 40px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-.thanks h1 { font-size: clamp(2.4rem, 5.5vw, 4.2rem); }
-.thanks .next { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 30px 0 18px; }
+.thanks { padding: clamp(56px, 8vw, 110px) 0; background: var(--slate); color: rgba(255,255,255,.88); }
+.thanks-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: clamp(32px, 6vw, 90px); align-items: center; }
+.thanks .kicker { color: var(--tan-light); }
+.thanks h1 { color: #fff; font-size: clamp(2.6rem, 5.4vw, 4.6rem); }
+.thanks-copy > p { max-width: 32em; font-size: 1.15rem; }
+.thanks-call { display: grid; gap: 2px; margin-top: 30px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.15); }
+.thanks-call .label { font-family: var(--semi); font-weight: 600; font-size: .85rem; letter-spacing: .16em; text-transform: uppercase; color: var(--tan-light); }
+.thanks-call a { font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: .02em; color: #fff; text-decoration: none; }
+.thanks-call a:hover { color: var(--tan-light); }
+.thanks-hours { font-size: .95rem; color: rgba(255,255,255,.7); }
+.thanks-note { color: var(--text); }
+.thanks-more { padding: clamp(48px, 6vw, 80px) 0; }
+.thanks-reviews { margin: 22px 0 0; text-align: center; }
+.thanks-reviews a { font-family: var(--semi); font-weight: 600; color: var(--slate); text-underline-offset: 4px; text-decoration-color: var(--tan); }
+@media (max-width: 860px) { .thanks-grid { grid-template-columns: 1fr; } }
 
 /* Small tan labels on the dark estimate band use the lighter tan for readable contrast */
 .estimate .kicker { color: var(--tan-light); }
